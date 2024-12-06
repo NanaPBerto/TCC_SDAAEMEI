@@ -1,0 +1,44 @@
+header{
+    background-color: gray;
+}
+nav.menu li{ 
+    display: inline-block;
+    padding: 10px;
+    margin: 3px;
+    color: white;
+}
+
+article{
+}
+
+div#divInicial{
+    background-color: gray;
+    border-radius: 35px;
+    margin-right: 35%;
+    margin-left: 35%;
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: absolute;
+    left: -300px;
+    top: 120px;
+}
+
+div#divInicial h1{
+    color: white;
+    font-size: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+div#divInicial input{
+    background-color: lightgray;
+    border-radius: 35px;
+    width: 100%; 
+    display: block;
+    margin: 0 auto;
+    margin-bottom: px;
+    padding: 5px;
+}

@@ -1,44 +1,160 @@
+/*-----------------MENU SUPERIOR---------------------*/
 header{
-    background-color: gray;
+    background-color: #a349a4;
+    padding-bottom: 1px;
+}
+nav.menu{
+    text-align: center;
 }
 nav.menu li{ 
     display: inline-block;
     padding: 10px;
     margin: 3px;
+    margin-left: 30px;
+    margin-right: 5px;
     color: white;
+    font-size: 25px;
 }
-
-article{
+nav.menu li:hover{ 
+    background-color: #8b328c;
+    display: inline-block;
+    padding: 10px;
+    margin: 3px;
+    margin-left: 30px;
+    margin-right: 5px;
+    color: white;
+    font-size: 25px;
+    border-radius: 10px;
 }
-
+img#perfil{
+    margin-left: 1200px;
+    position: absolute;
+    top: 5px;
+}
+/*--------------MENU LATERAL---------------*/
+/*div#mLateral{
+   background-color: #f3caff;
+}*/
+button#btnMLateral{
+    background-color: #f3caff;
+    position: absolute;
+    top: 0px;
+    padding-top: 300px;
+    padding-bottom: 298px;
+    text-align: center;
+}
+button#btnMLateral:hover{
+    background-color: #ebc0f7;
+    position: absolute;
+    top: 0px;
+    padding-top: 300px;
+    padding-bottom: 298px;
+    text-align: center;
+}
+div#op p{
+    text-align: left;
+    font-size: 18px;
+    margin-left:50px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 10px;
+}
+div#op h6{
+    text-align: left;
+    font-size: 18px;
+    margin-left:50px;
+    margin-top: 348px;
+    padding: 7px;
+    border-radius: 10px;
+}
+div#op p:hover{
+    background-color: lightgray;
+    text-align: left;
+    font-size: 18px;
+    margin-left:50px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 10px;
+}
+div#op h6:hover{
+    background-color: lightgray;
+    text-align: left;
+    font-size: 18px;
+    margin-left:50px;
+    margin-top: 348px;
+    padding: 7px;
+    border-radius: 10px;
+}
+img#prancheta{
+    position: absolute;
+    top: 60px;
+}
+img#lampada{
+    position: absolute;
+    top: 110px;
+}
+/*BARRA DE PESQUISA E MENSAGEM DE BEM-VINDO*/
 div#divInicial{
-    background-color: gray;
+    background-color: #f3caff;
     border-radius: 35px;
+    box-shadow: 1px 1px 0.5px black;
     margin-right: 35%;
-    margin-left: 35%;
+    margin-left: 33%;
     padding-right: 50px;
     padding-left: 50px;
     padding-top: 10px;
     padding-bottom: 10px;
     position: absolute;
     left: -300px;
-    top: 120px;
+    top: 105px;
+    width: 40%;
 }
 
 div#divInicial h1{
-    color: white;
-    font-size: 50px;
+    color: #8b328c;
+    font-size: 60px;
     margin-top: 5px;
     margin-bottom: 5px;
-
+    text-align: center;
 }
 
 div#divInicial input{
     background-color: lightgray;
     border-radius: 35px;
-    width: 100%; 
+    width: 90%; 
     display: block;
     margin: 0 auto;
-    margin-bottom: px;
+    margin-bottom: 5px;
     padding: 5px;
+    
+}
+div#barraPes img{
+    position: absolute;
+    left: 75px;
+    bottom: 18px;
+}
+/*-------------CARROSSEL--------------*/
+
+div#indicaC{
+    margin-left: -300px;
+}
+div#carrossel{
+    width: 40%;
+    margin-top: 188px;
+    margin-bottom: 5px;
+    margin-left: 10%;
+    border-radius: 30px;
+    box-shadow: 1px 1px 0.5px black;
+    padding: 0px;
+}
+div#carrossel img{
+    height: 350px;
+}
+
+button#btnEsquerda{
+    margin-left: -100px;
+    width: 10%;
+}
+button#btnDireita{
+    margin-left: 0px;
 }

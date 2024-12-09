@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport content" width="device-width, inicial-scale = 1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Página inicial</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
@@ -11,23 +12,81 @@
 <header>
     <nav class="menu" id="menuPrincipal">
         <ul>
-            <li>Composição</li>
-            <li>Apreciação</li>
-            <li>Performance</li>
+            <li><strong>Composição</strong></li>
+            <li><strong>Apreciação</strong></li>
+            <li><strong>Performance</strong></li>
     </nav>
-    </div>
+    <img src="imagens/perfil.png" alt="foto de perfil" width="5%" id="perfil">
 </header>
 <article>
     <div id="divInicial">
         <h1>Bem-Vindo(a)</h1>
-        <input type="text" placeholder="pesquisar atividade">
+        <div id="barraPes">
+            <img src="imagens/iconeLupa.png" alt="lupa" width="5%">
+            <input type="text" placeholder="       pesquisar atividade">
+        </div>
     </div>
-    <div id="divCarroceu">
-        <h1>Registros</h1>
+    <!--MENU LATERAL-->
+    
+    <div class="offcanvas offcanvas-start" id="mLateral">
+        <div class="offcanvas-header">
+          <h1 class="offcanvas-title"></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" id="op">
+          <img src="imagens/iconePrancheta.png" alt="ícone prancheta" width="10%" id="prancheta">
+          <p>Minhas Atividades</p>
+          <img src="imagens/iconeLampada.png" alt="ícone lâmpada" width="10%" id="lampada">
+          <p>Desenvolver Atividade</p>
+          <h6><strong>Fazer Login</strong></h6>
+          <p><strong>Criar Conta</strong></p>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mLateral" id="btnMLateral">
+          |
+        </button>
+      </div>
+      
+    <!-- CARROSSEL -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- indicadores -->
+    <div class="carousel-indicators" id="indicaC">
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
     </div>
+    
+    <!-- O carrossel mesmo/as fotos -->
+    <div class="carousel-inner" id="carrossel">
+      <div class="carousel-item active">
+        <img src="imagens/criancas1.jpeg" alt="Foto 1" class="d-block" style="width:100%">
+      </div>
+      <div class="carousel-item">
+        <img src="imagens/criancas2.png" alt="Foto 2" class="d-block" style="width:100%">
+      </div>
+      <div class="carousel-item">
+        <img src="imagens/criancas3.jpg" alt="Foto 3" class="d-block" style="width:100%">
+      </div>
+    </div>
+    
+    <!--ícones de direita e esquerda 
+    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" id="btnEquerda">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next" id="btnDireita">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>-->
+  
 </article>
 <footer>
     
 </footer>
 </body>
+<script>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>

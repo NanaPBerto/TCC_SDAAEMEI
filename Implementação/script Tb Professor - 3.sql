@@ -3,19 +3,20 @@ use SDAAEMEI;
 create table Professor(
 cod integer not null auto_increment,
 nome varchar (30),
-login varchar (20), /*falta o check*/
-senha varchar (10),  /*falta o check*/
+login varchar (20), 
+senha varchar (10),  
 rg integer,
 cpf integer,
 email varchar (50),
 fone integer,
 imagem blob,
 formacao varchar (30),
+especializacao varchar (30),
 reg_cfep integer,
 bairro varchar (50),
 rua varchar (50),
 num_endereco integer,
-obs varchar (100)
+obs varchar (100),
 uf integer,
 cidade integer,
 instituicao integer,

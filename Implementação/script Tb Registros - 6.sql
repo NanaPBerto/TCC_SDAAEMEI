@@ -1,9 +1,9 @@
-use SDAAEMEI
+use SDAAEMEI;
 
 create table Registros(
 cod integer not null auto_increment,
-dataa date default, /*falta o default e o check*/
-registros varchar (50)
+dataa date, 
+registros varchar (50),
 cod_atividades integer,
 cod_aplicacao integer,
 primary key (cod),

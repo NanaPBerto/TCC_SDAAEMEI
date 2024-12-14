@@ -1,4 +1,4 @@
-use SDAAEMEI
+use SDAAEMEI;
 
 create table Aplicar(
 cod integer not null auto_increment,

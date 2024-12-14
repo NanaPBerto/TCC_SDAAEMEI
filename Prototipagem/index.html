@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -10,20 +9,21 @@
 </head>
 <body>
 <header>
+    <a href="index.html"><img src="imagens/home.png" alt="casinha" width="3%" class="home"></a>
     <nav class="menu" id="menuPrincipal">
         <ul>
             <li><strong>Composição</strong></li>
             <li><strong>Apreciação</strong></li>
             <li><strong>Performance</strong></li>
     </nav>
-    <img src="imagens/perfil.png" alt="foto de perfil" width="5%" id="perfil">
+    <img src="imagens/perfil.png" alt="foto de perfil" width="4%" id="perfil">
 </header>
 <article>
     <div id="divInicial">
         <h1>Bem-Vindo(a)</h1>
         <div id="barraPes">
-            <img src="imagens/iconeLupa.png" alt="lupa" width="5%">
-            <input type="text" placeholder="       pesquisar atividade">
+            <img src="imagens/iconeLupa.png" alt="lupa" width="5%" id="Lupa">
+            <input type="text" placeholder="       pesquisar atividade" id="pesquisa" onkeypress="someLupa()" onblur="mostraLupa()">
         </div>
     </div>
     <!--MENU LATERAL-->
@@ -35,9 +35,19 @@
         </div>
         <div class="offcanvas-body" id="op">
           <img src="imagens/iconePrancheta.png" alt="ícone prancheta" width="10%" id="prancheta">
-          <p>Minhas Atividades</p>
+          <p><a href="minhasAtividades.html">Minhas Atividades</a></p>
+
           <img src="imagens/iconeLampada.png" alt="ícone lâmpada" width="10%" id="lampada">
-          <p>Desenvolver Atividade</p>
+          <p><a href="desenvolverAtividade.html">Desenvolver Atividade</a></p>
+
+          <img src="imagens/iconeCalendario.png" alt="ícone calendário" width="10%">
+          <p><a href="agendaAtividades.html">Agenda de Atividades</a></p>
+
+          <img src="imagens/iconeHistorico.png" alt="ícone histórico" width="10%">
+          <p><a href="historicoAtividades.html">Histórico de Atividades</a></p>
+
+          <img src="imagens/iconeConfiguracoes.png" alt="ícone configurações" width="10%">
+          <p>Configurações</p>
           <h6><strong>Fazer Login</strong></h6>
           <p><strong>Criar Conta</strong></p>
         </div>
@@ -77,16 +87,37 @@
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next" id="btnDireita">
       <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>-->
-  
+    </button>-->
+  </div>
+  <div id="ativs" style="overflow: auto;">
+    <p></p>
+    <div class="ativ">
+      <h1>Atividade</h1>
+      <p class="vagas">10 pessoas</p>
+      <p class="duracao">30min</p>
+      <img src="imagens/perfil.png" alt="foto ativ">
+    </div>
+    <div class="ativ">
+      <p></p>
+    </div>
+    <div class="ativ">
+      <p></p>
+    </div>
+    <div class="ativ">
+      <p></p>
+    </div>
+    <div class="ativ">
+      <p></p>
+    </div>
+    <div class="ativ">
+      <p></p>
+    </div>
+  </div>
 </article>
 <footer>
     
 </footer>
 </body>
-<script>
-
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="scripts.js"></script>
 </html>

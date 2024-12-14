@@ -1,7 +1,10 @@
+/*body{
+    background-image: url(imagens/6757291.jpg);
+    background-size: cover;
+}*/
 /*-----------------MENU SUPERIOR---------------------*/
 header{
     background-color: #a349a4;
-    padding-bottom: 1px;
 }
 nav.menu{
     text-align: center;
@@ -9,7 +12,6 @@ nav.menu{
 nav.menu li{ 
     display: inline-block;
     padding: 10px;
-    margin: 3px;
     margin-left: 30px;
     margin-right: 5px;
     color: white;
@@ -19,17 +21,23 @@ nav.menu li:hover{
     background-color: #8b328c;
     display: inline-block;
     padding: 10px;
-    margin: 3px;
     margin-left: 30px;
     margin-right: 5px;
     color: white;
     font-size: 25px;
-    border-radius: 10px;
 }
 img#perfil{
     margin-left: 1200px;
     position: absolute;
-    top: 5px;
+    top: 3px;
+}
+img.home{
+    margin-left: 40px;
+    margin-top: 9px;
+    padding: 2px;
+    background-color: white;
+    border-radius: 12px;
+    float: left;
 }
 /*--------------MENU LATERAL---------------*/
 /*div#mLateral{
@@ -58,14 +66,16 @@ div#op p{
     margin-bottom: 20px;
     padding: 5px;
     border-radius: 10px;
+    transition: 0.15s;
 }
 div#op h6{
     text-align: left;
     font-size: 18px;
     margin-left:50px;
-    margin-top: 348px;
+    margin-top: 170px;
     padding: 7px;
     border-radius: 10px;
+    transition: 0.15s;
 }
 div#op p:hover{
     background-color: lightgray;
@@ -74,6 +84,7 @@ div#op p:hover{
     margin-left:50px;
     margin-bottom: 20px;
     padding: 5px;
+    padding-left: 8px;
     border-radius: 10px;
 }
 div#op h6:hover{
@@ -81,17 +92,20 @@ div#op h6:hover{
     text-align: left;
     font-size: 18px;
     margin-left:50px;
-    margin-top: 348px;
+    margin-top: 170px;
     padding: 7px;
+    padding-left: 8px;
     border-radius: 10px;
 }
-img#prancheta{
-    position: absolute;
-    top: 60px;
+div#mLateral img{
+    float: left;
+    background-color: #ebc0f7;
+    border-radius: 25px;
+    padding: 5px;
 }
-img#lampada{
-    position: absolute;
-    top: 110px;
+a{
+    color: black;
+    text-decoration: none;
 }
 /*BARRA DE PESQUISA E MENSAGEM DE BEM-VINDO*/
 div#divInicial{
@@ -99,14 +113,14 @@ div#divInicial{
     border-radius: 35px;
     box-shadow: 1px 1px 0.5px black;
     margin-right: 35%;
-    margin-left: 33%;
+    margin-left: 30%;
     padding-right: 50px;
     padding-left: 50px;
     padding-top: 10px;
     padding-bottom: 10px;
     position: absolute;
     left: -300px;
-    top: 105px;
+    top: 90px;
     width: 40%;
 }
 
@@ -136,16 +150,18 @@ div#barraPes img{
 /*-------------CARROSSEL--------------*/
 
 div#indicaC{
-    margin-left: -300px;
+    margin-left: -400px;
+    
 }
 div#carrossel{
     width: 40%;
-    margin-top: 188px;
+    margin-top: 175px;
     margin-bottom: 5px;
-    margin-left: 10%;
+    margin-left: 7%;
     border-radius: 30px;
     box-shadow: 1px 1px 0.5px black;
     padding: 0px;
+    float: left;
 }
 div#carrossel img{
     height: 350px;
@@ -157,4 +173,58 @@ button#btnEsquerda{
 }
 button#btnDireita{
     margin-left: 0px;
+}
+/*-------ATIVIDADES NA PAGINA INICIAL-------*/
+
+div#ativs{
+    background-color: rgb(238, 237, 237);
+    width: 45%;
+    margin-left: 675px;
+    margin-top: 35px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    border: solid 1px rgb(116, 113, 113);
+    height: 500px;
+
+}
+div.ativ{
+    background-color: #8b328c;
+    width: 95%;
+    height: 120px;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+div.ativ h1{
+    color: white;
+}
+div.ativ p{
+    color: white;
+}
+div.ativ p.vagas{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 0px;
+}
+div.ativ p.duracao{
+    margin-top: 0px;
+    margin-bottom: 5px;
+    padding: 0px;
+    float: left;
+}
+div.ativ img{
+    margin-left: 400px;
+    margin-bottom: 20px;
+    width: 10%;
+
+}
+
+/*FORMULÁRIO DE DESENVOLVER ATIVIDADE*/
+
+div.desenvolve{
+    width: 70%;
+    margin: auto;
+    padding: 20px;
+}
+div.desenvolve fieldset{
+    background-color: #ebc0f7;
 }

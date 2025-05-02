@@ -2,66 +2,205 @@
     background-image: url(imagens/6757291.jpg);
     background-size: cover;
 }*/
-/*-----------------MENU SUPERIOR---------------------*/
-header{
-    background-color: #a349a4;
+/*------------------TELA DE LOGIN--------------------*/
+body.login{
+    background-image: url(imagens/fundoLogin.png);
+    background-repeat: no-repeat;
 }
-nav.menu{
+div#login{
+    width: 50%;
+    height: 450px;
+    background-color: #eeecec;
+    box-shadow: 3px 3px 3px rgb(204, 201, 201);
+    margin: 0 auto;
+    display: block;
+    margin-top: 100px;
+    border-radius: 15px;
+}
+
+div#branco{
+    margin: 0 auto;
+    display: block;
+    width: 60%;
+    margin-top: 100px;
+    border-radius: 5px;
+    align-content: center;
+
+}
+div#US h6{
+    margin-left: 30px;
+    margin-top: -13px;
+}
+div#branco h2{
+    color: #363636;
     text-align: center;
 }
-nav.menu li{ 
-    display: inline-block;
-    padding: 10px;
-    margin-left: 30px;
-    margin-right: 5px;
+div#roxo{
+    background-color: #c27dc4;
+    height: 450px;
+    width: 40%;
+    border-radius: 15px;
+    align-content: center;
+    text-align: center;
     color: white;
-    font-size: 25px;
+    margin-left: 400px;
 }
-nav.menu li:hover{ 
-    background-color: #8b328c;
-    display: inline-block;
-    padding: 10px;
-    margin-left: 30px;
-    margin-right: 5px;
-    color: white;
-    font-size: 25px;
-}
-img#perfil{
-    margin-left: 1200px;
-    position: absolute;
-    top: 3px;
-}
-img.home{
-    margin-left: 40px;
-    margin-top: 9px;
-    padding: 2px;
+div#roxo button{
+    padding: 5px;
+    border-radius: 10px;
     background-color: white;
-    border-radius: 12px;
-    float: left;
+    margin-top: 10px;
 }
+div#roxo button:hover{
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(221, 218, 218);
+    margin-top: 10px;
+}
+
+div#login input{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 0.5px rgb(116, 113, 113);
+}
+div#branco button{
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 210px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+div#branco button:hover{
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 210px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color:  rgb(221, 218, 218);
+}
+div#US{
+    margin-left: 85px;
+}
+
+/*-----------------TELA DE CADASTRO------------------*/
+body#cadastro{
+    background-color: #dfa6e0;
+}
+body#cadastro h1{
+    background-color: white;
+    padding: 3px;
+    border-radius: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+    text-align: center;
+    font-family: sans-serif;
+}
+fieldset#cadastro{
+    margin: 0 auto;
+    display: block;
+    margin-top: 5px;
+    border-radius: 10px;
+    background-color: white;
+    font-family: sans-serif;
+}
+div#cadastro{
+    background-color: white;
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+    padding: 10px;
+    opacity: 80%;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px gray;
+}
+div#btnC button{
+    background-color: white;
+    width: 80px;
+    height: 40px;
+    color: rgb(44, 42, 42);
+    border-radius: 10px;
+    margin: 10px;
+    margin-left: px;
+}
+div#btnC button:hover{
+    background-color: rgb(228, 223, 223);
+    width: 80px;
+    height: 50px;
+    color: rgb(20, 20, 20);
+    border-radius: 10px;
+    margin: 10px;
+    margin-left: px;
+}
+div#cadastro select{
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 0.5px rgb(116, 113, 113);
+    font-family: sans-serif;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+/*-----------------MENU SUPERIOR---------------------*/
+nav{
+    background-color: #a349a4;
+
+}
+
+li.nav-item{ 
+    padding: 10px;
+    color: white;
+    font-size: 25px;
+}/*
+div#menuPrincipal button:hover{ 
+    background-color: #8b328c;
+    padding: 10px;
+    margin-left: 900px;
+    color: white;
+    font-size: 25px;
+}
+div#menuPrincipal button{
+    padding: 10px;
+    margin-left: 900px;
+    color: white;
+    font-size: 25px;
+    float: left;
+}  */
 /*--------------MENU LATERAL---------------*/
 /*div#mLateral{
    background-color: #f3caff;
 }*/
-button#btnMLateral{
-    background-color: #f3caff;
-    position: absolute;
-    top: 0px;
-    padding-top: 300px;
-    padding-bottom: 298px;
+div#btnMLateral{
+    background-color: #a349a4;
+    position: fixed; 
+ 
+    height: 100%;
+    width: 2%;
+    height: 100vh;
     text-align: center;
 }
-button#btnMLateral:hover{
-    background-color: #ebc0f7;
-    position: absolute;
-    top: 0px;
-    padding-top: 300px;
-    padding-bottom: 298px;
+div#btnMLateral:hover{
+    background-color: #bb54bd;
+    position: fixed; 
+    left: 0; 
+     top: 0; 
+    height: 100%;
+    width: 2%;
+    height: 100vh;
     text-align: center;
+}
+div#btnMLateral p{
+    margin-top: 300px;
+    color: white;
 }
 div#op p{
     text-align: left;
-    font-size: 18px;
+    font-size: 22px;
     margin-left:50px;
     margin-bottom: 20px;
     padding: 5px;
@@ -70,9 +209,9 @@ div#op p{
 }
 div#op h6{
     text-align: left;
-    font-size: 18px;
+    font-size: 22px;
     margin-left:50px;
-    margin-top: 170px;
+   
     padding: 7px;
     border-radius: 10px;
     transition: 0.15s;
@@ -80,7 +219,7 @@ div#op h6{
 div#op p:hover{
     background-color: lightgray;
     text-align: left;
-    font-size: 18px;
+    font-size: 22px;
     margin-left:50px;
     margin-bottom: 20px;
     padding: 5px;
@@ -90,9 +229,9 @@ div#op p:hover{
 div#op h6:hover{
     background-color: lightgray;
     text-align: left;
-    font-size: 18px;
+    font-size: 22px;
     margin-left:50px;
-    margin-top: 170px;
+
     padding: 7px;
     padding-left: 8px;
     border-radius: 10px;
@@ -133,7 +272,8 @@ div#divInicial h1{
 }
 
 div#divInicial input{
-    background-color: lightgray;
+    background-color: rgb(238, 231, 231);
+    border: solid 0.5px rgb(116, 113, 113);
     border-radius: 35px;
     width: 90%; 
     display: block;
@@ -150,81 +290,197 @@ div#barraPes img{
 /*-------------CARROSSEL--------------*/
 
 div#indicaC{
-    margin-left: -400px;
-    
+    margin: 0 auto;   
 }
 div#carrossel{
-    width: 40%;
-    margin-top: 175px;
+    width: 80%;
+    margin-top: 160px;
     margin-bottom: 5px;
-    margin-left: 7%;
+    margin-left: 14%;
     border-radius: 30px;
     box-shadow: 1px 1px 0.5px black;
     padding: 0px;
-    float: left;
 }
 div#carrossel img{
     height: 350px;
 }
 
-button#btnEsquerda{
-    margin-left: -100px;
-    width: 10%;
-}
-button#btnDireita{
-    margin-left: 0px;
-}
 /*-------ATIVIDADES NA PAGINA INICIAL-------*/
 
 div#ativs{
     background-color: rgb(238, 237, 237);
-    width: 45%;
-    margin-left: 675px;
-    margin-top: 35px;
+    margin-top: 0px;
     padding-bottom: 20px;
     padding-top: 20px;
     border: solid 1px rgb(116, 113, 113);
     height: 500px;
 
 }
-div.ativ{
+div#ativ{
     background-color: #8b328c;
-    width: 95%;
-    height: 120px;
     border-radius: 20px;
     margin: 0 auto;
+    margin: 7px;
+    margin-left: 15px;
 }
-div.ativ h1{
+div#ativ h1{
     color: white;
 }
-div.ativ p{
+div#ativ p{
     color: white;
 }
-div.ativ p.vagas{
-    margin-bottom: 0px;
-    margin-top: 0px;
-    padding: 0px;
-}
-div.ativ p.duracao{
-    margin-top: 0px;
-    margin-bottom: 5px;
-    padding: 0px;
-    float: left;
-}
-div.ativ img{
-    margin-left: 400px;
-    margin-bottom: 20px;
-    width: 10%;
 
-}
+
 
 /*FORMULÁRIO DE DESENVOLVER ATIVIDADE*/
 
+h2.desenvolve{
+    color: #8b328c;
+    text-align: center;
+}
 div.desenvolve{
-    width: 70%;
+    width: 90%;
     margin: auto;
     padding: 20px;
 }
 div.desenvolve fieldset{
     background-color: #ebc0f7;
+    padding-top: 20px;
+    box-shadow: 3px 3px 3px rgb(100, 99, 99)
+}
+input{
+    margin: 5px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 0.5px rgb(116, 113, 113);
+}
+div.desenvolve select{
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 0.5px rgb(116, 113, 113);
+}
+div.desenvolve p{
+    margin-left: 20px;
+}
+div.desenvolve button{
+    background-color: white;
+    width: 80px;
+    height: 50px;
+    color: rgb(44, 42, 42);
+    border-radius: 10px;
+    margin: 10px;
+    margin-left: px;
+}
+div.desenvolve button:hover{
+    background-color: rgb(228, 223, 223);
+    width: 80px;
+    height: 50px;
+    color: rgb(20, 20, 20);
+    border-radius: 10px;
+    margin: 10px;
+    margin-left: px;
+}
+div.btn{
+    margin-left: 900px;
+}
+
+
+/*ATIVIDADES AGENDADAS*/
+
+div#ativsA{
+    margin: 0 auto;
+    margin-left:40px;
+    margin-top: 45px;
+    width: 70%;
+    display: flex;
+    height: 470px;
+    background-color: #dfa6e0;
+    box-shadow: 2px 2px 4px rgb(189, 187, 187);
+    border-radius: 10px;
+}
+div#ativA{
+    background-color: #a349a4;  
+    size: 60px;
+    height: 150px;
+    margin: 20px;
+    margin-left: 40px;
+    border-radius: 10px;
+}   
+div#ativA p#TA{
+    margin-top: 0px;
+    color: aliceblue;
+    font-size: 20px;
+    text-align: center;
+    border-bottom: solid 1px white;
+}
+button#btnAddA{
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 40px;
+    background-color: #dfa6e0;
+    position: fixed;
+}
+div#MRconteudo{
+    background-color: #eeecec;
+    opacity: 90%;
+    border-radius: 8px;
+}
+div#MAconteudo{
+    border-radius: 8px;
+    height: 470px;
+    background-color: #eeecec;
+    opacity: 95%;
+}
+div#barraPesA input{
+    background-color: rgb(238, 231, 231);
+    border: solid 0.5px rgb(116, 113, 113);
+    border-radius: 35px;
+    width: 90%; 
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+div#barraPesA img{
+    float: left;
+    position: absolute;
+    left: 58px;
+    top: 55px;
+    width:3%;
+}
+div#calend{
+    background-color: rgb(252, 252, 252);
+    border-radius: 15px;
+    margin-right: 10px;
+    align-content: center;
+}
+.calendar {
+    border-collapse: collapse;
+    width: 400px;
+    margin-left: 25px;
+    height: 400px;
+}
+tr.dds{
+    background-color: #dfa6e0;
+    border-radius: 10px;
+}
+.calendar th {
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.calendar td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+.calendar td:hover {
+    background-color: #f1f1f1;
+}
+.selected {
+    background-color: #f19d3c;
+    color: white;
 }

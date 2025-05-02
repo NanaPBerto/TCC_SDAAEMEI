@@ -8,14 +8,20 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-<header>
+  <header>
     <a href="index.html"><img src="imagens/home.png" alt="casinha" width="3%" class="home"></a>
-    <nav class="menu" id="menuPrincipal">
-        <ul>
-            <li><strong>Composição</strong></li>
-            <li><strong>Apreciação</strong></li>
-            <li><strong>Performance</strong></li>
-    </nav>
+    
+      <div class="dropdown" id="menuPrincipal">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+          Conteúdos
+        </button>
+        <ul class="dropdown-menu" style="width: 200px;">
+          <label for="dropdown-menu" style="margin-left: 30px;">Tipos de Atividade</label>
+          <li><a class="dropdown-item" href="#">Composição</a></li>
+          <li><a class="dropdown-item" href="#">Apreciação</a></li>
+          <li><a class="dropdown-item" href="#">Performance</a></li>
+        </ul>
+      </div>
     <img src="imagens/perfil.png" alt="foto de perfil" width="4%" id="perfil">
 </header>
 <article>
@@ -43,9 +49,9 @@
       </div>
     </div>
     <div>
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mLateral" id="btnMLateral">
-        |
-      </button>
+      <div data-bs-toggle="offcanvas" data-bs-target="#mLateral" id="btnMLateral">
+        <p>|</p>
+      </div>
     </div>
 </article>
 <footer>

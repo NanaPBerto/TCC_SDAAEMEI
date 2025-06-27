@@ -1,0 +1,26 @@
+use SRAMEI;
+
+create table Atividades(
+cod integer not null auto_increment,
+nome varchar (30),
+descricao varchar (100),
+objetivo varchar (70),
+indicacao varchar (20),
+vagas integer,
+duracao time,
+recursos varchar (80),
+condicoes varchar (80),
+imagem blob,
+video blob,
+musica blob,
+partitura blob,
+obs varchar (100),
+desenvolvedor integer,
+acessador integer,
+classificacao integer,
+tipo integer,
+primary key (cod),
+foreign key (desenvolvedor) references Musico (cod),
+foreign key (acessador) references Educador (cod),
+foreign key (classificacao) references Classificacao (cod),
+foreign key (tipo) references Tipo (cod));

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport content" width="device-width, inicial-scale = 1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Minhas Atividades</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -32,58 +33,54 @@
   </header>
 
 <article>
-<!-- Menu Lateral -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="mLateral">
-  <div class="offcanvas-header border-bottom">
-    <div class="d-flex align-items-center">
-      <i class="fas fa-music me-2" style="color: var(--primary-color); font-size: 1.5rem;"></i>
-      <h5 class="offcanvas-title mb-0" style="color: var(--primary-color);">Harmonia</h5>
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="d-flex flex-column h-100">
-      <div class="mb-4">
-        <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
-          <i class="fas fa-clipboard-list me-3" style="color: var(--primary-color);"></i>
-          <a href="minhasAtividades.html" class="stretched-link text-decoration-none">Minhas Atividades</a>
+    <!-- Menu Lateral -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mLateral">
+      <div class="offcanvas-header border-bottom">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-music me-2" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          <h5 class="offcanvas-title mb-0" style="color: var(--primary-color);">Harmonia</h5>
         </div>
-        <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
-          <i class="fas fa-sign-in-alt me-3" style="color: var(--primary-color);"></i>
-          <a href="login.html" class="stretched-link text-decoration-none">Login</a>
-        </div>
-        <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
-          <i class="fas fa-user-plus me-3" style="color: var(--primary-color);"></i>
-          <a href="cadastro.html" class="stretched-link text-decoration-none">Cadastre-se</a>
-        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      
-      <div class="mt-auto">
-        <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
-          <i class="fas fa-cog me-3" style="color: var(--primary-color);"></i>
-          <a href="#" class="stretched-link text-decoration-none">Configurações</a>
-        </div>
-        
-        <div class="border-top pt-3">
-          <div class="position-relative d-flex align-items-center mb-2 p-2 rounded hover-item">
-            <i class="fas fa-question-circle me-3" style="color: var(--primary-color);"></i>
-            <a href="#" class="stretched-link text-decoration-none">Ajuda e Suporte</a>
+      <div class="offcanvas-body">
+        <div class="d-flex flex-column h-100">
+          <div class="mb-4">
+            <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
+              <i class="fas fa-clipboard-list me-3" style="color: var(--primary-color);"></i>
+              <a href="atividadesFav.html" class="stretched-link text-decoration-none">Atividades Favoritas</a>
+            </div>
+            <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
+              <i class="fas fa-clipboard-list me-3" style="color: var(--primary-color);"></i>
+              <a href="atividadesFav.html" class="stretched-link text-decoration-none">Perfis Favoritos</a>
+            </div>
           </div>
-          <div class="position-relative d-flex align-items-center p-2 rounded hover-item">
-            <i class="fas fa-info-circle me-3" style="color: var(--primary-color);"></i>
-            <a href="#" class="stretched-link text-decoration-none">Sobre o Harmonia</a>
+          
+          <div class="mt-auto">
+            <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
+              <i class="fas fa-cog me-3" style="color: var(--primary-color);"></i>
+              <a href="#" class="stretched-link text-decoration-none">Configurações</a>
+            </div>
+            
+            <div class="border-top pt-3">
+              <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
+                <i class="fas fa-sign-in-alt me-3" style="color: var(--primary-color);"></i>
+                <a href="login.html" class="stretched-link text-decoration-none">Login</a>
+              </div>
+              <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
+                <i class="fas fa-user-plus me-3" style="color: var(--primary-color);"></i>
+                <a href="cadastro.html" class="stretched-link text-decoration-none">Cadastre-se</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Botão do Menu Lateral -->
-<button class="btn btn-primary position-fixed start-0 top-50 translate-middle-y rounded-end-pill" 
+    <!-- Botão do Menu Lateral -->
+<button class="btn-menu-lateral position-fixed start-0 top-50 translate-middle-y" 
         data-bs-toggle="offcanvas" 
         data-bs-target="#mLateral"
-        style="z-index: 1040; padding: 12px 6px; background-color: var(--primary-color); border: none;">
+        style="z-index: 1040;">
   <i class="fas fa-bars text-white"></i>
 </button>
 </article>

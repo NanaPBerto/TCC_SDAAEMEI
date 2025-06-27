@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="form-section">
+    <h4>{{#if atividade}}Editar Atividade{{else}}Cadastrar Nova Atividade{{/if}}</h4>
+    <form action="{{#if atividade}}/editar/{{atividade.id}}{{else}}/add{{/if}}" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome da Atividade</label>
+        <input type="text" class="form-control" id="nome" name="nome" required value="{{atividade.nome}}">
+      </div>
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição</label>
+        <textarea class="form-control" id="descricao" name="descricao" required>{{atividade.descricao}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="objetivo" class="form-label">Objetivo</label>
+        <input type="text" class="form-control" id="objetivo" name="objetivo" required value="{{atividade.objetivo}}">
+      </div>
+      <div class="mb-3">
+        <label for="indicacao" class="form-label">Indicação</label>
+        <input type="text" class="form-control" id="indicacao" name="indicacao" required value="{{atividade.indicacao}}">
+      </div>
+      <div class="mb-3">
+        <label for="vagas" class="form-label">Integrantes/Vagas</label>
+        <input type="text" class="form-control" id="vagas" name="vagas" required value="{{atividade.vagas}}">
+      </div>
+      <div class="mb-3">
+        <label for="duracao" class="form-label">Duração</label>
+        <input type="text" class="form-control" id="duracao" name="duracao" required value="{{atividade.duracao}}">
+      </div>
+      <div class="mb-3">
+        <label for="recursos" class="form-label">Recursos</label>
+        <input type="text" class="form-control" id="recursos" name="recursos" required value="{{atividade.recursos}}">
+      </div>
+      <div class="mb-3">
+        <label for="condicoes" class="form-label">Condições</label>
+        <input type="text" class="form-control" id="condicoes" name="condicoes" required value="{{atividade.condicoes}}">
+      </div>
+      <div class="mb-3">
+        <label for="classificacao" class="form-label">Classificação</label>
+        <input type="text" class="form-control" id="classificacao" name="classificacao" required value="{{atividade.classificacao}}">
+      </div>
+      <div class="mb-3">
+        <label for="anexos" class="form-label">Imagem</label>
+        <input type="file" class="form-control" id="anexos" name="anexos">
+        {{#if atividade.imagem}}
+          <div class="mt-2">
+            <img src="data:image/jpeg;base64,{{atividade.imagemBase64}}" alt="Imagem atual" style="max-width: 200px; max-height: 200px;">
+          </div>
+        {{/if}}
+      </div>
+      <button type="submit" class="btn btn-primary">{{#if atividade}}Salvar Alterações{{else}}Cadastrar{{/if}}</button>
+    </form>
+  </div>
+</div>

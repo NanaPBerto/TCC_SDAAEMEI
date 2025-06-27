@@ -1,0 +1,154 @@
+    <!-- Conteúdo Principal -->
+    <div class="container-fluid mt-3">
+      <div class="row g-4">
+        <!-- Coluna Esquerda -->
+        <div class="col-lg-6">
+          <div id="divInicial" class="mb-4">
+            <h1 class="fw-bold" style="color: var(--dark);">Bem-Vindo(a)</h1>
+            <p class="text-muted">Explore atividades musicais para incrementar as suas aulas</p>
+            <div id="barraPes" class="d-flex align-items-center">
+              <i class="bi bi-search position-absolute ms-3" style="color: #9ca3af;"></i>
+              <input type="text" placeholder="Pesquisar atividade..." id="pesquisa" class="ps-5">
+            </div>
+          </div>
+          
+          <!-- Carrossel -->
+          <div id="demo" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            </div>
+            
+            <!-- Slides -->
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Crianças tocando instrumentos" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                  <h5>Atividades para Crianças</h5>
+                  <p>Descubra jogos e brincadeiras musicais para os pequenos</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Aula de música" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                  <h5>Para Educadores</h5>
+                  <p>Recursos pedagógicos para suas aulas de música</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Banda tocando" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                  <h5>Atividades em Grupo</h5>
+                  <p>Dinâmicas para desenvolver habilidades musicais coletivas</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Coluna Direita -->
+<div class="col-lg-6">
+  <div id="ativs" class="h-100">
+    <h4 class="categoria-titulo"><i class="bi bi-star-fill me-2"></i>Categorias</h4>
+    
+    <!-- Grid 3x3 -->
+    <div class="container mb-4">
+      <div class="row g-2"> <!-- g-3 é o gap entre as linhas e colunas -->
+
+        <!-- Linha 1 -->
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Linguagem<h5>
+              <i class="fas fa-book-open"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Números</h5>
+              <i class="fas fa-calculator"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Formas e Espaço</h5>
+               <i class="fas fa-shapes"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Linha 2 -->
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Fauna</h5>
+              <i class="fas fa-dove"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Flora</h5>
+              <i class="fas fa-leaf"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Tempo e Clima</h5>
+              <i class="fas fa-cloud-sun"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Linha 3 -->
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Desenvolvimento Motor</h5>
+              <i class="fas fa-running"></i> 
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Cidadania e Meio-Ambiente</h5>
+              <i class="fas fa-recycle"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card card-atividade shadow-sm h-100">
+            <div class="card-body p-2 text-center">
+              <h5 class="card-title h6 mb-2">Cultura e Folclore</h5>
+              <i class="fas fa-globe-americas"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

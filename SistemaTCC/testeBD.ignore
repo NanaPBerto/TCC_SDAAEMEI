@@ -1,0 +1,25 @@
+CREATE TABLE USUARIOS (
+    nome VARCHAR(50),
+    email VARCHAR(100),
+    idade INT
+);
+-- Inserindo dados na tabela USUARIOS
+INSERT INTO USUARIOS (nome, email, idade) VALUES ('João', 'joao@example.com', 30);
+
+INSERT INTO USUARIOS (nome, email, idade) VALUES ('Nana', 'nana@example.com', 17);
+
+INSERT INTO USUARIOS (nome, email, idade) VALUES ('Maria', 'maria@example.com', 28);
+
+INSERT INTO USUARIOS (idade, email, nome) VALUES (18, 'ana@example.com', 'Ana');
+
+--selecionando usuários específicos com WHERE
+SELECT * FROM USUARIOS WHERE idade >= 18;
+
+SELECT * FROM USUARIOS WHERE nome = 'João';
+
+-- Deletando usuários com DELETE e WHERE
+-- se o delete não tiver o where, ele deleta todos os registros
+DELETE FROM USUARIOS WHERE nome = 'João';
+
+-- Atualizando usuários com UPDATE, SET e WHERE
+UPDATE USUARIOS SET idade = 19 WHERE nome = 'Nana';

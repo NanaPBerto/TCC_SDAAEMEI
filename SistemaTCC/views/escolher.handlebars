@@ -16,8 +16,8 @@
                 <h3>Acesso às Atividades</h3>
                 <p>Explore partituras e playlists públicas</p>
             </div>
-            
-            <div class="access-option contributor" onclick="">
+
+            <div class="access-option contributor" onclick="accessAsContributor()">
                 <div class="icon"><i class="fas fa-guitar"></i></div>
                 <h3>Contribuir</h3>
                 <p>Adicione suas composições</p>
@@ -40,6 +40,9 @@
     <script>
         function accessAsViewer() {
             window.location.href = "/homeE";
+        }
+        function accessAsContributor() {
+            window.location.href = "/cadastroM";
         }
     </script>
 </body>

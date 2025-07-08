@@ -1,7 +1,9 @@
 const Ativ = require('../models/Ativ');
 const TipoAtividade = require('../models/TipoAtividade');
 
-// Página inicial
+
+
+// Página inicial de atividades
 exports.home = (req, res) => {
   res.render('homeM', { showMenu: true, showSidebar: true });
 };

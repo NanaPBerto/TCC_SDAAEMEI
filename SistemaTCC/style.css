@@ -411,6 +411,7 @@ a {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .nav-item .home {
+    margin-left: 20px;
     transition: transform 0.3s;
 }
 .nav-item .home:hover {
@@ -614,7 +615,7 @@ a {
 }
 .btn-menu-lateral {
     width: 40px; /* ou outro valor desejado */
-    height: 48px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -814,3 +815,150 @@ button#btnSubmissões:hover {
     background-color: var(--secondary);
     transform: translateY(-2px);
 }
+
+
+/*CADASTRO DE CONTRIBUIDOR E VIZUALIZADOR*/
+
+body.cadastro h1 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    position: relative;
+    text-align: center;
+}
+
+body.cadastro h1:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 3px;
+}
+
+body.cadastro .container {
+    max-width: 800px;
+}
+
+body.cadastro fieldset {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.1);
+    border: none;
+    margin-bottom: 2rem;
+}
+
+body.cadastro legend {
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 0 15px;
+    font-size: 1.25rem;
+}
+
+body.cadastro .form-label {
+    font-weight: 500;
+    color: var(--dark-purple);
+    margin-bottom: 0.5rem;
+}
+
+body.cadastro .form-control {
+    border: 2px solid var(--light-purple);
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+body.cadastro .form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(156, 77, 204, 0.2);
+    outline: none;
+}
+
+body.cadastro .form-control::placeholder {
+    color: #aaa;
+}
+
+body.cadastro .btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+body.cadastro .btn-primary:hover {
+    background-color: var(--dark-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.3);
+}
+
+body.cadastro .btn-outline-secondary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+body.cadastro .btn-outline-secondary:hover {
+    background-color: var(--light-purple);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+body.cadastro .input-icon {
+    position: relative;
+}
+
+body.cadastro .input-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+}
+
+body.cadastro .input-icon input {
+    padding-left: 40px;
+}
+
+body.cadastro .file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+body.cadastro .file-upload-btn {
+    border: 2px dashed var(--light-purple);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+body.cadastro .file-upload-btn:hover {
+    border-color: var(--secondary-color);
+    background-color: rgba(156, 77, 204, 0.05);
+}
+
+body.cadastro .file-upload-input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+        
+        

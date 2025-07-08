@@ -16,7 +16,7 @@
         <div id="menuS" class="container-fluid">
           <ul class="navbar-nav w-100">
             <li class="nav-item" style="margin-left: 15px;">
-              <a href="/"><img src="" alt="logo" width="30px" class="logo"></a>
+              <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
             </li>
             <li class="nav-item">
              {{#if contribuidor}} <a href="/"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}
@@ -97,7 +97,7 @@
         </div>
       </div>
       <!-- Botão do Menu Lateral -->
-      <button class="btn-menu-lateral position-fixed start-0 top-50 translate-middle-y" 
+      <button onmouseenter="abreMenuLateral()" onmouseleave="fechaMenuLateral()" class="btn-menu-lateral position-fixed start-0 top-50 translate-middle-y" 
               data-bs-toggle="offcanvas" 
               data-bs-target="#mLateral"
               style="z-index: 1040;">
@@ -141,7 +141,7 @@
               </div>
               <div class="position-relative d-flex align-items-center mb-3 p-2 rounded hover-item">
                 <i class="bi bi-person-plus me-3" style="color: var(--primary);"></i>
-                <a href="cadastro.html" class="stretched-link text-decoration-none">Cadastre-se</a>
+                <a href="/cadastroE" class="stretched-link text-decoration-none">Cadastre-se</a>
               </div>
             </div>
           </div>
@@ -165,5 +165,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/scripts/formulario.js"></script>
     <script src="/scripts/escolher.js"></script>
+    <script src="/scripts/menuLateral.js"></script>
 </body>
 </html>

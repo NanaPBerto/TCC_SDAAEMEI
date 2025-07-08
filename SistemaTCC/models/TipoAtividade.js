@@ -1,5 +1,5 @@
 const { create } = require('express-handlebars');
-const db = require('./db');
+const db = require('../db');
 
 const TipoAtividade = db.sequelize.define('tipo_atividades', {
     id: {

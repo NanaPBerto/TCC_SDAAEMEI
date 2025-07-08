@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
 const atividadeRoutes = require('./routes/atividadeRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
 
 // Configuração do template engine handlebars
 app.engine('handlebars', exphbs.engine());
@@ -26,7 +27,13 @@ app.use((req, res, next) => {
     next();
 });
 
+// Rota para a raiz
+app.get('/', (req, res) => {
+    res.redirect('/home'); // ou renderize uma view, ex: res.render('home');
+});
+
 // Use apenas o arquivo de rotas
+app.use('/', usuarioRoutes);
 app.use('/', atividadeRoutes);
 
 const PORT = 3000;

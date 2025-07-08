@@ -9,7 +9,7 @@ const upload = multer({ storage: storage });
 
 // Página inicial (redireciona para painel principal de atividades)
 router.get('/', (req, res) => {
-    res.redirect('/home');
+    res.redirect('/home'); // ou res.render('home');
 });
 
 router.get('/home', atividadeController.home);

@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db');
 const TipoAtividade = require('./TipoAtividade'); // Importe o modelo de tipos
 
 const Ativ = db.sequelize.define('atividades', {

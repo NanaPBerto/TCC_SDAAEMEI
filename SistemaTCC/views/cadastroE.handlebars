@@ -1,0 +1,92 @@
+ <div class="container my-5">
+    <h1>Faça seu Cadastro</h1>
+    
+    <form>
+      <!-- Informações Pessoais -->
+      <fieldset>
+        <legend><i class="fas fa-user-circle me-2"></i>Informações Pessoais</legend>
+        
+        <div class="row g-3 mb-4">
+          <!-- Nome -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-user"></i>
+            <label for="nome" class="form-label">Nome*</label>
+            <input type="text" class="form-control" id="nome" placeholder="Seu nome completo" maxlength="30" required>
+          </div>
+          
+          <!-- Usuário -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-at"></i>
+            <label for="usuario" class="form-label">Usuário*</label>
+            <input type="text" class="form-control" id="usuario" maxlength="20" placeholder="Nome de usuário único" required>
+          </div>
+          
+          <!-- Senha -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-lock"></i>
+            <label for="senha" class="form-label">Senha*</label>
+            <input type="password" class="form-control" id="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
+            <small class="text-muted">Use letras, números e símbolos</small>
+          </div>
+          
+          <!-- Email -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-envelope"></i>
+            <label for="email" class="form-label">Email*</label>
+            <input type="email" class="form-control" id="email" maxlength="50" placeholder="seu@email.com" required>
+          </div>
+
+        <!-- UF -->
+        <div class="col-md-6 input-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <label for="uf" class="form-label">UF*</label>
+            <select class="form-select" id="uf" required>
+              <option value="">Selecione sua UF</option>
+              <option value="SP">São Paulo</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="PR">Paraná</option>
+            </select>
+          </div>
+
+        <!-- Cidade -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <label for="cidade" class="form-label">Cidade*</label>
+            <input type="text" class="form-control" id="cidade" placeholder="Sua cidade" maxlength="30" required>
+          </div>
+          
+          <!-- Foto de Perfil -->
+          <div class="col-12">
+            <label for="fotoP" class="form-label">Foto de Perfil</label>
+            <div class="file-upload">
+              <div class="file-upload-btn">
+                <i class="fas fa-camera me-2"></i>
+                <span>Clique para selecionar uma foto</span>
+                <input type="file" class="file-upload-input" id="fotoP">
+              </div>
+            </div>
+          </div>
+          
+      </fieldset>
+      
+      <!-- Termos e Condições -->
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="termos" required>
+        <label class="form-check-label" for="termos">
+          Li e aceito os <a href="#" style="color: var(--primary-color);">Termos de Serviço</a> e <a href="#" style="color: var(--primary-color);">Política de Privacidade</a>
+        </label>
+      </div>
+      
+      <!-- Botões -->
+      <div class="d-flex justify-content-end gap-3">
+        <a href="login.html" class="btn btn-outline-secondary">
+          <i class="fas fa-times-circle me-2"></i>Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary" id="btnC">
+          <i class="fas fa-user-plus me-2"></i>Criar Conta
+        </button>
+      </div>
+    </form>
+  </div>

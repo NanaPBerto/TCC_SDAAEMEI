@@ -1,53 +1,131 @@
 <div class="container">
   <div class="form-section">
     <h4>{{#if atividade}}Editar Atividade{{else}}Cadastrar Nova Atividade{{/if}}</h4>
-    <form action="{{#if atividade}}/editar/{{atividade.id}}{{else}}/add{{/if}}" method="POST" enctype="multipart/form-data">
+    <!-- Painel de Criação -->
+    <div class="form-section">
+
+      
+      <ul class="nav nav-tabs mb-4">
+          <li class="nav-item">
+              <a class="nav-link active" href="desenvolverAtividade.html">Principal</a>
+          </li>
+      </ul>
+      
       <div class="mb-3">
-        <label for="nome" class="form-label">Nome da Atividade</label>
-        <input type="text" class="form-control" id="nome" name="nome" required value="{{atividade.nome}}">
+          <label for="tituloAtividade" class="form-label">Título da Atividade</label>
+          <input type="text" class="form-control" id="tituloAtividade" placeholder="Ex: Ritmo com Copos">
       </div>
-      <div class="mb-3">
-        <label for="descricao" class="form-label">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" required>{{atividade.descricao}}</textarea>
+      <div class="row g-3 mb-4">
+      <div class="col-md-6">
+          <label for="descricaoAtividade" class="form-label">Descrição</label>
+          <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Descreva como realizar a atividade..."></textarea>
       </div>
-      <div class="mb-3">
-        <label for="objetivo" class="form-label">Objetivo</label>
-        <input type="text" class="form-control" id="objetivo" name="objetivo" required value="{{atividade.objetivo}}">
+
+      <div class="col-md-6">
+        <label for="descricaoAtividade" class="form-label">Objetivo</label>
+        <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Descreva os objetivos da atividade..."></textarea>
       </div>
-      <div class="mb-3">
-        <label for="indicacao" class="form-label">Indicação</label>
-        <input type="text" class="form-control" id="indicacao" name="indicacao" required value="{{atividade.indicacao}}">
       </div>
-      <div class="mb-3">
-        <label for="vagas" class="form-label">Integrantes/Vagas</label>
-        <input type="text" class="form-control" id="vagas" name="vagas" required value="{{atividade.vagas}}">
-      </div>
-      <div class="mb-3">
-        <label for="duracao" class="form-label">Duração</label>
-        <input type="text" class="form-control" id="duracao" name="duracao" required value="{{atividade.duracao}}">
-      </div>
-      <div class="mb-3">
-        <label for="recursos" class="form-label">Recursos</label>
-        <input type="text" class="form-control" id="recursos" name="recursos" required value="{{atividade.recursos}}">
-      </div>
-      <div class="mb-3">
-        <label for="condicoes" class="form-label">Condições</label>
-        <input type="text" class="form-control" id="condicoes" name="condicoes" required value="{{atividade.condicoes}}">
-      </div>
-      <div class="mb-3">
-        <label for="classificacao" class="form-label">Classificação</label>
-        <input type="text" class="form-control" id="classificacao" name="classificacao" required value="{{atividade.classificacao}}">
-      </div>
-      <div class="mb-3">
-        <label for="anexos" class="form-label">Imagem</label>
-        <input type="file" class="form-control" id="anexos" name="anexos">
-        {{#if atividade.imagem}}
-          <div class="mt-2">
-            <img src="data:image/jpeg;base64,{{atividade.imagemBase64}}" alt="Imagem atual" style="max-width: 200px; max-height: 200px;">
+      
+      <div class="row g-3 mb-4">
+          <div class="col-md-3">
+              <label class="form-label">Tipo</label>
+              <select class="form-select">
+                  <option>Animais</option>
+                  <option>Natureza</option>
+                  <option>Profissões</option>
+              </select>
           </div>
-        {{/if}}
+          <div class="col-md-3">
+              <label class="form-label">Classificação</label>
+              <select class="form-select">
+                <option>1 a 2 anos</option>
+                <option>2 a 3 anos</option>
+                <option selected>3 a 4 anos</option>	
+                <option>4 a 5 anos</option>
+                <option>5 a 6 anos</option>
+              </select>
+          </div>
+          <div class="col-md-3">
+              <label class="form-label">Duração</label>
+              <select class="form-select">
+                  <option>5-15 min</option>
+                  <option>15-30 min</option>
+                  <option>30+ min</option>
+              </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Integrantes</label>
+            <select class="form-select">
+                <option>1-5</option>
+                <option>5-10</option>
+                <option>10-15</option>
+                <option>15-20</option>
+                <option>20-25</option>
+                <option>25-30</option>
+                <option>+30</option>
+            </select>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">{{#if atividade}}Salvar Alterações{{else}}Cadastrar{{/if}}</button>
-    </form>
+      
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label for="descricaoAtividade" class="form-label">Indicação</label>
+            <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Descreva se a atividade é direcionada pra PcDs, crianças autistas..."></textarea>
+        </div>
+  
+        <div class="col-md-4">
+          <label for="descricaoAtividade" class="form-label">Recursos</label>
+          <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Descreva se a atividade precisa de recursos específicos como sala grande, instrumentos..."></textarea>
+        </div>
+        <div class="col-md-4">
+          <label for="descricaoAtividade" class="form-label">Condições</label>
+          <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Descreva se a atividade precisa de condições específicas como dia de sol, silêncio..."></textarea>
+        </div>
+        </div>
+
+      <div class="row mb-4">
+          <label class="form-label">Anexos - Músicas, Partituras, Imagens</label>
+          <div id="anexosDropArea" class="col border rounded p-3 text-center" style="cursor:pointer;">
+            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
+            <p>Arraste arquivos aqui ou clique para selecionar</p>
+            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
+            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
+            <input type="file" id="anexosInput" name="anexos" multiple style="display:none;">
+            <span id="anexosFileName" class="d-block mt-2"></span>
+          </div>
+          <div id="anexosDropArea" class="col border rounded p-3 text-center" style="cursor:pointer;">
+            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
+            <p>Arraste arquivos aqui ou clique para selecionar</p>
+            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
+            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
+            <input type="file" id="anexosInput" name="anexos" multiple style="display:none;">
+            <span id="anexosFileName" class="d-block mt-2"></span>
+          </div>
+          <div id="anexosDropArea" class="col border rounded p-3 text-center" style="cursor:pointer;">
+            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
+            <p>Arraste arquivos aqui ou clique para selecionar</p>
+            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
+            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
+            <input type="file" id="anexosInput" name="anexos" multiple style="display:none;">
+            <span id="anexosFileName" class="d-block mt-2"></span>
+          </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="descricaoAtividade" class="form-label">Obs</label>
+        <textarea class="form-control" id="descricaoAtividade" rows="3" placeholder="Observações sobre a atividade..."></textarea>
+      </div>
+      
+      <button class="btn btn-primary px-4 py-2" style="background-color: var(--primary-color); border: none;">
+        <i class="fas fa-save me-2"></i>Salvar Atividade
+    </button>
+    <button class="btn btn-primary px-4 py-2" style="background-color: var(--primary-color); border: none;">
+        <i class="fas fa-times-circle me-2"></i>Cancelar
+    </button>
+    <button class="btn btn-primary px-4 py-2" style="background-color: var(--primary-color); border: none;">
+        <i class="fas fa-file-alt me-2"></i>Rascunho
+    </button>
   </div>
 </div>
+<script src="/scripts/formulario.js"></script>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 /* =========================
    VARIÁVEIS GLOBAIS
    ========================= */
@@ -613,71 +615,159 @@ a {
     color: var(--primary);
     font-weight: 500;
 }
-.btn-menu-lateral {
-    width: 40px; /* ou outro valor desejado */
-    height: 100%;
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+main {
+    padding: 20px;
+    position: fixed;
+    z-index: 1;
+    padding-left: calc(82px + 20px);
+}
+
+#sideBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: --primary;
+    height: 100vh;
+    border-radius: 0px 18px 18px 0px;
+    position: relative;
+    transition: all .5s;
+    min-width: 82px;
+    z-index: 2;
+}
+
+#sideBarContent {
+    padding: 12px;
+}
+
+#user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+#perfil {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+#sideItems {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+}
+
+.sideItem {
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+}
+
+.sideItem.active {
+    background-color: #42A5F5;
+}
+
+.sideItem:hover:not(.active),
+#logoutButton:hover {
+    background-color: #42A5F5;
+}
+
+.sideItem a {
+    text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 0 15px 15px 0;
-    padding: 10px 5px;
-    box-shadow: 3px 0 15px -3px rgba(74, 58, 90, 0.25);
-    transition: all 0.3s ease;
-}
-.btn-menu-lateral:hover {
-    box-shadow: 5px 0 20px -5px rgba(74, 58, 90, 0.3);
-    transform: translateX(3px);
-}
-.offcanvas-start {
-    width: 280px;
-    height: 100vh;
-    min-height: 100vh;
-    box-shadow: 8px 0 30px -10px rgba(74, 58, 90, 0.2);
+    color: #0a0a0a;
 }
 
-.offcanvas-body a {
-    text-decoration: none;
-    color: var(--dark);
-    display: block;
-    padding: 8px 0;
-    transition: all 0.2s;
+.sideItem.active a {
+    color: #e3e9f7;
 }
-.offcanvas-body a:hover {
-    color: var(--primary);
-    transform: translateX(5px);
+
+.sideItem a i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
 }
-.dropdown-menu {
+
+#logout {
+    border-top: 1px solid #e3e9f7;
+    padding: 12px;
+}
+
+#logoutButton {
     border: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 10px 0;
-}
-.dropdown-item {
-    padding: 8px 20px;
-    transition: all 0.2s;
-}
-.dropdown-item:hover {
-    background-color: var(--primary-light);
-    color: var(--primary);
-}
-.dropdown-toggle::after {
-    margin-left: 10px;
-}
-.btn-explorar {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
+    padding: 12px;
     font-size: 14px;
-    transition: all 0.3s;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-radius: 8px;
+    text-align: start;
+    cursor: pointer;
+    background-color: transparent;
 }
-.btn-explorar:hover {
-    background-color: var(--secondary);
-    transform: translateY(-2px);
+
+#openMenu {
+    position: absolute;
+    top: 30px;
+    right: -10px;
+    background-color: #4f46e5;
+    color: #e3e9f7;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#openMenuIcon {
+    transition: transform .3s ease;
+}
+
+.open-sidebar #openMenuIcon {
+    transform: rotate(180deg);
+}
+
+.item-text {
+    width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    transition: width .6s;
+    height: 0px;
+}
+
+#sidebar.open-sidebar {
+    min-width: 15%;
+}
+
+#sidebar.open-sidebar .item-text {
+    width: 150px;
+    height: auto;
+}
+
+#sidebar.open-sidebar .sideItem a {
+    justify-content: flex-start;
+    gap: 14px;
 }
 
 /* =========================

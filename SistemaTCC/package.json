@@ -3,8 +3,19 @@
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.3",
+    "handlebars": "^4.7.8",
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "sequelize": "^6.37.7"
-  }
+  },
+  "name": "sistematcc",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

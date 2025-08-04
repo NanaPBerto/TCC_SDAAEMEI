@@ -1,7 +1,6 @@
-const { create } = require('express-handlebars');
 const db = require('../db');
 
-const TipoAtividade = db.sequelize.define('tipo_atividades', {
+const Classificacao = db.sequelize.define('classificacao', {
     id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
@@ -23,4 +22,4 @@ const TipoAtividade = db.sequelize.define('tipo_atividades', {
     }
 });
 
-module.exports = TipoAtividade;
+module.exports = Classificacao;

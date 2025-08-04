@@ -16,6 +16,16 @@ router.get('/home', atividadeController.home);
 
 // Rota correta para o formulário de nova atividade
 router.get('/novaAtividade', atividadeController.novaAtividade);
+router.post(
+  '/novaAtividade',
+  upload.fields([
+    { name: 'imagem', maxCount: 1 },
+    { name: 'video', maxCount: 1 },
+    { name: 'musica', maxCount: 1 },
+    { name: 'partitura', maxCount: 1 }
+  ]),
+  atividadeController.add
+);
 
 router.get('/minhasSubmissoes', atividadeController.minhasSubmissoes);
 router.post('/add', upload.array('anexos'), atividadeController.add);

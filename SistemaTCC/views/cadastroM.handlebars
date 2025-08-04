@@ -1,7 +1,7 @@
-  <div class="container my-5">
+<div class="container my-5">
     <h1>Faça seu Cadastro</h1>
     
-    <form>
+    <form action="/add" method="POST" enctype="multipart/form-data">
       <!-- Informações Pessoais -->
       <fieldset>
         <legend><i class="fas fa-user-circle me-2"></i>Informações Pessoais</legend>
@@ -11,21 +11,21 @@
           <div class="col-md-6 input-icon">
             <i class="fas fa-user"></i>
             <label for="nome" class="form-label">Nome*</label>
-            <input type="text" class="form-control" id="nome" placeholder="Seu nome completo" maxlength="30" required>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome completo" maxlength="30" required>
           </div>
           
           <!-- Usuário -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-at"></i>
             <label for="usuario" class="form-label">Usuário*</label>
-            <input type="text" class="form-control" id="usuario" maxlength="20" placeholder="Nome de usuário único" required>
+            <input type="text" class="form-control" id="usuario" name="usuario" maxlength="20" placeholder="Nome de usuário único" required>
           </div>
           
           <!-- Senha -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-lock"></i>
             <label for="senha" class="form-label">Senha*</label>
-            <input type="password" class="form-control" id="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
+            <input type="password" class="form-control" id="senha" name="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
             <small class="text-muted">Use letras, números e símbolos</small>
           </div>
           
@@ -33,28 +33,57 @@
           <div class="col-md-6 input-icon">
             <i class="fas fa-envelope"></i>
             <label for="email" class="form-label">Email*</label>
-            <input type="email" class="form-control" id="email" maxlength="50" placeholder="seu@email.com" required>
+            <input type="email" class="form-control" id="email" name="email" maxlength="50" placeholder="seu@email.com" required>
           </div>
           
           <!-- Telefone -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-phone"></i>
             <label for="telefone" class="form-label">Telefone</label>
-            <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000">
-          </div>
-          
-          <!-- RG -->
-          <div class="col-md-3 input-icon">
-            <i class="fas fa-id-card"></i>
-            <label for="rg" class="form-label">RG</label>
-            <input type="text" class="form-control" id="rg" placeholder="00.000.000-0">
+            <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="(00) 00000-0000">
           </div>
           
           <!-- CPF -->
           <div class="col-md-3 input-icon">
             <i class="fas fa-id-card"></i>
             <label for="cpf" class="form-label">CPF*</label>
-            <input type="text" class="form-control" id="cpf" maxlength="14" placeholder="000.000.000-00" required>
+            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="000.000.000-00" required>
+          </div>
+          
+          <!-- UF -->
+          <div class="col-md-3 input-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <label for="uf" class="form-label">UF*</label>
+            <select class="form-control" id="uf" name="uf" required>
+              <option value="">Selecione</option>
+              <option value="AC">AC</option>
+              <option value="AL">AL</option>
+              <option value="AP">AP</option>
+              <option value="AM">AM</option>
+              <option value="BA">BA</option>
+              <option value="CE">CE</option>
+              <option value="DF">DF</option>
+              <option value="ES">ES</option>
+              <option value="GO">GO</option>
+              <option value="MA">MA</option>
+              <option value="MT">MT</option>
+              <option value="MS">MS</option>
+              <option value="MG">MG</option>
+              <option value="PA">PA</option>
+              <option value="PB">PB</option>
+              <option value="PR">PR</option>
+              <option value="PE">PE</option>
+              <option value="PI">PI</option>
+              <option value="RJ">RJ</option>
+              <option value="RN">RN</option>
+              <option value="RS">RS</option>
+              <option value="RO">RO</option>
+              <option value="RR">RR</option>
+              <option value="SC">SC</option>
+              <option value="SP">SP</option>
+              <option value="SE">SE</option>
+              <option value="TO">TO</option>
+            </select>
           </div>
           
           <!-- Foto de Perfil -->
@@ -64,7 +93,7 @@
               <div class="file-upload-btn">
                 <i class="fas fa-camera me-2"></i>
                 <span>Clique para selecionar uma foto</span>
-                <input type="file" class="file-upload-input" id="fotoP">
+                <input type="file" class="file-upload-input" id="fotoP" name="anexos">
               </div>
             </div>
           </div>
@@ -72,10 +101,13 @@
           <!-- Observações -->
           <div class="col-12">
             <label for="obs" class="form-label">Observações</label>
-            <textarea class="form-control" id="obs" maxlength="100" placeholder="Alguma informação adicional que queira compartilhar..." rows="3"></textarea>
+            <textarea class="form-control" id="obs" name="obs" maxlength="100" placeholder="Alguma informação adicional que queira compartilhar..." rows="3"></textarea>
           </div>
         </div>
       </fieldset>
+      
+      <!-- Campo oculto para tipoUsuario -->
+      <input type="hidden" name="tipoUsuario" value="musico">
       
       <!-- Termos e Condições -->
       <div class="form-check mb-4">

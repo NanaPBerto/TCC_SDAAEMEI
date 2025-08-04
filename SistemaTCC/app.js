@@ -7,8 +7,25 @@ const bodyParser = require('body-parser');
 const atividadeRoutes = require('./routes/atividadeRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 
+const Educador = require('./models/Educador');
+const Musico = require('./models/Musico');
+const Ativ = require('./models/Ativ');
+const TipoAtividade = require('./models/TipoAtividade');
+const Uf = require('./models/uf');
+const Classificacao = require('./models/class');
+
 // Configuração do template engine handlebars
-app.engine('handlebars', exphbs.engine());
+
+const handlebars = require('express-handlebars');
+
+const hbs = handlebars.create({
+  helpers: {
+    // Helper para comparação de igualdade
+    eq: (v1, v2) => v1 === v2,
+  }
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -36,9 +53,20 @@ app.get('/', (req, res) => {
 app.use('/', usuarioRoutes);
 app.use('/', atividadeRoutes);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+// Sincronize os models com o banco de dados
+Promise.all([
+    Educador.sync(),
+    Musico.sync(),
+    TipoAtividade.sync(),
+    Ativ.sync({force: true}), 
+    Uf.sync(),
+    Classificacao.sync()
 
-module.exports = app;
+]).then(() => {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+    });
+}).catch(err => {
+    console.error('Erro ao sincronizar os models:', err);
+});

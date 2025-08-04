@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db');
 
 const Educador = db.sequelize.define('educadores', {
     cod: {
@@ -6,9 +6,14 @@ const Educador = db.sequelize.define('educadores', {
         autoIncrement: true,
         primaryKey: true
     },
+    tipo: {
+        type: db.Sequelize.STRING(20),
+        allowNull: false,
+        defaultValue: 'educador'
+    },
     nome: {
         type: db.Sequelize.STRING(50),
-        allowNull: false
+        allowNull: false,
     },
     login: {
         type: db.Sequelize.STRING(20),
@@ -28,5 +33,4 @@ const Educador = db.sequelize.define('educadores', {
     }
 });
 
-//Educador.sync({ force: true }) //force: true para recriar a tabela, false para não recriar
-module.exports = Educador; //exportando o modelo Educador para ser usado em outros arquivos
+module.exports = Educador;

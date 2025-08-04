@@ -1,10 +1,15 @@
-const db = require('./db');
+const db = require('../db');
 
 const Musico = db.sequelize.define('musicos', {
     cod: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
+    },
+    tipo: {
+            type: db.Sequelize.STRING(20),
+            allowNull: true,
+            defaultValue: 'musico' 
     },
     nome: {
         type: db.Sequelize.STRING(30),
@@ -18,17 +23,20 @@ const Musico = db.sequelize.define('musicos', {
         type: db.Sequelize.STRING(10),
         allowNull: false
     },
-    cpf: {
-        type: db.Sequelize.INTEGER,
-        allowNull: false
-    },
+   cpf: {
+        type: db.Sequelize.STRING(14),
+        allowNull: false,
+        defaultValue: '00000000000'
+},
     email: {
         type: db.Sequelize.STRING(50),
-        allowNull: false
+        allowNull: true,
+        defaultValue: 'aaaa@aaaa'
     },
     fone: {
-        type: db.Sequelize.INTEGER,
-        allowNull: false
+        type: db.Sequelize.STRING(20),
+        allowNull: true,
+        defaultValue: '00000000000'
     },
     imagem: {
         type: db.Sequelize.BLOB,
@@ -48,9 +56,8 @@ const Musico = db.sequelize.define('musicos', {
     },
     uf: {
         type: db.Sequelize.STRING(2),
-        allowNull: false
+        allowNull: true
     },
 });
 
-//Musico.sync({ force: true }) //force: true para recriar a tabela, false para não recriar
 module.exports = Musico; //exportando o modelo Musico para ser usado em outros arquivos

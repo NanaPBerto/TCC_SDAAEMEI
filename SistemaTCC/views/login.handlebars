@@ -1,0 +1,26 @@
+<!-- Área de Login -->
+<div id="login-container" class="container">
+    <div id="login-box" class="row g-0">
+        <div class="col-md-6 login-form">
+            <h2>Faça Login</h2>
+            <form id="loginForm" action="/login" method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha" required>
+                </div>
+                <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+                <button type="submit" class="btn btn-login">Entrar</button>
+            </form>
+        </div>
+        <div class="col-md-6 login-side">
+            <h3>Não possui uma conta?</h3>
+            <p>Crie uma conta agora para acessar todos os recursos da plataforma Harmonia.</p>
+            <a href="/cadastroE" class="btn btn-register">Criar Conta Educador</a>
+            <a href="/cadastroM" class="btn btn-register">Criar Conta Músico</a>
+        </div>
+    </div>
+</div>

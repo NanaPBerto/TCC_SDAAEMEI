@@ -1,8 +1,8 @@
 const db = require('../db');
-const TipoAtividade = require('./TipoAtividade'); // Importa o modelo de tipos
-const Classificacao = require('./class'); // Importa o modelo de classificações
+const tipoatividade = require('./tipoatividade'); // Importa o modelo já definido
+const classificacao = require('./classificacao'); // Importa o modelo já definido
 
-const Ativ = db.sequelize.define('atividades', {
+const ativ = db.sequelize.define('atividades', {
         nome: {
             type: db.Sequelize.STRING(30),
             allowNull: false
@@ -57,28 +57,22 @@ const Ativ = db.sequelize.define('atividades', {
         },
         classificacao: {
             type: db.Sequelize.INTEGER,
-            defaultValue: 1, // Valor padrão para a classificação
+            defaultValue: 1,
             allowNull: false,
             references: {
-                model: 'classificacao', // deve ser igual ao nome da tabela em class.js
+                model: 'classificacao',
                 key: 'id'
-                        }
+            }
         },
         tipoId: {
             type: db.Sequelize.INTEGER,
-            defaultValue: 1, // Valor padrão para o tipo de atividade
+            defaultValue: 1,
             allowNull: false,
             references: {
-                model: 'tipo_atividades', // deve ser igual ao nome da tabela em TipoAtividade.js
+                model: 'tipoatividades',
                 key: 'id'
             }
         },
     });
 
-    // Associação
-Ativ.belongsTo(TipoAtividade, { foreignKey: 'tipoId', as: 'tipo' });
-    TipoAtividade.hasMany(Ativ, { foreignKey: 'tipoId' });
-Ativ.belongsTo(Classificacao, { foreignKey: 'classId', as: 'class' });
-    Classificacao.hasMany(Ativ, { foreignKey: 'classId' });
-   
-    module.exports = Ativ; //exportando o modelo Ativ para ser usado em outros arquivos
+     module.exports = ativ;

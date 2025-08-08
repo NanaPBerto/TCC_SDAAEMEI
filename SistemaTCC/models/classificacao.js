@@ -1,6 +1,6 @@
 const db = require('../db');
 
-const Classificacao = db.sequelize.define('classificacao', {
+const classificacao = db.sequelize.define('classificacao', {
     id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
@@ -20,6 +20,8 @@ const Classificacao = db.sequelize.define('classificacao', {
         allowNull: false,
         defaultValue: db.Sequelize.NOW
     }
+}, {
+    tableName: 'classificacao' // <-- Corrige o nome da tabela
 });
 
-module.exports = Classificacao;
+module.exports = classificacao;

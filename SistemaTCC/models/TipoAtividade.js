@@ -1,7 +1,6 @@
-const { create } = require('express-handlebars');
 const db = require('../db');
 
-const TipoAtividade = db.sequelize.define('tipo_atividades', {
+const tipoatividade = db.sequelize.define('tipoatividades', {
     id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
@@ -21,6 +20,8 @@ const TipoAtividade = db.sequelize.define('tipo_atividades', {
         allowNull: false,
         defaultValue: db.Sequelize.NOW
     }
+}, {
+    tableName: 'tipoatividades' // <-- Corrige o nome da tabela
 });
 
-module.exports = TipoAtividade;
+module.exports = tipoatividade;

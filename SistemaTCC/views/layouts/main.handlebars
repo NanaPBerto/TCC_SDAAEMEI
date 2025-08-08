@@ -24,7 +24,7 @@
               <li><a class="dropdown-item" href="/escolher"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
             </ul>
           </div>
-          <a href="#" class="site-logo">MUSICOTECA</a>
+          <a href="/home" class="site-logo">MUSICOTECA</a>
       <nav id="menuS" class="navbar navbar-expand-sm">
         <div id="menuS" class="container-fluid">
           <ul class="navbar-nav w-100">
@@ -66,14 +66,17 @@
 {{#if showSidebar}}
 <div class="sidebar">
     <ul class="sidebar-nav">
+      <a href="/minhasSubmissoes">
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-music"></i></span>
             <span class="sidebar-text">Minhas Atividades</span>
         </li>
+      </a>
+      <a href="/novaAtividade">
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-plus-circle"></i></span>
             <span class="sidebar-text">Criar Atividades</span>
-        </li>
+        </li> </a>
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-chart-line"></i></span>
             <span class="sidebar-text">Estatísticas</span>
@@ -89,10 +92,11 @@
             <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
             <span class="sidebar-text">Configurações</span>
         </li>
+        <a href="/escolher"></a>
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
             <span class="sidebar-text">Sair</span>
-        </li>
+        </li></a>
     </ul>
 </div>
 {{/if}}
@@ -124,10 +128,11 @@
             <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
             <span class="sidebar-text">Configurações</span>
         </li>
+        <a href="/escolher"></a>
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
             <span class="sidebar-text">Sair</span>
-        </li>
+        </li></a>
     </ul>
 </div>
 {{/if}}

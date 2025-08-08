@@ -1,7 +1,6 @@
-const Ativ = require('../models/Ativ');
-const TipoAtividade = require('../models/TipoAtividade');
-
-
+const ativ = require('../models/ativ');
+const tipoatividade = require('../models/tipoatividade');
+const classificacao = require('../models/classificacao');
 
 // Página inicial de atividades
 exports.home = (req, res) => {
@@ -9,15 +8,15 @@ exports.home = (req, res) => {
 };
 
 // Listar submissões
-exports.minhasSubmissoes = (req, res) => {
-  Ativ.findAll({
-    order: [['createdAt', 'DESC']],
-    include: [{ model: TipoAtividade, as: 'tipo' }]
-  }).then(ativs => {
+exports.minhasSubmissoes = async (req, res) => {
+  try {
+    const ativs = await ativ.findAll({
+      order: [['createdAt', 'DESC']],
+      include: [{ model: tipoatividade, as: 'tipo' }]
+    });
     const plainAtivs = ativs.map(ativ => {
       const obj = ativ.toJSON();
       if (obj.imagem) {
-        // Se você salva o mimetype, use ele. Caso contrário, use image/jpeg como padrão.
         obj.imagemMime = obj.imagemMime || 'image/jpeg';
         obj.imagemBase64 = Buffer.from(obj.imagem).toString('base64');
       }
@@ -29,12 +28,15 @@ exports.minhasSubmissoes = (req, res) => {
       showSidebar: true, 
       showBackButton: true
     });
-  });
+  } catch (erro) {
+    console.error('Erro ao listar submissões:', erro);
+    res.status(500).send('Erro ao listar submissões. Tente novamente mais tarde.');
+  }
 };
 
 // Formulário de nova atividade
 exports.novaAtividade = async (req, res) => {
-  const tipos = await TipoAtividade.findAll();
+  const tipos = await tipoatividade.findAll();
   res.render('formulario', {
     showMenu: true,
     showSidebar: true,
@@ -45,51 +47,65 @@ exports.novaAtividade = async (req, res) => {
 };
 
 // Adicionar atividade
-exports.add = (req, res) => {
-  let imagemBuffer = null;
-  let imagemMime = null;
+exports.add = async (req, res) => {
+  try {
+    let imagemBuffer = null;
+    let imagemMime = null;
 
-  if (req.files && req.files.length > 0) {
-    // Procura o primeiro arquivo de imagem enviado no campo 'anexos'
-    const imgFile = req.files.find(file => file.fieldname === 'anexos' && file.mimetype.startsWith('image/'));
-    if (imgFile) {
-      imagemBuffer = imgFile.buffer;
-      imagemMime = imgFile.mimetype;
+    if (req.files && req.files.length > 0) {
+      const imgFile = req.files.find(file => file.fieldname === 'anexos' && file.mimetype.startsWith('image/'));
+      if (imgFile) {
+        imagemBuffer = imgFile.buffer;
+        imagemMime = imgFile.mimetype;
+      }
     }
-  }
 
-  Ativ.create({
-    nome: req.body.nome,
-    descricao: req.body.descricao,
-    objetivo: req.body.objetivo,
-    indicacao: req.body.indicacao,
-    vagas: req.body.vagas,
-    duracao: req.body.duracao,
-    recursos: req.body.recursos,
-    condicoes: req.body.condicoes,
-    imagem: imagemBuffer,
-    obs: req.body.obs,
-    classificacao: req.body.classificacao,
-    tipoId: req.body.tipoId 
-  }).then(() => res.redirect('/'))
-    .catch(erro => res.send('Houve um erro: ' + erro));
+    // Validação simples dos campos obrigatórios
+    if (!req.body.nome || !req.body.descricao || !req.body.tipoId) {
+      return res.status(400).send('Preencha todos os campos obrigatórios.');
+    }
+
+    await ativ.create({
+      nome: req.body.nome,
+      descricao: req.body.descricao,
+      objetivo: req.body.objetivo,
+      indicacao: req.body.indicacao,
+      vagas: req.body.vagas,
+      duracao: req.body.duracao,
+      recursos: req.body.recursos,
+      condicoes: req.body.condicoes,
+      imagem: imagemBuffer,
+      imagemMime: imagemMime, // Salva o mimetype se desejar
+      obs: req.body.obs,
+      classificacao: req.body.classificacao,
+      tipoId: req.body.tipoId 
+    });
+    res.redirect('/');
+  } catch (erro) {
+    console.error('Erro ao adicionar atividade:', erro);
+    res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
+  }
 };
 
 // Deletar atividade
-exports.deletar = (req, res) => {
-  Ativ.destroy({ where: { id: req.params.id } })
-    .then(() => res.redirect('/minhasSubmissoes'))
-    .catch(erro => res.send('Houve um erro: ' + erro));
+exports.deletar = async (req, res) => {
+  try {
+    await ativ.destroy({ where: { id: req.params.id } });
+    res.redirect('/minhasSubmissoes');
+  } catch (erro) {
+    console.error('Erro ao deletar atividade:', erro);
+    res.status(500).send('Erro ao deletar atividade. Tente novamente.');
+  }
 };
 
 // Página editar atividade (renderiza o formulário para edição)
 exports.editar = async (req, res) => {
   try {
-    const ativ = await Ativ.findByPk(req.params.id);
+    const ativ = await ativ.findByPk(req.params.id);
     if (!ativ) {
       return res.status(404).send('Atividade não encontrada');
     }
-    const tipos = await TipoAtividade.findAll();
+    const tipos = await tipoatividade.findAll();
     res.render('formulario', {
       showMenu: true,
       showSidebar: true,
@@ -132,13 +148,14 @@ exports.atualizar = async (req, res) => {
 
     if (imagemBuffer) {
       updateData.imagem = imagemBuffer;
-      // Se quiser salvar o mimetype, adicione aqui: updateData.imagemMime = imagemMime;
+      updateData.imagemMime = imagemMime;
     }
 
-    await Ativ.update(updateData, { where: { id: req.params.id } });
+    await ativ.update(updateData, { where: { id: req.params.id } });
     res.redirect('/minhasSubmissoes');
   } catch (erro) {
-    res.send('Houve um erro ao atualizar: ' + erro);
+    console.error('Erro ao atualizar atividade:', erro);
+    res.status(500).send('Erro ao atualizar atividade. Tente novamente.');
   }
 };
 

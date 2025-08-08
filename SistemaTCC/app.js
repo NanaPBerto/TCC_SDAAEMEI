@@ -7,12 +7,12 @@ const bodyParser = require('body-parser');
 const atividadeRoutes = require('./routes/atividadeRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 
-const Educador = require('./models/Educador');
-const Musico = require('./models/Musico');
-const Ativ = require('./models/Ativ');
-const TipoAtividade = require('./models/TipoAtividade');
-const Uf = require('./models/uf');
-const Classificacao = require('./models/class');
+const educador = require('./models/educador');
+const musico = require('./models/musico');
+const ativ = require('./models/ativ');
+const tipoatividade = require('./models/tipoatividade');
+const uf = require('./models/uf');
+const classificacao = require('./models/classificacao');
 
 // Configuração do template engine handlebars
 
@@ -55,12 +55,13 @@ app.use('/', atividadeRoutes);
 
 // Sincronize os models com o banco de dados
 Promise.all([
-    Educador.sync(),
-    Musico.sync(),
-    TipoAtividade.sync(),
-    Ativ.sync({force: true}), 
-    Uf.sync(),
-    Classificacao.sync()
+    classificacao.sync(),
+    tipoatividade.sync(),
+    educador.sync(),
+    musico.sync(),
+    ativ.sync(), // Defina como true se quiser recriar a tabela a cada reinício
+    uf.sync(),
+    
 
 ]).then(() => {
     const PORT = 3000;
@@ -70,3 +71,6 @@ Promise.all([
 }).catch(err => {
     console.error('Erro ao sincronizar os models:', err);
 });
+const setupAssociations = require('./models/associations');
+const { FORCE } = require('sequelize/lib/index-hints');
+setupAssociations();

@@ -1,5 +1,5 @@
-const Musico = require('../models/Musico');
-const Educador = require('../models/Educador');
+const Musico = require('../models/musico');
+const Educador = require('../models/educador');
 
 // Função auxiliar para escolher o model
 function getUsuarioModel(tipo) {

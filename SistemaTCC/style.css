@@ -742,27 +742,6 @@ main.container {
     margin-left: 70px;
     padding-top: 60px; /* Altura do cabeçalho */
     transition: margin-left 0.3s ease;
-    width: calc(100% - 70px);
-}
-
-.sidebar:hover ~ main.container,
-.sidebar:hover + main.container {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-}
-/*NAO LEMBRO O QUE ESSE BOTAO FAZ QUE BOTAO È ESSE? */
-.btn-explorar {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-.btn-explorar:hover {
-    background-color: var(--secondary);
-    transform: translateY(-2px);
 }
 
 /* =========================
@@ -1150,6 +1129,22 @@ body.cadastro .file-upload-input {
             font-weight: 600;
             transition: all 0.3s;
             margin-top: 1rem;
+        }
+        
+        .btn-register:hover {
+            background-color: var(--light-purple);
+            transform: translateY(-2px);
+        }
+        
+        .forgot-password {
+            color: var(--secondary);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
         }
         
         .btn-register:hover {

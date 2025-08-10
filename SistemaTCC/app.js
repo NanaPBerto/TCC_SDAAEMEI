@@ -44,10 +44,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Rota para a raiz
-app.get('/', (req, res) => {
-    res.render('homeE'); 
-});
 
 // Use apenas o arquivo de rotas
 app.use('/', usuarioRoutes);

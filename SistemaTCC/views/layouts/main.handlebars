@@ -13,44 +13,69 @@
     <!-- Cabeçalho -->
     <header>
       {{#if showMenu}}
-       <nav class="navbar" id="navbar">
-        <div class="navbar-container">
-          <div class="user-profile">
-            {{#if usuario.imagem}}
+        {{#if usuario}}
+          <!-- Menu superior para usuário logado -->
+          <nav class="navbar" id="navbar">
+            <div class="navbar-container">
+              <div class="user-profile">
+                {{#if usuario.imagem}}
                   <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle ms-2" style="width:48px; height:48px; object-fit:cover; vertical-align:middle;">
                 {{/if}}
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="/escolher"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
-            </ul>
-          </div>
-          <a href="/home" class="site-logo">MUSICOTECA</a>
-      <nav id="menuS" class="navbar navbar-expand-sm">
-        <div id="menuS" class="container-fluid">
-          <ul class="navbar-nav w-100">
-            <li class="nav-item" style="margin-left: 15px;">
-              <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
-            </li>
-            <li class="nav-item">
-             {{#if contribuidor}} <a href="/"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}
-             {{#if visualizador}} <a href="/homeE"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}           
-            </li>
-
-            <li class="nav-item ms-auto">
-            {{#if (eq usuario.tipo 'musico')}}
-              <img src="{{usuario.imagem}}" alt="foto de perfil" width="40px" id="perfil" data-bs-toggle="dropdown">
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
-                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/escolher"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
-              </ul>
-            {{/if}}
-              </ul>
-            </li>
-          </ul>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/escolher"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                </ul>
+              </div>
+              <a href="/homeE" class="site-logo">MUSICOTECA</a>
+              <nav id="menuS" class="navbar navbar-expand-sm">
+                <div id="menuS" class="container-fluid">
+                  <ul class="navbar-nav w-100">
+                    <li class="nav-item" style="margin-left: 15px;">
+                      <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
+                    </li>
+                    <li class="nav-item">
+                     {{#if contribuidor}} <a href="/"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}
+                     {{#if visualizador}} <a href="/homeE"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}           
+                    </li>
+                    <li class="nav-item ms-auto">
+                    {{#if (eq usuario.tipo 'musico')}}
+                      <img src="{{usuario.imagem}}" alt="foto de perfil" width="40px" id="perfil" data-bs-toggle="dropdown">
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/escolher"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                      </ul>
+                    {{/if}}
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </nav>
+        {{else}}
+          <!-- Menu superior para visitante (não logado) -->
+          <nav class="navbar" id="navbar">
+            <div class="navbar-container">
+              <a href="/homeE" class="site-logo">MUSICOTECA</a>
+              <nav id="menuS" class="navbar navbar-expand-sm">
+                <div id="menuS" class="container-fluid">
+                  <ul class="navbar-nav w-100">
+                    <li class="nav-item" style="margin-left: 15px;">
+                      <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
+                    </li>
+                    <li class="nav-item ms-auto">
+                      <a href="/login" class="btn btn-outline-light me-2">Login</a>
+                      <a href="/cadastroE" class="btn btn-outline-light">Cadastro</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </nav>
+        {{/if}}
       {{/if}}
     </header>
 
@@ -64,79 +89,110 @@
       </div>
     {{/if}}
 
-    <!-- Menu Lateral para Músico -->
-{{#if showSidebar}}
-<div class="sidebar">
-    <ul class="sidebar-nav">
-      <a href="/minhasSubmissoes">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-music"></i></span>
-            <span class="sidebar-text">Minhas Atividades</span>
-        </li>
-      </a>
-      <a href="/novaAtividade">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-plus-circle"></i></span>
-            <span class="sidebar-text">Criar Atividades</span>
-        </li> </a>
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-chart-line"></i></span>
-            <span class="sidebar-text">Estatísticas</span>
-        </li>
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-users"></i></span>
-            <span class="sidebar-text">Perfis</span>
-        </li>
-    </ul>
-    
-    <ul class="sidebar-footer">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
-            <span class="sidebar-text">Configurações</span>
-        </li>
-        <a href="/escolher">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
-            <span class="sidebar-text">Sair</span>
-        </li></a>
-    </ul>
-</div>
-{{/if}}
+    <!-- Menu Lateral para NÃO logado, exceto na página de escolher -->
+{{#unless usuario}}
+  {{#unless paginaEscolher}}
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                <span class="sidebar-text">Início</span>
+            </li>
+            <a href="/login">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-sign-in-alt"></i></span>
+                <span class="sidebar-text">Login</span>
+            </li>
+            </a>
+            <a href="/cadastroE">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user-plus"></i></span>
+                <span class="sidebar-text">Cadastrar Educador</span>
+            </li>
+            </a>
+            <a href="/cadastroM">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user-plus"></i></span>
+                <span class="sidebar-text">Cadastrar Músico</span>
+            </li>
+            </a>
+        </ul>
+    </div>
+  {{/unless}}
+{{/unless}}
 
-<!-- Menu Lateral para Educador -->
-{{#if showSidebarE}}
-<div class="sidebar">
-    <ul class="sidebar-nav">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
-            <span class="sidebar-text">Atividades Sugeridas</span>
-        </li>
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-heart"></i></span>
-            <span class="sidebar-text">Atividades Favoritas</span>
-        </li>
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-star"></i></span>
-            <span class="sidebar-text">Perfis Favoritos</span>
-        </li>
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-history"></i></span>
-            <span class="sidebar-text">Histórico de Atividades</span>
-        </li>
-    </ul>
-    
-    <ul class="sidebar-footer">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
-            <span class="sidebar-text">Configurações</span>
-        </li>
-        <a href="/escolher">
-        <li class="sidebar-item">
-            <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
-            <span class="sidebar-text">Sair</span>
-        </li></a>
-    </ul>
-</div>
+<!-- Menu Lateral para logado (já existente, exibe conforme tipo) -->
+{{#if usuario}}
+  {{#if showSidebar}}
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+          <a href="/minhasSubmissoes">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-music"></i></span>
+                <span class="sidebar-text">Minhas Atividades</span>
+            </li>
+          </a>
+          <a href="/novaAtividade">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-plus-circle"></i></span>
+                <span class="sidebar-text">Criar Atividades</span>
+            </li> </a>
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-chart-line"></i></span>
+                <span class="sidebar-text">Estatísticas</span>
+            </li>
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+                <span class="sidebar-text">Perfis</span>
+            </li>
+        </ul>
+        <ul class="sidebar-footer">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
+                <span class="sidebar-text">Configurações</span>
+            </li>
+            <a href="/escolher">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="sidebar-text">Sair</span>
+            </li></a>
+        </ul>
+    </div>
+  {{/if}}
+
+  {{#if showSidebarE}}
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
+                <span class="sidebar-text">Atividades Sugeridas</span>
+            </li>
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-heart"></i></span>
+                <span class="sidebar-text">Atividades Favoritas</span>
+            </li>
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-star"></i></span>
+                <span class="sidebar-text">Perfis Favoritos</span>
+            </li>
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-history"></i></span>
+                <span class="sidebar-text">Histórico de Atividades</span>
+            </li>
+        </ul>
+        <ul class="sidebar-footer">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
+                <span class="sidebar-text">Configurações</span>
+            </li>
+            <a href="/escolher">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="sidebar-text">Sair</span>
+            </li></a>
+        </ul>
+    </div>
+  {{/if}}
 {{/if}}
       
     <!-- Conteúdo Principal -->

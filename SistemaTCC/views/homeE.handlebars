@@ -1,10 +1,15 @@
-    <!-- Conteúdo Principal -->
+<!-- Conteúdo Principal -->
     <div class="container-fluid mt-3">
       <div class="row g-4">
         <!-- Coluna Esquerda -->
         <div class="col-lg-6">
           <div id="divInicial" class="mb-4">
-            <h1 class="fw-bold" style="color: var(--dark);">Bem-Vindo(a)</h1>
+            <h1 class="fw-bold" style="color: var(--dark);">
+              Bem-Vindo(a)
+              {{#if usuario}}
+                , {{usuario.nome}}
+              {{/if}}!
+            </h1>
             <p class="text-muted">Explore atividades musicais para incrementar as suas aulas</p>
             <div id="barraPes" class="d-flex align-items-center">
               <i class="bi bi-search position-absolute ms-3" style="color: #9ca3af;"></i>

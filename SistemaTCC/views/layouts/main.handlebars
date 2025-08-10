@@ -13,10 +13,12 @@
     <!-- Cabeçalho -->
     <header>
       {{#if showMenu}}
-       <nav class="navbar">
+       <nav class="navbar" id="navbar">
         <div class="navbar-container">
           <div class="user-profile">
-            <img src="images/perfil.png" alt="foto de perfil" id="perfil" data-bs-toggle="dropdown">
+            {{#if usuario.imagem}}
+                  <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle ms-2" style="width:48px; height:48px; object-fit:cover; vertical-align:middle;">
+                {{/if}}
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
@@ -92,7 +94,7 @@
             <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
             <span class="sidebar-text">Configurações</span>
         </li>
-        <a href="/escolher"></a>
+        <a href="/escolher">
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
             <span class="sidebar-text">Sair</span>
@@ -128,7 +130,7 @@
             <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
             <span class="sidebar-text">Configurações</span>
         </li>
-        <a href="/escolher"></a>
+        <a href="/escolher">
         <li class="sidebar-item">
             <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
             <span class="sidebar-text">Sair</span>

@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
 // Rota para a raiz
 app.get('/', (req, res) => {
-    res.redirect('/home'); // ou renderize uma view, ex: res.render('home');
+    res.render('homeE'); 
 });
 
 // Use apenas o arquivo de rotas

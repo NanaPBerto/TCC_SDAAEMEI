@@ -1,48 +1,64 @@
 function createMusicNotes() {
-            const notes = ['♪', '♫'];
-            const container = document.getElementById('music-notes');
-            
-            for (let i = 0; i < 8; i++) {
+            const notesContainer = document.getElementById('music-notes');
+            const notes = ['♪', '♫', '♩', '♬', '♭', '♮'];
+            for (let i = 0; i < 12; i++) {
                 const note = document.createElement('div');
                 note.className = 'music-note';
                 note.textContent = notes[Math.floor(Math.random() * notes.length)];
                 note.style.left = Math.random() * 100 + 'vw';
-                note.style.top = Math.random() * 100 + 'vh';
-                note.style.animationDuration = (5 + Math.random() * 8) + 's';
-                note.style.animationDelay = Math.random() * 3 + 's';
-                container.appendChild(note);
+                note.style.animationDuration = (5 + Math.random() * 10) + 's';
+                note.style.animationDelay = Math.random() * 5 + 's';
+                note.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+                notesContainer.appendChild(note);
             }
         }
         
-        // Dark/Light Mode Toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const body = document.getElementById('escolha');
-            body.classList.toggle('dark-mode');
-            const icon = document.querySelector('#themeToggle i');
-            icon.classList.toggle('fa-sun');
-            icon.classList.toggle('fa-moon');
-            
-            // Atualiza o ícone para refletir o modo oposto
-            if (body.classList.contains('dark-mode')) {
+        // Alternar tema
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
+                document.body.style.background = 'linear-gradient(135deg, #1A0B2E 0%, #0D1B2A 100%)';
             } else {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
+                document.body.style.background = 'linear-gradient(135deg, #e1bee7 0%, #bbdefb 100%)';
             }
-        });
-        
-        function socialLogin(provider) {
-            alert(`Login com ${provider} selecionado`);
         }
         
-      
+        // Funções de acesso
         function accessAsViewer() {
             window.location.href = "/homeE";
         }
         
-        function accessAsEditor() {
-            window.location.href = "/homeE";
+        function accessAsContributor() {
+            window.location.href = "/cadastroM";
         }
+        
+        function socialLogin(provider) {
+            alert(`Login com ${provider} será implementado`);
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            createMusicNotes();
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-        document.addEventListener('DOMContentLoaded', createMusicNotes);
+            // Ajustar altura do container para garantir visibilidade completa
+            function adjustContainer() {
+                const container = document.querySelector('.login-container');
+                const windowHeight = window.innerHeight;
+                const containerHeight = container.offsetHeight;
+                if (containerHeight > windowHeight - 40) {
+                    container.style.margin = '20px auto';
+                    document.body.style.alignItems = 'flex-start';
+                } else {
+                    document.body.style.alignItems = 'center';
+                }
+            }
+
+            window.addEventListener('resize', adjustContainer);
+            adjustContainer();
+        });

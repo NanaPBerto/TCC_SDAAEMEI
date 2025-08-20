@@ -27,51 +27,40 @@ exports.add = async (req, res) => {
 
   const Usuario = getUsuarioModel(tipoUsuario);
 
-  // Monte os dados conforme o tipo
   let dados = {};
-    if (Usuario === Musico) {
-      dados = {
-        nome: req.body.nome || 'Nome não fornecido',
-        tipo: req.body.tipo || 'musico',
-        login: req.body.usuario,
-        senha: req.body.senha,
-        cpf: req.body.cpf ? req.body.cpf.replace(/\D/g, '') : null, // mantém como string numérica
-        email: req.body.email,
-        fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null, // mantém como string numérica
-        uf: req.body.uf,
-        imagem: imagemBuffer,
-        obs: req.body.obs,
-
-    };
-
+  if (Usuario === Musico) {
     dados = {
-      nome: req.body.nome,
+      nome: req.body.nome || 'Nome não fornecido',
+      tipo: req.body.tipo || 'musico',
+      login: req.body.usuario,
+      senha: req.body.senha,
+      cpf: req.body.cpf ? req.body.cpf.replace(/\D/g, '') : null, // mantém como string numérica
+      email: req.body.email,
+      fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null, // mantém como string numérica
+      uf: req.body.uf,
+      imagem: imagemBuffer,
+      obs: req.body.obs,
+      cidade: req.body.cidade,
+      minicurriculo: req.body.minicurriculo
+    };
+  } else { // Educador
+    dados = {
+      nome: req.body.nome || 'Educador sem nome',
       tipo: req.body.tipo || 'educador',
       login: req.body.usuario,
       senha: req.body.senha,
       cidade: req.body.cidade,
-      uf: req.body.uf,
-
+      uf: req.body.uf
     };
-  }else { // Educador
-        dados = {
-            nome: req.body.nome || 'Educador sem nome',
-            tipo: req.body.tipo || 'educador',
-            login: req.body.usuario,
-            senha: req.body.senha,
-            cidade: req.body.cidade,
-            uf: req.body.uf,
-
-        };
   }
 
-   try {
-        await Usuario.create(dados);
-        res.redirect('/');
-    } catch (erro) {
-        console.error('Erro detalhado:', erro);
-        res.status(500).send('Houve um erro: ' + erro.message);
-    }
+  try {
+    await Usuario.create(dados);
+    res.redirect('/');
+  } catch (erro) {
+    console.error('Erro detalhado:', erro);
+    res.status(500).send('Houve um erro: ' + erro.message);
+  }
 };
 
 // Deletar usuario

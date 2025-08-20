@@ -4,7 +4,7 @@ const classificacao = require('../models/classificacao');
 
 // Página inicial de atividades
 exports.home = (req, res) => {
-  res.render('homeM', { showMenu: true, showSidebar: true });
+  res.render('homeE', { showMenu: true, showSidebar: true });
 };
 
 // Listar submissões
@@ -80,7 +80,7 @@ exports.add = async (req, res) => {
       classificacao: req.body.classificacao,
       tipoId: req.body.tipoId 
     });
-    res.redirect('/');
+    res.redirect('/painelM');
   } catch (erro) {
     console.error('Erro ao adicionar atividade:', erro);
     res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
@@ -161,5 +161,5 @@ exports.atualizar = async (req, res) => {
 
 // Página escolher
 exports.escolher = (req, res) => {
-  res.render('escolher', { showMenu: false, showSidebar: false });
+  res.render('escolher', { showMenu: false, showSidebar: false, paginaEscolher: true });
 };

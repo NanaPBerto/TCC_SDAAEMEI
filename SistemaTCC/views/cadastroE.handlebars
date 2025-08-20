@@ -1,7 +1,8 @@
- <div class="container my-5">
+<div class="container my-5">
     <h1>Faça seu Cadastro</h1>
     
     <form action="/add" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="tipoUsuario" value="educador">
       <!-- Informações Pessoais -->
       <fieldset>
         <legend><i class="fas fa-user-circle me-2"></i>Informações Pessoais</legend>
@@ -11,21 +12,21 @@
           <div class="col-md-6 input-icon">
             <i class="fas fa-user"></i>
             <label for="nome" class="form-label">Nome*</label>
-            <input type="text" class="form-control" id="nome" placeholder="Seu nome completo" maxlength="30" required>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome completo" maxlength="30" required>
           </div>
           
           <!-- Usuário -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-at"></i>
             <label for="usuario" class="form-label">Usuário*</label>
-            <input type="text" class="form-control" id="usuario" maxlength="20" placeholder="Nome de usuário único" required>
+            <input type="text" class="form-control" id="usuario" name="usuario" maxlength="20" placeholder="Nome de usuário único" required>
           </div>
           
           <!-- Senha -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-lock"></i>
             <label for="senha" class="form-label">Senha*</label>
-            <input type="password" class="form-control" id="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
+            <input type="password" class="form-control" id="senha" name="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
             <small class="text-muted">Use letras, números e símbolos</small>
           </div>
           
@@ -33,14 +34,14 @@
           <div class="col-md-6 input-icon">
             <i class="fas fa-envelope"></i>
             <label for="email" class="form-label">Email*</label>
-            <input type="email" class="form-control" id="email" maxlength="50" placeholder="seu@email.com" required>
+            <input type="email" class="form-control" id="email" name="email" maxlength="50" placeholder="seu@email.com" required>
           </div>
 
         <!-- UF -->
         <div class="col-md-6 input-icon">
             <i class="fas fa-map-marker-alt"></i>
             <label for="uf" class="form-label">UF*</label>
-            <select class="form-select" id="uf" required>
+            <select class="form-select" id="uf" name="uf" required>
                <option value="">Selecione</option>
               <option value="AC">AC</option>
               <option value="AL">AL</option>
@@ -69,13 +70,14 @@
               <option value="SP">SP</option>
               <option value="SE">SE</option>
               <option value="TO">TO</option>
-          </div>
+            </select>
+        </div>
 
         <!-- Cidade -->
           <div class="col-md-6 input-icon">
             <i class="fas fa-map-marker-alt"></i>
             <label for="cidade" class="form-label">Cidade*</label>
-            <input type="text" class="form-control" id="cidade" placeholder="Sua cidade" maxlength="30" required>
+            <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="30" required>
           </div>
           
           <!-- Foto de Perfil -->
@@ -85,11 +87,11 @@
               <div class="file-upload-btn">
                 <i class="fas fa-camera me-2"></i>
                 <span>Clique para selecionar uma foto</span>
-                <input type="file" class="file-upload-input" id="fotoP">
+                <input type="file" class="file-upload-input" id="fotoP" name="anexos">
               </div>
             </div>
           </div>
-          
+        </div>
       </fieldset>
       
       <!-- Termos e Condições -->

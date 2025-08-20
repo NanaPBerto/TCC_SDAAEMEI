@@ -1,33 +1,32 @@
 // associations.js
 const db = require('../db');
-const ativ = require('./ativ');
-const tipoatividade = require('./tipoatividade');
+const Ativ = require('./ativ');
+const Tipoatividade = require('./tipoatividade');
 const classificacao = require('./classificacao');
 
 function setupAssociations() {
-  // Associação ativ -> tipoatividade
-  ativ.belongsTo(tipoatividade, {
+  // Associação Ativ -> Tipoatividade
+  Ativ.belongsTo(Tipoatividade, {
     foreignKey: 'tipoId',
     as: 'tipo'
   });
   
   // Associação inversa
-  tipoatividade.hasMany(ativ, {
+  Tipoatividade.hasMany(Ativ, {
     foreignKey: 'tipoId',
     as: 'atividades'
   });
   
-  // Associação ativ -> classificacao
-  ativ.belongsTo(classificacao, {
+  // Associação Ativ -> classificacao
+  Ativ.belongsTo(classificacao, {
     foreignKey: 'classificacao',
     as: 'class'
   });
   
   // Associação inversa
-  classificacao.hasMany(ativ, {
+  classificacao.hasMany(Ativ, {
     foreignKey: 'classificacao',
     as: 'atividades'
   });
 }
-
 module.exports = setupAssociations;

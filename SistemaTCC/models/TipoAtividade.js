@@ -1,6 +1,6 @@
 const db = require('../db');
 
-const tipoatividade = db.sequelize.define('tipoatividades', {
+const Tipoatividade = db.sequelize.define('tipoatividade', {
     id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
@@ -9,6 +9,10 @@ const tipoatividade = db.sequelize.define('tipoatividades', {
     nome: {
         type: db.Sequelize.STRING(50),
         allowNull: false
+    },
+    icone: {
+        type: db.Sequelize.STRING(50), // Adicione este campo
+        allowNull: true
     },
     createdAt: {
         type: db.Sequelize.DATE,
@@ -21,7 +25,7 @@ const tipoatividade = db.sequelize.define('tipoatividades', {
         defaultValue: db.Sequelize.NOW
     }
 }, {
-    tableName: 'tipoatividades' // <-- Corrige o nome da tabela
+    tableName: 'tipoatividade'
 });
 
-module.exports = tipoatividade;
+module.exports = Tipoatividade; // Exporte apenas o modelo definido

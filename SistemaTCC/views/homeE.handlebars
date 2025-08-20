@@ -66,94 +66,22 @@
   <div id="ativs" class="h-100">
     <h4 class="categoria-titulo"><i class="bi bi-star-fill me-2"></i>Categorias</h4>
     
-    <!-- Grid 3x3 -->
-    <div class="container mb-4">
-      <div class="row g-2"> <!-- g-3 é o gap entre as linhas e colunas -->
-
-        <!-- Linha 1 -->
-        <div class="col-md-4">
+<!-- Grid Dinâmico -->
+<div class="container mb-4">
+  <div class="row g-2">
+    {{#each tipoatividades}}
+      <div class="col-md-4">
+        <a href="/tipoatividade/{{this.id}}" class="categoria-link text-decoration-none">
           <div class="card card-atividade shadow-sm h-100">
             <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Linguagem<h5>
-              <i class="fas fa-book-open"></i>
+              <h5 class="card-title h6 mb-2">{{this.nome}}</h5>
+              <i class="{{this.icone}}"></i>
             </div>
           </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Números</h5>
-              <i class="fas fa-calculator"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Formas e Espaço</h5>
-               <i class="fas fa-shapes"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Linha 2 -->
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Fauna</h5>
-              <i class="fas fa-dove"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Flora</h5>
-              <i class="fas fa-leaf"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Tempo e Clima</h5>
-              <i class="fas fa-cloud-sun"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Linha 3 -->
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Desenvolvimento Motor</h5>
-              <i class="fas fa-running"></i> 
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Cidadania e Meio-Ambiente</h5>
-              <i class="fas fa-recycle"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card card-atividade shadow-sm h-100">
-            <div class="card-body p-2 text-center">
-              <h5 class="card-title h6 mb-2">Cultura e Folclore</h5>
-              <i class="fas fa-globe-americas"></i>
-            </div>
-          </div>
-        </div>
+        </a>
       </div>
-    </div>
+    {{/each}}
+  </div>
+</div> 
   </div>
 </div>

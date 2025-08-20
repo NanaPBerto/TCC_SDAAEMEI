@@ -21,7 +21,7 @@ const classificacao = db.sequelize.define('classificacao', {
         defaultValue: db.Sequelize.NOW
     }
 }, {
-    tableName: 'classificacao' // <-- Corrige o nome da tabela
+    tableName: 'classificacoes' // <-- Corrige o nome da tabela
 });
 
 module.exports = classificacao;

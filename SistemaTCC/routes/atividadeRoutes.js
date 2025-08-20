@@ -7,14 +7,8 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// Página inicial (redireciona para painel principal de atividades)
-router.get('/', (req, res) => {
-    res.redirect('/home'); // ou res.render('home');
-});
-
-router.get('/home', atividadeController.home);
-
-// Rota correta para o formulário de nova atividade
+// Rotas para atividades
+router.get('/Msub', atividadeController.Msub);
 router.get('/novaAtividade', atividadeController.novaAtividade);
 router.post(
   '/novaAtividade',
@@ -27,14 +21,18 @@ router.post(
   atividadeController.add
 );
 
-router.get('/minhasSubmissoes', atividadeController.minhasSubmissoes);
-router.post('/add', upload.array('anexos'), atividadeController.add);
+// Rotas de CRUD para atividades
 router.get('/deletar/:id', atividadeController.deletar);
-router.get('/escolher', atividadeController.escolher);
 router.get('/editar/:id', atividadeController.editar);
 router.post('/editar/:id', upload.any(), atividadeController.atualizar);
-router.get('/homeE', (req, res) => {
-    res.render('homeE', { showMenu: true, visualizador: true, contribuidor: false, showSidebarE: true });
+
+// Página de escolha
+router.get('/escolher', atividadeController.escolher);
+
+// Painel do músico
+router.get('/painelM', (req, res) => {
+  res.render('painelM');
 });
+
 
 module.exports = router;

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  {{ head}}
+  <title>{{categoria.nome}} - Sistema TCC</title>
+</head>
+<body>
+  {{header usuario=usuario}}
+  {{menu usuario=usuario}}
+
+  <main class="container">
+    <h1>Atividades: {{categoria.nome}}</h1>
+    
+    <div class="atividades-container">
+      {{#each atividades}}
+        <div class="atividade-card">
+          <h3>{{this.titulo}}</h3>
+          <p>{{this.descricao}}</p>
+          <!-- Adicione mais campos conforme necessário -->
+        </div>
+      {{else}}
+        <p>Nenhuma atividade encontrada nesta categoria</p>
+      {{/each}}
+    </div>
+  </main>
+
+  {{ footer}}
+</body>
+</html>

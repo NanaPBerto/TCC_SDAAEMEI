@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
+const session = require('express-session'); 
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-
-const atividadeRoutes = require('./routes/atividadeRoutes');
+const homeRoutes = require('./routes/homeRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
-
+const atividadeRoutes = require('./routes/atividadeRoutes');
+const tipoatividadeRoutes = require('./routes/tipoatividadeRoutes');
 const educador = require('./models/educador');
 const musico = require('./models/musico');
 const ativ = require('./models/ativ');
@@ -20,8 +21,21 @@ const handlebars = require('express-handlebars');
 
 const hbs = handlebars.create({
   helpers: {
-    // Helper para comparação de igualdade
     eq: (v1, v2) => v1 === v2,
+    getIcon: function(nome) {
+      const icons = {
+        'Linguagem': 'fas fa-book-open',
+        'Números': 'fas fa-calculator',
+        'Formas e Espaço': 'fas fa-shapes',
+        'Fauna': 'fas fa-dove',
+        'Flora': 'fas fa-leaf',
+        'Tempo e Clima': 'fas fa-cloud-sun',
+        'Desenvolvimento Motor': 'fas fa-running',
+        'Cidadania e Meio-Ambiente': 'fas fa-recycle',
+        'Cultura e Folclore': 'fas fa-globe-americas'
+      };
+      return icons[nome] || 'fas fa-music';
+    }
   }
 });
 
@@ -36,18 +50,49 @@ app.use(bodyParser.json());
 // Arquivos estáticos
 app.use(express.static(__dirname));
 
-// Middleware para variáveis globais das views
+
 app.use((req, res, next) => {
-    res.locals.showMenu = typeof res.locals.showMenu !== 'undefined' ? res.locals.showMenu : false;
-    res.locals.showSidebar = typeof res.locals.showSidebar !== 'undefined' ? res.locals.showSidebar : false;
+    res.locals.usuario = req.session ? (req.session.usuario || null) : null;
+    
+    // Define variáveis de layout baseadas no usuário logado
+    if (res.locals.usuario) {
+        const tipoUsuario = res.locals.usuario.tipo;
+        res.locals.showMenu = true;
+        res.locals.showSidebar = tipoUsuario === 'musico';
+        res.locals.showSidebarE = tipoUsuario === 'educador';
+        res.locals.contribuidor = tipoUsuario === 'musico';
+        res.locals.visualizador = tipoUsuario === 'educador';
+    } else {
+        res.locals.showMenu = true;
+        res.locals.showSidebar = true;
+        res.locals.showSidebarE = false;
+        res.locals.contribuidor = false;
+        res.locals.visualizador = false;
+    }
+    
     res.locals.showBackButton = typeof res.locals.showBackButton !== 'undefined' ? res.locals.showBackButton : false;
+    
     next();
 });
 
+// MIDDLEWARES (ordem importante)
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+app.use(session({
+    secret: '77NaNa@.77',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+}));
 
-// Use apenas o arquivo de rotas
+
+// ROTAS - ORDEM CRÍTICA
+app.use('/', homeRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', atividadeRoutes);
+app.use('/', tipoatividadeRoutes);
+
 
 // Sincronize os models com o banco de dados
 Promise.all([
@@ -74,3 +119,5 @@ Promise.all([
 const setupAssociations = require('./models/associations');
 const { FORCE } = require('sequelize/lib/index-hints');
 setupAssociations();
+
+module.exports = app; 

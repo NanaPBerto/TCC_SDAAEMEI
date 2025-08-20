@@ -69,10 +69,13 @@ const ativ = db.sequelize.define('atividades', {
             defaultValue: 1,
             allowNull: false,
             references: {
-                model: 'tipoatividades',
+                model: 'tipoatividade',
                 key: 'id'
             }
         },
-    });
+    }, {
+    tableName: 'atividades'
+});
 
-     module.exports = ativ;
+module.exports = ativ; // Exporte apenas o modelo definido
+

@@ -1,48 +1,57 @@
 <body id="escolha">
-<div id="music-notes"></div>
+<!-- Notas musicais animadas -->
+    <div id="music-notes"></div>
     
     <div class="login-container">
         <button class="theme-toggle" id="themeToggle">
             <i class="fas fa-sun"></i>
         </button>
         
-        <div class="logo"><i class="fas fa-music"></i></div>
-        <h1>Plataforma Musical</h1>
-        <p class="subtitle">Sua comunidade musical colaborativa</p>
+        <div class="logo">
+            <i class="fas fa-music"></i>
+            <span>Musicoteca</span>
+        </div>
+        <h1>Plataforma Musical Educativa</h1>
+        <p class="subtitle">Sua comunidade colaborativa de recursos musicais</p>
         
         <div class="access-options">
             <div class="access-option viewer" onclick="accessAsViewer()">
                 <div class="icon"><i class="fas fa-eye"></i></div>
                 <h3>Acesso às Atividades</h3>
-                <p>Explore partituras e playlists públicas</p>
+                <p>Explore partituras, playlists públicas e recursos educativos</p>
+                <div class="features">
+                    <span><i class="fas fa-check"></i> Visualize materiais</span>
+                    <span><i class="fas fa-check"></i> Acesse playlists</span>
+                </div>
             </div>
 
             <div class="access-option contributor" onclick="accessAsContributor()">
                 <div class="icon"><i class="fas fa-guitar"></i></div>
-                <h3>Contribuir</h3>
-                <p>Adicione suas composições</p>
+                 <h3>Área do Educador</h3>
+                <p>Compartilhe suas composições e atividades pedagógicas</p>
+                <div class="features">
+                    <span><i class="fas fa-check"></i> Crie atividades</span>
+                    <span><i class="fas fa-check"></i> Compartilhe recursos</span>
+                </div>
             </div>
+        </div>
+
+        <div class="divider">
+            <span>ou</span>
         </div>
         
         <div class="social-login">
-            <p class="social-text">Acesse com:</p>
+            <p class="social-text">Acesse com sua rede social</p>
             <div class="social-icons">
                 <div class="social-btn" onclick="socialLogin('google')">
                     <i class="fab fa-google"></i>
+                    <span>Google</span>
                 </div>
                 <div class="social-btn" onclick="socialLogin('facebook')">
                     <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function accessAsViewer() {
-            window.location.href = "/homeE";
-        }
-        function accessAsContributor() {
-            window.location.href = "/cadastroM";
-        }
-    </script>
 </body>

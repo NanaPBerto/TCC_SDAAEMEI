@@ -6,9 +6,6 @@
           <nav class="navbar" id="navbar">
             <div class="navbar-container">
               <div class="user-profile">
-                {{#if usuario.imagem}}
-                  <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle ms-2" style="width:48px; height:48px; object-fit:cover; vertical-align:middle;">
-                {{/if}}
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
                   <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
@@ -21,15 +18,11 @@
                 <div id="menuS" class="container-fluid">
                   <ul class="navbar-nav w-100">
                     <li class="nav-item" style="margin-left: 15px;">
-                      <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
                     </li>
-                    <li class="nav-item">
-                     {{#if contribuidor}} <a href="/"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}
-                     {{#if visualizador}} <a href="/homeE"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}           
+                    <li class="nav-item">         
                     </li>
                     <li class="nav-item ms-auto">
                     {{#if (eq usuario.tipo 'musico')}}
-                      <img src="{{usuario.imagem}}" alt="foto de perfil" width="40px" id="perfil" data-bs-toggle="dropdown">
                       <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
@@ -52,11 +45,10 @@
                 <div id="menuS" class="container-fluid">
                   <ul class="navbar-nav w-100">
                     <li class="nav-item" style="margin-left: 15px;">
-                      <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
                     </li>
                     <li class="nav-item ms-auto">
                       <a href="/login" class="btn btn-outline-light me-2">Login</a>
-                      <a href="/cadastroE" class="btn btn-outline-light">Cadastro</a>
+                      <a href="/escolher" class="btn btn-outline-light">Cadastro</a>
                     </li>
                   </ul>
                 </div>

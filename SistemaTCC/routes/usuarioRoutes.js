@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Musico = require('../models/musico');
+const Educador = require('../models/educador')
 
 // Rotas de autenticação
 router.get('/login', (req, res) => {

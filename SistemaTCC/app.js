@@ -46,8 +46,6 @@ app.use((req, res, next) => {
         res.locals.visualizador = false;
     }
     
-    res.locals.showBackButton = typeof res.locals.showBackButton !== 'undefined' ? res.locals.showBackButton : true;
-    
     next();
 });
 // Configuração do template engine handlebars

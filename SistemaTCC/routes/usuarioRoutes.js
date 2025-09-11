@@ -61,6 +61,25 @@ router.get('/logout', (req, res) => {
     });
 });
 
+// Rota para logout
+router.get('/logout', (req, res) => {
+  // Guarda o sessionID para log
+  const sessionId = req.sessionID;
+  
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Erro ao destruir a sessão:', err);
+      return res.redirect('/homeE');
+    }
+
+    // Limpa o cookie no cliente
+    res.clearCookie('connect.sid');
+    
+    console.log(`Sessão ${sessionId} destruída e cookie removido.`);
+    res.redirect('/escolher');
+  });
+});
+
 
 // Rotas de cadastro
 router.get('/cadastroM', (req, res) => {

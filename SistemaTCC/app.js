@@ -22,10 +22,23 @@ app.use(session({
   secret: '77NaNa@.77',
   resave: true,
   saveUninitialized: true,
+  name: 'connect.sid',
+  cookie: { maxAge: 600000 } // Sessão expira em 10 minutos
 }));
+// MIDDLEWARES (ordem importante)
+app.use((req, res, next) => {
+  console.log('=== VERIFICAÇÃO DE SESSÃO ===');
+  console.log('Session ID:', req.sessionID);
+  console.log('Tem usuário na sessão:', !!req.session.usuario);
+  if (req.session.usuario) {
+    console.log('Usuário:', req.session.usuario.nome);
+  }
+  console.log('============================');
+  next();
+});
 
 app.use(flash());
-// MIDDLEWARES (ordem importante)
+
 
 app.use((req, res, next) => {
     res.locals.usuario = req.session ? (req.session.usuario || null) : null;
@@ -47,6 +60,12 @@ app.use((req, res, next) => {
     }
     
     next();
+});
+
+app.use((req, res, next) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session data:', req.session);
+  next();
 });
 // Configuração do template engine handlebars
 

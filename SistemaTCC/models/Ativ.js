@@ -1,6 +1,7 @@
 const db = require('../db');
 const tipoatividade = require('./tipoatividade'); // Importa o modelo já definido
 const classificacao = require('./classificacao'); // Importa o modelo já definido
+const Musico = require('./musico');
 
 const ativ = db.sequelize.define('atividades', {
         nome: {
@@ -54,6 +55,14 @@ const ativ = db.sequelize.define('atividades', {
         obs: {
             type: db.Sequelize.STRING(100),
             allowNull: true
+        },
+        desenvolvedor: {
+            type: db.Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'musicos', // nome da tabela de músicos
+                key: 'id'
+            }
         },
         classificacao: {
             type: db.Sequelize.INTEGER,

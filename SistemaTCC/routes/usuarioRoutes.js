@@ -4,6 +4,8 @@ const router = express.Router();
 const Musico = require('../models/musico');
 const Educador = require('../models/educador')
 
+router.post('/usuario/add', require('../controllers/usuarioController').add);
+
 // Rotas de autenticação
 router.get('/login', (req, res) => {
   res.locals.showBackButton = true;
@@ -36,6 +38,9 @@ router.post('/login', async (req, res) => {
 
         const usuarioSemSenha = usuarioObj.get({ plain: true });
         delete usuarioSemSenha.senha;
+
+        // Garante que o campo id está presente
+        usuarioSemSenha.id = usuarioObj.id; // ou usuarioObj.idMusico, conforme seu model
         usuarioSemSenha.tipo = tipoUsuario;
 
         // ARMAZENA NA SESSÃO
@@ -80,7 +85,6 @@ router.get('/logout', (req, res) => {
   });
 });
 
-
 // Rotas de cadastro
 router.get('/cadastroM', (req, res) => {
   res.locals.showBackButton = true;
@@ -91,5 +95,6 @@ router.get('/cadastroE', (req, res) => {
   res.locals.showBackButton = true;
   res.render('cadastroE');
 });
+
 
 module.exports = router;

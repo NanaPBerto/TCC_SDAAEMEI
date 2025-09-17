@@ -1,36 +1,16 @@
-const express = require('express');
-const router = express.Router();
+const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
-const Atividade = require('../models/ativ');
 
-router.get('/tipoatividade/:id', async (req, res) => {
+
+exports.porCategoria = async (req, res) => {
   try {
-    const id = req.params.id;
-    
-    const tipoatividade = await Tipoatividade.findByPk(id);
-    
-    if (!tipoatividade) {
-      return res.status(404).render('erro', {
-        mensagem: "Tipo de atividade não encontrado"
-      });
-    }
-
-    const atividades = await Atividade.findAll({
-      where: { tipoatividadeId: id }
-    });
-
-    res.render('tipoatividade', {
-      tipoatividade: tipoatividade.get({ plain: true }),
-      atividades: atividades.map(atv => atv.get({ plain: true }))
-    });
-    
+    const tipoId = req.params.id;
+    const tipo = await Tipoatividade.findByPk(tipoId);
+    const atividades = await ativ.findAll({ where: { tipoId: tipoId } });
+    const plainAtividades = atividades.map(a => a.get({ plain: true }));
+    res.render('tipoatividade', { tipo, atividades: plainAtividades });
   } catch (error) {
-    console.error('Erro completo:', error);
-    res.status(500).render('erro', {
-      mensagem: "Erro ao carregar tipo de atividade",
-      erro: error.message
-    });
+    res.status(500).send('Erro ao buscar atividades do tipo selecionado.');
   }
-});
+};
 
-module.exports = router;

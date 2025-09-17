@@ -3,7 +3,6 @@ const app = express();
 const session = require('express-session'); 
 const flash = require('connect-flash');
 const path = require('path');
-const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const homeRoutes = require('./routes/homeRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
@@ -25,6 +24,7 @@ app.use(session({
   name: 'connect.sid',
   cookie: { maxAge: 600000 } // Sessão expira em 10 minutos
 }));
+
 // MIDDLEWARES (ordem importante)
 app.use((req, res, next) => {
   console.log('=== VERIFICAÇÃO DE SESSÃO ===');
@@ -117,13 +117,12 @@ app.use('/', atividadeRoutes);
 app.use('/', tipoatividadeRoutes);
 
 
-// Sincronize os models com o banco de dados
 Promise.all([
     classificacao.sync(),
     tipoatividade.sync(),
     educador.sync(),
     musico.sync(),
-    ativ.sync(), // Defina como true se quiser recriar a tabela a cada reinício
+    ativ.sync(), 
     uf.sync(),
     
 

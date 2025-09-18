@@ -1,6 +1,4 @@
 const db = require('../db');
-const tipoatividade = require('./tipoatividade'); // Importa o modelo já definido
-const classificacao = require('./classificacao'); // Importa o modelo já definido
 
 const ativ = db.sequelize.define('atividades', {
         nome: {
@@ -55,6 +53,14 @@ const ativ = db.sequelize.define('atividades', {
             type: db.Sequelize.STRING(100),
             allowNull: true
         },
+        desenvolvedor: {
+            type: db.Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'musicos', // nome da tabela de músicos
+                key: 'id'
+            }
+        },
         classificacao: {
             type: db.Sequelize.INTEGER,
             defaultValue: 1,
@@ -73,9 +79,6 @@ const ativ = db.sequelize.define('atividades', {
                 key: 'id'
             }
         },
-    }, {
-    tableName: 'atividades'
-});
+    }, { tableName: 'atividades' });
 
 module.exports = ativ; // Exporte apenas o modelo definido
-

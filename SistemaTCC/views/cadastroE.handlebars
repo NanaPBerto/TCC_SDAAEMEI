@@ -1,12 +1,11 @@
 <div class="container my-5">
     <h1>Faça seu Cadastro</h1>
     
-    <form action="/add" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="tipoUsuario" value="educador">
+    <form action="/usuario/add" method="POST" enctype="multipart/form-data">
       <!-- Informações Pessoais -->
       <fieldset>
         <legend><i class="fas fa-user-circle me-2"></i>Informações Pessoais</legend>
-        
+        <input type="hidden" name="tipo" value="educador">
         <div class="row g-3 mb-4">
           <!-- Nome -->
           <div class="col-md-6 input-icon">
@@ -92,6 +91,7 @@
             </div>
           </div>
         </div>
+        
       </fieldset>
       
       <!-- Termos e Condições -->

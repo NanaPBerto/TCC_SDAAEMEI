@@ -29,13 +29,10 @@
                     <li class="nav-item" style="margin-left: 15px;">
                       <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
                     </li>
-                    <li class="nav-item">
-                     {{#if contribuidor}} <a href="/"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}
-                     {{#if visualizador}} <a href="/homeE"><img src="https://img.icons8.com/ios11/200/FFFFFF/home.png" alt="casinha" width="30px" class="home"></a> {{/if}}           
+                    <li class="nav-item">          
                     </li>
                     <li class="nav-item ms-auto">
                     {{#if (eq usuario.tipo 'musico')}}
-                      <img src="{{usuario.imagem}}" alt="foto de perfil" width="40px" id="perfil" data-bs-toggle="dropdown">
                       <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
@@ -58,7 +55,6 @@
                 <div id="menuS" class="container-fluid">
                   <ul class="navbar-nav w-100">
                     <li class="nav-item" style="margin-left: 15px;">
-                      <!-- <a href="/"><img src="" alt="logo" width="30px" class="logo"></a> -->
                     </li>
                     <li class="nav-item ms-auto">
                       <a href="/login" class="btn btn-outline-light me-2">Login</a>
@@ -98,18 +94,6 @@
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-sign-in-alt"></i></span>
                 <span class="sidebar-text">Login</span>
-            </li>
-            </a>
-            <a href="/cadastroE">
-            <li class="sidebar-item">
-                <span class="sidebar-icon"><i class="fas fa-user-plus"></i></span>
-                <span class="sidebar-text">Cadastrar Educador</span>
-            </li>
-            </a>
-            <a href="/cadastroM">
-            <li class="sidebar-item">
-                <span class="sidebar-icon"><i class="fas fa-user-plus"></i></span>
-                <span class="sidebar-text">Cadastrar Músico</span>
             </li>
             </a>
         </ul>
@@ -181,7 +165,7 @@
                 <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
                 <span class="sidebar-text">Configurações</span>
             </li>
-            <a href="/escolher">
+            <a href="/logout">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
                 <span class="sidebar-text">Sair</span>

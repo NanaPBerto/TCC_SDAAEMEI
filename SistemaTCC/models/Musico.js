@@ -1,7 +1,7 @@
 const db = require('../db');
 
 const Musico = db.sequelize.define('musicos', {
-    cod: {
+    id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true

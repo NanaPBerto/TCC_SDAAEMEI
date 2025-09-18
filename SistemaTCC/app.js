@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const session = require('express-session'); 
+const flash = require('connect-flash');
 const path = require('path');
-const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const homeRoutes = require('./routes/homeRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
@@ -15,6 +15,58 @@ const tipoatividade = require('./models/tipoatividade');
 const uf = require('./models/uf');
 const classificacao = require('./models/classificacao');
 
+
+// Configuração das sessions
+app.use(session({
+  secret: '77NaNa@.77',
+  resave: true,
+  saveUninitialized: true,
+  name: 'connect.sid',
+  cookie: { maxAge: 600000 } // Sessão expira em 10 minutos
+}));
+
+// MIDDLEWARES (ordem importante)
+app.use((req, res, next) => {
+  console.log('=== VERIFICAÇÃO DE SESSÃO ===');
+  console.log('Session ID:', req.sessionID);
+  console.log('Tem usuário na sessão:', !!req.session.usuario);
+  if (req.session.usuario) {
+    console.log('Usuário:', req.session.usuario.nome);
+  }
+  console.log('============================');
+  next();
+});
+
+app.use(flash());
+
+
+app.use((req, res, next) => {
+    res.locals.usuario = req.session ? (req.session.usuario || null) : null;
+    
+    // Define variáveis de layout baseadas no usuário logado
+    if (res.locals.usuario) {
+        const tipoUsuario = res.locals.usuario.tipo;
+        res.locals.showMenu = true;
+        res.locals.showSidebar = tipoUsuario === 'musico';
+        res.locals.showSidebarE = tipoUsuario === 'educador';
+        res.locals.contribuidor = tipoUsuario === 'musico';
+        res.locals.visualizador = tipoUsuario === 'educador';
+    } else {
+        res.locals.showMenu = true;
+        res.locals.showSidebar = true;
+        res.locals.showSidebarE = false;
+        res.locals.contribuidor = false;
+        res.locals.visualizador = false;
+    }
+    
+    next();
+});
+
+app.use((req, res, next) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session data:', req.session);
+  next();
+});
 // Configuração do template engine handlebars
 
 const handlebars = require('express-handlebars');
@@ -51,41 +103,12 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 
-app.use((req, res, next) => {
-    res.locals.usuario = req.session ? (req.session.usuario || null) : null;
-    
-    // Define variáveis de layout baseadas no usuário logado
-    if (res.locals.usuario) {
-        const tipoUsuario = res.locals.usuario.tipo;
-        res.locals.showMenu = true;
-        res.locals.showSidebar = tipoUsuario === 'musico';
-        res.locals.showSidebarE = tipoUsuario === 'educador';
-        res.locals.contribuidor = tipoUsuario === 'musico';
-        res.locals.visualizador = tipoUsuario === 'educador';
-    } else {
-        res.locals.showMenu = true;
-        res.locals.showSidebar = true;
-        res.locals.showSidebarE = false;
-        res.locals.contribuidor = false;
-        res.locals.visualizador = false;
-    }
-    
-    res.locals.showBackButton = typeof res.locals.showBackButton !== 'undefined' ? res.locals.showBackButton : false;
-    
-    next();
-});
 
-// MIDDLEWARES (ordem importante)
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static(__dirname));
-app.use(session({
-    secret: '77NaNa@.77',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
-}));
 
+app.use(bodyParser.json());
+
+app.use(express.static(__dirname));
 
 // ROTAS - ORDEM CRÍTICA
 app.use('/', homeRoutes);
@@ -94,13 +117,12 @@ app.use('/', atividadeRoutes);
 app.use('/', tipoatividadeRoutes);
 
 
-// Sincronize os models com o banco de dados
 Promise.all([
     classificacao.sync(),
     tipoatividade.sync(),
     educador.sync(),
     musico.sync(),
-    ativ.sync(), // Defina como true se quiser recriar a tabela a cada reinício
+    ativ.sync(), 
     uf.sync(),
     
 

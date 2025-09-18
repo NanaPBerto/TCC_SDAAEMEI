@@ -3,6 +3,7 @@ const db = require('../db');
 const Ativ = require('./ativ');
 const Tipoatividade = require('./tipoatividade');
 const classificacao = require('./classificacao');
+const Musico = require('./musico');
 
 function setupAssociations() {
   // Associação Ativ -> Tipoatividade
@@ -26,6 +27,16 @@ function setupAssociations() {
   // Associação inversa
   classificacao.hasMany(Ativ, {
     foreignKey: 'classificacao',
+    as: 'atividades'
+  });
+  
+  // Associação Ativ -> Musico
+  Ativ.belongsTo(Musico, {
+    foreignKey: 'desenvolvedor',
+    as: 'musico'
+  });
+  Musico.hasMany(Ativ, {
+    foreignKey: 'desenvolvedor',
     as: 'atividades'
   });
 }

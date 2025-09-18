@@ -1,11 +1,11 @@
 <div class="container my-5">
     <h1>Faça seu Cadastro</h1>
     
-    <form action="/add" method="POST" enctype="multipart/form-data">
+    <form action="/usuario/add" method="POST" enctype="multipart/form-data">
       <!-- Informações Pessoais -->
       <fieldset>
         <legend><i class="fas fa-user-circle me-2"></i>Informações Pessoais</legend>
-        
+        <input type="hidden" name="tipo" value="musico">
         <div class="row g-3 mb-4">
           <!-- Nome -->
           <div class="col-md-6 input-icon">
@@ -104,10 +104,9 @@
             <textarea class="form-control" id="obs" name="obs" maxlength="100" placeholder="Alguma informação adicional que queira compartilhar..." rows="3"></textarea>
           </div>
         </div>
+        
       </fieldset>
       
-      <!-- Campo oculto para tipoUsuario -->
-      <input type="hidden" name="tipoUsuario" value="musico">
       
       <!-- Termos e Condições -->
       <div class="form-check mb-4">

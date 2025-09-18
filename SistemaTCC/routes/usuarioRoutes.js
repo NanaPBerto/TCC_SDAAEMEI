@@ -2,6 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const Musico = require('../models/musico');
+const Educador = require('../models/educador')
+
+router.post('/usuario/add', require('../controllers/usuarioController').add);
 
 // Rotas de autenticação
 router.get('/login', (req, res) => {
@@ -35,6 +38,9 @@ router.post('/login', async (req, res) => {
 
         const usuarioSemSenha = usuarioObj.get({ plain: true });
         delete usuarioSemSenha.senha;
+
+        // Garante que o campo id está presente
+        usuarioSemSenha.id = usuarioObj.id; // ou usuarioObj.idMusico, conforme seu model
         usuarioSemSenha.tipo = tipoUsuario;
 
         // ARMAZENA NA SESSÃO
@@ -60,6 +66,24 @@ router.get('/logout', (req, res) => {
     });
 });
 
+// Rota para logout
+router.get('/logout', (req, res) => {
+  // Guarda o sessionID para log
+  const sessionId = req.sessionID;
+  
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Erro ao destruir a sessão:', err);
+      return res.redirect('/homeE');
+    }
+
+    // Limpa o cookie no cliente
+    res.clearCookie('connect.sid');
+    
+    console.log(`Sessão ${sessionId} destruída e cookie removido.`);
+    res.redirect('/escolher');
+  });
+});
 
 // Rotas de cadastro
 router.get('/cadastroM', (req, res) => {
@@ -71,5 +95,6 @@ router.get('/cadastroE', (req, res) => {
   res.locals.showBackButton = true;
   res.render('cadastroE');
 });
+
 
 module.exports = router;

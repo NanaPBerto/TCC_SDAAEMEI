@@ -1,7 +1,7 @@
 const db = require('../db');
 
 const Educador = db.sequelize.define('educadores', {
-    cod: {
+    id: {
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true

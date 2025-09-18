@@ -1,8 +1,6 @@
 const express = require('express');
-const router = express.Router();
 const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
-const Classificacao = require('../models/classificacao');
 
 // Página inicial de atividades
 exports.home = (req, res) => {
@@ -13,10 +11,16 @@ exports.home = (req, res) => {
 exports.Msub = async (req, res) => {
   try {
     const usuario = res.locals.usuario;
-    const isMusico = usuario && usuario.tipo === 'musico';
-    const isEducador = usuario && usuario.tipo === 'educador';
+    console.log('Usuário na sessão (Msub):', usuario);
+    console.log('Tipo:', usuario && usuario.tipo);
+    console.log('ID:', usuario && usuario.id);
+    if (!usuario || usuario.tipo !== 'musico' || !usuario.id) {
+      return res.status(403).send('Acesso negado ou usuário sem id.');
+    }
 
+    // Filtra atividades pelo ID do músico logado
     const ativs = await ativ.findAll({
+      where: { desenvolvedor: usuario.id }, // ajuste o campo conforme seu model
       order: [['createdAt', 'DESC']],
       include: [{ model: Tipoatividade, as: 'tipo' }]
     });
@@ -30,11 +34,14 @@ exports.Msub = async (req, res) => {
       return obj;
     });
 
-    res.render('Msub', {
-      atividades: plainAtivs,
-      isMusico,
-      isEducador
-    });
+    const isMusico = usuario.tipo === 'musico';
+const isEducador = usuario.tipo === 'educador';
+
+res.render('Msub', {
+  atividades: plainAtivs,
+  isMusico,
+  isEducador,
+});
 
   } catch (erro) {
     console.error('Erro ao listar submissões:', erro);
@@ -59,20 +66,56 @@ exports.novaAtividade = async (req, res) => {
 // Adicionar atividade
 exports.add = async (req, res) => {
   try {
+    console.log('Body recebido:', req.body);
+    console.log('Files recebidos:', req.files);
+    console.log('Usuário na sessão:', req.session.usuario);
+    if (!req.session.usuario || !req.session.usuario.id) {
+      return res.status(403).send('Usuário não logado ou id não encontrado.');
+    }
+
     let imagemBuffer = null;
     let imagemMime = null;
+    let videoBuffer = null;
+    let musicaBuffer = null;
+    let partituraBuffer = null;
 
-    if (req.files && req.files.length > 0) {
-      const imgFile = req.files.find(file => file.fieldname === 'anexos' && file.mimetype.startsWith('image/'));
-      if (imgFile) {
-        imagemBuffer = imgFile.buffer;
-        imagemMime = imgFile.mimetype;
+    // Processar arquivos específicos
+    if (req.files) {
+      if (req.files['imagem']) {
+        imagemBuffer = req.files['imagem'][0].buffer;
+        imagemMime = req.files['imagem'][0].mimetype;
+      }
+      if (req.files['video']) {
+        videoBuffer = req.files['video'][0].buffer;
+      }
+      if (req.files['musica']) {
+        musicaBuffer = req.files['musica'][0].buffer;
+      }
+      if (req.files['partitura']) {
+        partituraBuffer = req.files['partitura'][0].buffer;
       }
     }
 
-    if (!req.body.nome || !req.body.descricao || !req.body.tipoId) {
-      return res.status(400).send('Preencha todos os campos obrigatórios.');
+    // Validar campos obrigatórios do modelo
+    const camposObrigatorios = [
+      'nome', 'descricao', 'objetivo', 'indicacao', 'vagas', 
+      'duracao', 'recursos', 'condicoes', 'tipoId'
+    ];
+    
+    for (const campo of camposObrigatorios) {
+      if (!req.body[campo]) {
+        return res.status(400).send(`Campo obrigatório faltando: ${campo}`);
+      }
     }
+
+    // Mapear classificação para ID (ajuste conforme sua tabela classificacao)
+    const classificacaoMap = {
+      '1 a 2 anos': 1,
+      '2 a 3 anos': 2,
+      '3 a 4 anos': 3,
+      '4 a 5 anos': 4,
+      '5 a 6 anos': 5
+    };
 
     await ativ.create({
       nome: req.body.nome,
@@ -85,13 +128,18 @@ exports.add = async (req, res) => {
       condicoes: req.body.condicoes,
       imagem: imagemBuffer,
       imagemMime: imagemMime,
+      video: videoBuffer,
+      musica: musicaBuffer,
+      partitura: partituraBuffer,
       obs: req.body.obs,
-      classificacao: req.body.classificacao,
-      tipoId: req.body.tipoId 
+      classificacao: classificacaoMap[req.body.classificacao] || 3,
+      tipoId: req.body.tipoId,
+      desenvolvedor: req.session.usuario.id // Confirme que este campo existe
     });
+
     res.redirect('/painelM');
   } catch (erro) {
-    console.error('Erro ao adicionar atividade:', erro);
+    console.error('Erro detalhado ao adicionar atividade:', erro);
     res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
   }
 };

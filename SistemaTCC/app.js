@@ -132,7 +132,11 @@ Promise.all([
         console.log(`Servidor rodando na porta ${PORT}`);
     });
 }).catch(err => {
-    console.error('Erro ao sincronizar os models:', err);
+    console.error('Erro ao sincronizar os models:', err.message);
+    if (err.message.includes('ECONNREFUSED')) {
+        console.error('Não foi possível conectar ao banco de dados MySQL.');
+        console.error('Verifique se o serviço do MySQL está rodando e se as configurações de conexão estão corretas.');
+    }
 });
 const setupAssociations = require('./models/associations');
 const { FORCE } = require('sequelize/lib/index-hints');

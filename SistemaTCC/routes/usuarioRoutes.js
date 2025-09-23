@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
     const { login, senha } = req.body;
 
     if (!login || !senha) {
-        return res.status(400).json({ alert: 'Login e senha são obrigatórios' });
+        return res.render('login', { alert: 'Login e senha são obrigatórios' });
     }
 
     try {
@@ -29,21 +29,19 @@ router.post('/login', async (req, res) => {
         }
 
         if (!usuarioObj) {
-            return res.status(401).json({ error: 'Usuário não encontrado' });
+            return res.render('login', { alert: 'Usuário não encontrado' });
         }
 
         if (senha !== usuarioObj.senha) {
-            return res.status(401).json({   alert: 'Senha incorreta' });
+            return res.render('login', { alert: 'Senha incorreta' });
         }
 
         const usuarioSemSenha = usuarioObj.get({ plain: true });
         delete usuarioSemSenha.senha;
 
-        // Garante que o campo id está presente
-        usuarioSemSenha.id = usuarioObj.id; // ou usuarioObj.idMusico, conforme seu model
+        usuarioSemSenha.id = usuarioObj.id;
         usuarioSemSenha.tipo = tipoUsuario;
 
-        // ARMAZENA NA SESSÃO
         req.session.usuario = usuarioSemSenha;
         req.session.save(() => {
             const paginaHome = tipoUsuario === 'musico' ? 'painelM' : 'homeE';
@@ -52,7 +50,7 @@ router.post('/login', async (req, res) => {
 
     } catch (error) {
         console.error('Erro no login:', error);
-        res.status(500).json({ error: 'Erro interno no servidor' });
+        res.render('login', { alert: 'Erro interno no servidor' });
     }
 });
 

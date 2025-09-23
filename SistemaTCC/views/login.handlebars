@@ -3,6 +3,12 @@
     <div id="login-box" class="row g-0">
         <div class="col-md-6 login-form">
             <h2>Faça Login</h2>
+            {{#if alert}}
+                <div class="alert alert-error">{{alert}}</div>
+            {{/if}}
+            {{#if error}}
+                <div class="alert alert-error">{{error}}</div>
+            {{/if}}
             <form id="loginForm" action="/login" method="POST">
                 <div class="mb-3">
                     <label for="login" class="form-label">Usuário</label>
@@ -19,8 +25,7 @@
         <div class="col-md-6 login-side">
             <h3>Não possui uma conta?</h3>
             <p>Crie uma conta agora para acessar todos os recursos da plataforma Harmonia.</p>
-            <a href="/cadastroE" class="btn btn-register">Criar Conta Educador</a>
-            <a href="/cadastroM" class="btn btn-register">Criar Conta Músico</a>
+            <a href="/escolher" class="btn btn-escolher">Criar Conta</a>
         </div>
     </div>
 </div>

@@ -57,7 +57,7 @@ exports.add = async (req, res) => {
     res.redirect('/');
   } catch (erro) {
     console.error('Erro detalhado:', erro);
-    res.status(500).send('Houve um erro: ' + erro.message);
+    res.render('cadastro' + (Usuario === Musico ? 'M' : 'E'), { alert: 'Houve um erro: ' + erro.message });
   }
 };
 

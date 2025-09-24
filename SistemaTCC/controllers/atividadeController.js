@@ -3,8 +3,42 @@ const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
 
 // Página inicial de atividades
-exports.home = (req, res) => {
-  res.render('homeE');
+exports.home = async (req, res) => {
+  try {
+    const atividadesComImagem = await ativ.findAll({
+      where: { imagem: { [require('sequelize').Op.ne]: null } }
+    });
+
+    // LOG para depuração: veja se realmente há imagens vindas do banco
+    console.log('Atividades com imagem do banco:', atividadesComImagem.map(a => ({
+      nome: a.nome,
+      imagemTipo: typeof a.imagem,
+      imagemTamanho: a.imagem ? a.imagem.length : 0
+    })));
+
+    const imagensCarrossel = atividadesComImagem
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3)
+      .map(a => ({
+        nome: a.nome,
+        descricao: a.descricao,
+        imagemBase64: a.imagem ? `data:image/jpeg;base64,${Buffer.from(a.imagem).toString('base64')}` : null
+      }));
+
+    console.log('Imagens enviadas para o carrossel:', imagensCarrossel.map(img => ({
+      nome: img.nome,
+      descricao: img.descricao,
+      tamanhoBase64: img.imagemBase64 ? img.imagemBase64.length : 0
+    })));
+
+    res.render('homeE', {
+      imagensCarrossel,
+      // ...outras variáveis necessárias...
+    });
+  } catch (error) {
+    console.error('Erro ao carregar imagens do carrossel:', error);
+    res.render('homeE', { imagensCarrossel: [] });
+  }
 };
 
 // Listar submissões
@@ -216,4 +250,35 @@ exports.atualizar = async (req, res) => {
 // Página escolher
 exports.escolher = (req, res) => {
   res.render('escolher');
+};
+
+exports.detalheAtividade = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const atividade = await ativ.findByPk(id, {
+      include: [
+        { model: Tipoatividade, as: 'tipo' },
+        { model: require('../models/musico'), as: 'musico' }
+      ]
+    });
+    if (!atividade) {
+      return res.status(404).send('Atividade não encontrada');
+    }
+    const obj = atividade.toJSON();
+    if (obj.imagem) {
+      obj.imagemBase64 = `data:image/jpeg;base64,${Buffer.from(obj.imagem.data ? obj.imagem.data : obj.imagem).toString('base64')}`;
+    }
+    if (obj.partitura) {
+      obj.partituraBase64 = `data:application/pdf;base64,${Buffer.from(obj.partitura.data ? obj.partitura.data : obj.partitura).toString('base64')}`;
+    }
+    if (obj.musica) {
+      obj.musicaBase64 = `data:audio/mpeg;base64,${Buffer.from(obj.musica.data ? obj.musica.data : obj.musica).toString('base64')}`;
+    }
+    // Envie o nome do desenvolvedor (músico)
+    obj.desenvolvedorNome = obj.musico ? obj.musico.nome : 'Desconhecido';
+    res.render('atividade', { atividade: obj });
+  } catch (error) {
+    console.error('Erro ao buscar detalhes da atividade:', error);
+    res.status(500).send('Erro ao buscar detalhes da atividade.');
+  }
 };

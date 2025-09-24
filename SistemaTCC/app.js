@@ -26,16 +26,6 @@ app.use(session({
 }));
 
 // MIDDLEWARES (ordem importante)
-app.use((req, res, next) => {
-  console.log('=== VERIFICAÇÃO DE SESSÃO ===');
-  console.log('Session ID:', req.sessionID);
-  console.log('Tem usuário na sessão:', !!req.session.usuario);
-  if (req.session.usuario) {
-    console.log('Usuário:', req.session.usuario.nome);
-  }
-  console.log('============================');
-  next();
-});
 
 app.use(flash());
 
@@ -116,7 +106,6 @@ app.use('/', usuarioRoutes);
 app.use('/', atividadeRoutes);
 app.use('/', tipoatividadeRoutes);
 
-
 Promise.all([
     classificacao.sync(),
     tipoatividade.sync(),
@@ -124,22 +113,25 @@ Promise.all([
     musico.sync(),
     ativ.sync(), 
     uf.sync(),
-    
-
 ]).then(() => {
     const PORT = 3000;
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
     });
 }).catch(err => {
-    console.error('Erro ao sincronizar os models:', err.message);
-    if (err.message.includes('ECONNREFUSED')) {
+    console.error('Erro ao sincronizar os models:', err);
+    if (err && err.message && err.message.includes('ECONNREFUSED')) {
         console.error('Não foi possível conectar ao banco de dados MySQL.');
         console.error('Verifique se o serviço do MySQL está rodando e se as configurações de conexão estão corretas.');
     }
 });
-const setupAssociations = require('./models/associations');
-const { FORCE } = require('sequelize/lib/index-hints');
-setupAssociations();
 
-module.exports = app; 
+// Adicione try/catch ao setupAssociations
+try {
+    const setupAssociations = require('./models/associations');
+    setupAssociations();
+} catch (err) {
+    console.error('Erro ao configurar associações:', err);
+}
+
+module.exports = app;

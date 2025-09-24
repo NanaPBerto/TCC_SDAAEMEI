@@ -85,6 +85,13 @@
               <option value="TO">TO</option>
             </select>
           </div>
+
+          <!-- Cidade -->
+          <div class="col-md-6 input-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <label for="cidade" class="form-label">Cidade*</label>
+            <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="30" required>
+          </div>
           
           <!-- Foto de Perfil -->
           <div class="col-12">
@@ -93,11 +100,22 @@
               <div class="file-upload-btn">
                 <i class="fas fa-camera me-2"></i>
                 <span>Clique para selecionar uma foto</span>
-                <input type="file" class="file-upload-input" id="fotoP" name="anexos">
+                <input type="file" class="file-upload-input" id="fotoP" name="imagem" accept="image/*">
               </div>
             </div>
           </div>
-          
+
+          <!-- Minicurrículo -->
+          <div class="col-12">
+            <label for="minicurriculo" class="form-label">Minicurrículo</label>
+            <div class="file-upload">
+              <div class="file-upload-btn">
+                <i class="fas fa-file-alt me-2"></i>
+                <span>Clique para selecionar um arquivo</span>
+                <input type="file" class="file-upload-input" id="minicurriculo" name="minicurriculo">
+              </div>
+            </div>
+          </div>
           <!-- Observações -->
           <div class="col-12">
             <label for="obs" class="form-label">Observações</label>

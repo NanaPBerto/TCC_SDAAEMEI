@@ -13,13 +13,14 @@ function getUsuarioModel(tipo) {
 exports.add = async (req, res) => {
   try {
     let imagemBuffer = null;
-    let imagemMime = null;
+    let minicurriculoBuffer = null;
 
-    if (req.files && req.files.length > 0) {
-      const imgFile = req.files.find(file => file.fieldname === 'anexos' && file.mimetype.startsWith('image/'));
-      if (imgFile) {
-        imagemBuffer = imgFile.buffer;
-        imagemMime = imgFile.mimetype;
+    if (req.files) {
+      if (req.files['imagem']) {
+        imagemBuffer = req.files['imagem'][0].buffer;
+      }
+      if (req.files['minicurriculo']) {
+        minicurriculoBuffer = req.files['minicurriculo'][0].buffer;
       }
     }
 
@@ -38,9 +39,9 @@ exports.add = async (req, res) => {
         fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null,
         uf: req.body.uf,
         imagem: imagemBuffer,
+        minicurriculo: minicurriculoBuffer,
         obs: req.body.obs,
-        cidade: req.body.cidade,
-        minicurriculo: req.body.minicurriculo
+        cidade: req.body.cidade
       };
     } else {
       dados = {
@@ -69,5 +70,43 @@ exports.deletar = async (req, res) => {
   } catch (erro) {
     console.error('Erro ao deletar usuário:', erro);
     res.status(500).send('Erro ao deletar usuário');
+  }
+};
+
+// Editar perfil
+exports.editarPerfil = async (req, res) => {
+  try {
+    if (!req.session.usuario) {
+      return res.redirect('/login');
+    }
+    const tipoUsuario = req.session.usuario.tipo;
+    const Usuario = getUsuarioModel(tipoUsuario);
+
+    let updateData = {
+      nome: req.body.nome,
+      email: req.body.email,
+      cidade: req.body.cidade,
+      uf: req.body.uf,
+      obs: req.body.obs
+    };
+
+    if (req.files && req.files['imagem']) {
+      updateData.imagem = req.files['imagem'][0].buffer;
+    }
+    if (req.files && req.files['minicurriculo']) {
+      updateData.minicurriculo = req.files['minicurriculo'][0].buffer;
+    }
+
+    await Usuario.update(updateData, { where: { id: req.session.usuario.id } });
+
+    // Atualiza sessão
+    const usuarioAtualizado = await Usuario.findByPk(req.session.usuario.id);
+    req.session.usuario = usuarioAtualizado.get({ plain: true });
+    req.session.usuario.tipo = tipoUsuario;
+
+    res.redirect('/perfil');
+  } catch (erro) {
+    console.error('Erro ao editar perfil:', erro);
+    res.render('perfil', { usuario: req.session.usuario, alert: 'Erro ao atualizar perfil.' });
   }
 };

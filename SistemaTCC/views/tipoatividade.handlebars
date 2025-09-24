@@ -1,14 +1,14 @@
+<h1>Atividades: {{tipo.nome}}</h1>
 
-    <h1>Atividades: {{tipo.nome}}</h1>
-
-    <div class="atividades-container">
-      {{#each atividades}}
-        <div class="atividade-card">
-          <h3>{{this.nome}}</h3>
-          <p>{{this.descricao}}</p>
-
-        </div>
-      {{/each}}
-    </div>
+<div class="atividades-container">
+  {{#each atividades}}
+    <a href="/atividade/{{this.id}}" class="atividade-card-link text-decoration-none">
+      <div class="atividade-card">
+        <h3>{{this.nome}}</h3>
+        <p>{{this.descricao}}</p>
+      </div>
+    </a>
+  {{/each}}
+</div>
 
 

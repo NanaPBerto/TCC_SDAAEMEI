@@ -37,6 +37,9 @@ router.post('/editar/:id', upload.any(), atividadeController.atualizar);
 // Página de escolha
 router.get('/escolher', atividadeController.escolher);
 
+// Página de detalhes da atividade
+router.get('/atividade/:id', atividadeController.detalheAtividade);
+
 // Painel do músico
 router.get('/painelM', requireMusico, (req, res) => {
   res.render('painelM');

@@ -1,30 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var fileInput = document.getElementById('anexosInput');
-  var label = document.getElementById('anexosLabel');
-  var small = document.getElementById('anexosSmall');
-  var fileNameSpan = document.getElementById('anexosFileName');
-  var dropArea = document.getElementById('anexosDropArea');
+  function setupDropArea(dropAreaId, inputId, fileNameId) {
+    var dropArea = document.getElementById(dropAreaId);
+    var fileInput = document.getElementById(inputId);
+    var fileNameSpan = document.getElementById(fileNameId);
 
-  if (fileInput) {
-    fileInput.addEventListener('change', function() {
-      if (fileInput.files && fileInput.files.length > 0) {
-        var names = Array.from(fileInput.files).map(f => f.name).join(', ');
-        label.style.display = 'none';
-        fileNameSpan.textContent = names;
-        small.style.display = 'none';
-      } else {
-        label.style.display = '';
-        fileNameSpan.textContent = '';
-        small.style.display = '';
-      }
-    });
-  }
+    if (!dropArea || !fileInput) return;
 
-  if (dropArea && fileInput) {
     // Clique na área abre o seletor de arquivos
     dropArea.addEventListener('click', function(e) {
-      if (e.target !== fileInput && e.target !== label) {
+      if (e.target !== fileInput) {
         fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files && fileInput.files.length > 0) {
+        fileNameSpan.textContent = Array.from(fileInput.files).map(f => f.name).join(', ');
+      } else {
+        fileNameSpan.textContent = '';
       }
     });
 
@@ -50,4 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  setupDropArea('imagemDropArea', 'imagemInput', 'imagemFileName');
+  setupDropArea('partituraDropArea', 'partituraInput', 'partituraFileName');
+  setupDropArea('musicaDropArea', 'musicaInput', 'musicaFileName');
 });

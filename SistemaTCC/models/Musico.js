@@ -7,9 +7,9 @@ const Musico = db.sequelize.define('musicos', {
         primaryKey: true
     },
     tipo: {
-            type: db.Sequelize.STRING(20),
-            allowNull: true,
-            defaultValue: 'musico' 
+        type: db.Sequelize.STRING(20),
+        allowNull: false,
+        defaultValue: 'musico'
     },
     nome: {
         type: db.Sequelize.STRING(30),
@@ -20,35 +20,32 @@ const Musico = db.sequelize.define('musicos', {
         allowNull: false
     },
     senha: {
-        type: db.Sequelize.STRING(10),
+        type: db.Sequelize.STRING(100), // aumente para hash futuro
         allowNull: false
     },
-   cpf: {
+    cpf: {
         type: db.Sequelize.STRING(14),
-        allowNull: false,
-        defaultValue: '00000000000'
-},
+        allowNull: false
+    },
     email: {
         type: db.Sequelize.STRING(50),
-        allowNull: true,
-        defaultValue: 'aaaa@aaaa'
+        allowNull: false
     },
     fone: {
         type: db.Sequelize.STRING(20),
-        allowNull: true,
-        defaultValue: '00000000000'
+        allowNull: true
     },
     imagem: {
-        type: db.Sequelize.BLOB,
+        type: db.Sequelize.BLOB('long'), // Foto de perfil
+        allowNull: true
+    },
+    minicurriculo: {
+        type: db.Sequelize.BLOB('long'), // Arquivo de minicurrículo
         allowNull: true
     },
     cidade: {
         type: db.Sequelize.STRING(50),
-        allowNull: true
-    },
-    minicurriculo: {
-        type: db.Sequelize.BLOB,
-        allowNull: true
+        allowNull: false
     },
     obs: {
         type: db.Sequelize.STRING(100),
@@ -56,8 +53,10 @@ const Musico = db.sequelize.define('musicos', {
     },
     uf: {
         type: db.Sequelize.STRING(2),
-        allowNull: true
-    },
+        allowNull: false
+    }
+}, {
+    tableName: 'musicos'
 });
 
-module.exports = Musico; //exportando o modelo Musico para ser usado em outros arquivos
+module.exports = Musico;

@@ -88,4 +88,3 @@ function createMusicNotes() {
          window.addEventListener('resize', adjustContainer);
 
             adjustContainer();
-        });

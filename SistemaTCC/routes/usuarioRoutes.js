@@ -3,8 +3,17 @@ const express = require('express');
 const router = express.Router();
 const Musico = require('../models/musico');
 const Educador = require('../models/educador')
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
-router.post('/usuario/add', require('../controllers/usuarioController').add);
+router.post(
+  '/usuario/add',
+  upload.fields([
+    { name: 'imagem', maxCount: 1 },
+    { name: 'minicurriculo', maxCount: 1 }
+  ]),
+  require('../controllers/usuarioController').add
+);
 
 // Rotas de autenticação
 router.get('/login', (req, res) => {
@@ -94,5 +103,18 @@ router.get('/cadastroE', (req, res) => {
   res.render('cadastroE');
 });
 
+// Perfil do usuário logado
+router.get('/perfil', (req, res) => {
+  if (!req.session.usuario) {
+    return res.redirect('/login');
+  }
+  res.render('perfil', { usuario: req.session.usuario });
+});
+
+// Atualizar perfil (exemplo simples)
+router.post('/perfil', upload.fields([
+  { name: 'imagem', maxCount: 1 },
+  { name: 'minicurriculo', maxCount: 1 }
+]), require('../controllers/usuarioController').editarPerfil);
 
 module.exports = router;

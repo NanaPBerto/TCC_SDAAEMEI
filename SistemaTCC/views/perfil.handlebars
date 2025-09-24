@@ -1,0 +1,48 @@
+<div class="container my-5">
+  <h2>Meu Perfil</h2>
+  {{#if alert}}
+    <div class="alert alert-error">{{alert}}</div>
+  {{/if}}
+  <form action="/perfil" method="POST" enctype="multipart/form-data">
+    <div class="row g-3 mb-4">
+      <div class="col-md-4 text-center">
+        {{#if usuario.imagem}}
+          <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;">
+        {{else}}
+          <i class="fas fa-user-circle fa-7x text-muted mb-3"></i>
+        {{/if}}
+        <div>
+          <label class="form-label">Alterar Foto</label>
+          <input type="file" class="form-control" name="imagem" accept="image/*">
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" class="form-control" name="nome" value="{{usuario.nome}}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" value="{{usuario.email}}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Cidade</label>
+          <input type="text" class="form-control" name="cidade" value="{{usuario.cidade}}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">UF</label>
+          <input type="text" class="form-control" name="uf" value="{{usuario.uf}}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Observações</label>
+          <textarea class="form-control" name="obs">{{usuario.obs}}</textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Minicurrículo</label>
+          <input type="file" class="form-control" name="minicurriculo">
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+      </div>
+    </div>
+  </form>
+</div>

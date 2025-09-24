@@ -84,30 +84,30 @@
           </div>
         </div>
         <div class="row mb-4">
-          <label class="form-label">Anexos - Músicas, Partituras, Imagens</label>
-          <div id="anexosDropArea" class="col border rounded p-3 text-center" style="cursor:pointer;">
-            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
-            <p>Arraste arquivos aqui ou clique para selecionar</p>
-            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
-            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
-            <input type="file" class="anexosInput" name="anexos" multiple style="display:none;">
-            <span id="anexosFileName" class="d-block mt-2"></span>
+          <label class="form-label">Anexos da Atividade</label>
+          <!-- Foto principal -->
+          <div id="imagemDropArea" class="col border rounded p-3 text-center mb-2 anexos-drop-area" style="cursor:pointer;">
+            <i class="fas fa-image display-4 text-muted mb-3"></i>
+            <p>Foto principal da atividade</p>
+            <small class="text-muted">Imagens (JPG, PNG)</small>
+            <input type="file" class="form-control d-none" id="imagemInput" name="imagem" accept="image/*">
+            <span id="imagemFileName" class="d-block mt-2"></span>
           </div>
-          <div id="anexosDropArea" class="anexosDropArea col border rounded p-3 text-center" style="cursor:pointer;">
-            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
-            <p>Arraste arquivos aqui ou clique para selecionar</p>
-            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
-            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
-            <input type="file" class="anexosInput" name="anexos" multiple style="display:none;">
-            <span id="anexosFileName" class="d-block mt-2"></span>
+          <!-- Partitura -->
+          <div id="partituraDropArea" class="col border rounded p-3 text-center mb-2 anexos-drop-area" style="cursor:pointer;">
+            <i class="fas fa-file-alt display-4 text-muted mb-3"></i>
+            <p>Partitura</p>
+            <small class="text-muted">PDF, imagens</small>
+            <input type="file" class="form-control d-none" id="partituraInput" name="partitura" accept=".pdf,image/*">
+            <span id="partituraFileName" class="d-block mt-2"></span>
           </div>
-          <div id="anexosDropArea" class="anexosDropArea col border rounded p-3 text-center" style="cursor:pointer;">
-            <i class="fas fa-cloud-upload-alt display-4 text-muted mb-3"></i>
-            <p>Arraste arquivos aqui ou clique para selecionar</p>
-            <small id="anexosSmall" class="text-muted">PDF, MP3, MP4 ou imagens</small>
-            <label id="anexosLabel" for="anexosInput" class="mt-2"></label>
-            <input type="file" class="anexosInput" name="anexos" multiple style="display:none;">
-            <span id="anexosFileName" class="d-block mt-2"></span>
+          <!-- Áudio -->
+          <div id="musicaDropArea" class="col border rounded p-3 text-center anexos-drop-area" style="cursor:pointer;">
+            <i class="fas fa-music display-4 text-muted mb-3"></i>
+            <p>Áudio</p>
+            <small class="text-muted">MP3, WAV</small>
+            <input type="file" class="form-control d-none" id="musicaInput" name="musica" accept="audio/*">
+            <span id="musicaFileName" class="d-block mt-2"></span>
           </div>
         </div>
         <div class="mb-3">

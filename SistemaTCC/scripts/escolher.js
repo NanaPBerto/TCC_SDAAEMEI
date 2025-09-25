@@ -35,7 +35,7 @@ function createMusicNotes() {
         
         // Funções de acesso
         function accessAsViewer() {
-            window.location.href = "/homeE";
+            window.location.href = "/index";
         }
         
         function accessAsContributor() {

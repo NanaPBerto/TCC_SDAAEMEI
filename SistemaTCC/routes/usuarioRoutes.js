@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
 
         req.session.usuario = usuarioSemSenha;
         req.session.save(() => {
-            const paginaHome = tipoUsuario === 'musico' ? 'painelM' : 'homeE';
+            const paginaHome = tipoUsuario === 'musico' ? 'painelM' : 'index';
             res.redirect('/' + paginaHome);
         });
 
@@ -81,7 +81,7 @@ router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error('Erro ao destruir a sessão:', err);
-      return res.redirect('/homeE');
+      return res.redirect('/index');
     }
 
     // Limpa o cookie no cliente

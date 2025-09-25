@@ -66,7 +66,7 @@ exports.add = async (req, res) => {
 exports.deletar = async (req, res) => {
   try {
     await Musico.destroy({ where: { cod: req.params.id } });
-    res.redirect('/Msub');
+    res.redirect('/submissoes');
   } catch (erro) {
     console.error('Erro ao deletar usuário:', erro);
     res.status(500).send('Erro ao deletar usuário');

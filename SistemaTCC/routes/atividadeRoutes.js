@@ -15,7 +15,7 @@ function requireMusico(req, res, next) {
 }
 
 // Rotas para atividades
-router.get('/Msub', requireMusico, atividadeController.Msub);
+router.get('/submissoes', requireMusico, atividadeController.submissoes);
 router.get('/novaAtividade', requireMusico, atividadeController.novaAtividade);
 router.post(
   '/novaAtividade',

@@ -6,22 +6,22 @@ const Tipoatividade = require('../models/tipoatividade');
 router.get('/', async (req, res) => {
   try {
     if (req.session.usuario) {
-      const pagina = req.session.usuario.tipo === 'musico' ? '/painelM' : '/homeE';
+      const pagina = req.session.usuario.tipo === 'musico' ? '/painelM' : '/index';
       return res.redirect(pagina);
     }
-    res.redirect('/homeE');
+    res.redirect('/index');
   } catch (error) {
     console.error(error);
-    res.redirect('/homeE');
+    res.redirect('/index');
   }
 });
 
-// Rota para homeE (educador)
-router.get('/homeE', async (req, res) => {
+// Rota para index (educador)
+router.get('/index', async (req, res) => {
   try {
     const tipoatividades = await Tipoatividade.findAll();
     
-    res.render('homeE', {
+    res.render('index', {
       tipoatividades: tipoatividades.map(tipo => ({
         id: tipo.id,
         nome: tipo.nome,

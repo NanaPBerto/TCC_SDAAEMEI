@@ -4,7 +4,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
 const bodyParser = require('body-parser');
-const homeRoutes = require('./routes/homeRoutes');
+const indexRoutes = require('./routes/indexRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const atividadeRoutes = require('./routes/atividadeRoutes');
 const tipoatividadeRoutes = require('./routes/tipoatividadeRoutes');
@@ -28,8 +28,6 @@ app.use(session({
 // MIDDLEWARES (ordem importante)
 
 app.use(flash());
-
-
 app.use((req, res, next) => {
     res.locals.usuario = req.session ? (req.session.usuario || null) : null;
     
@@ -101,7 +99,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 // ROTAS - ORDEM CRÍTICA
-app.use('/', homeRoutes);
+app.use('/', indexRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', atividadeRoutes);
 app.use('/', tipoatividadeRoutes);
@@ -113,7 +111,60 @@ Promise.all([
     musico.sync(),
     ativ.sync(), 
     uf.sync(),
-]).then(() => {
+]).then(async () => {
+    // Registros padrão para tipoatividade
+    await tipoatividade.bulkCreate([
+        { id: 1, nome: 'Linguagem' },
+        { id: 2, nome: 'Numeros' },
+        { id: 3, nome: 'FormaseEspaco' },
+        { id: 4, nome: 'Fauna' },
+        { id: 5, nome: 'Flora' },
+        { id: 6, nome: 'TempoeClima' },
+        { id: 7, nome: 'DesenvolvimentoMotor' },
+        { id: 8, nome: 'CidadaniaeMeioAmbiente' },
+        { id: 9, nome: 'FolcloreeCultura' }
+    ], { ignoreDuplicates: true });
+
+    // Registros padrão para classificacao
+    await classificacao.bulkCreate([
+        { id: 1, nome: 'bercarioI' },
+        { id: 2, nome: 'bercarioII' },
+        { id: 3, nome: 'bercarioIII' },
+        { id: 4, nome: 'maternalI' },
+        { id: 5, nome: 'maternalII' },
+        { id: 6, nome: 'preI' },
+        { id: 7, nome: 'preII' }
+    ], { ignoreDuplicates: true });
+
+    // Usuário teste musico
+    await musico.findOrCreate({
+        where: { login: 'teste' },
+        defaults: {
+            nome: 'Usuário Teste',
+            tipo: 'musico',
+            login: 'teste',
+            senha: '12345678', // coloque uma senha segura ou hash
+            cpf: '00000000000',
+            email: 'teste@teste.com',
+            fone: '00000000000',
+            cidade: 'TesteCity',
+            uf: 'TS'
+        }
+    });
+
+    // Usuário teste educador
+    await educador.findOrCreate({
+        where: { login: 'teste2' },
+        defaults: {
+            tipo: 'educador',
+            nome: 'Usuário Teste2',
+            login: 'teste2',
+            senha: '12345678', // coloque uma senha segura ou hash
+            cidade: 'TesteCity',
+            uf: 'TS'
+        }
+    });
+
     const PORT = 3000;
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);

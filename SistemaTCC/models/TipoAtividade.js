@@ -14,16 +14,6 @@ const Tipoatividade = db.sequelize.define('tipoatividade', {
         type: db.Sequelize.STRING(50), // Adicione este campo
         allowNull: true
     },
-    createdAt: {
-        type: db.Sequelize.DATE,
-        allowNull: false,
-        defaultValue: db.Sequelize.NOW
-    },
-    updatedAt: {
-        type: db.Sequelize.DATE,
-        allowNull: false,
-        defaultValue: db.Sequelize.NOW
-    }
 }, {
     tableName: 'tipoatividade'
 });

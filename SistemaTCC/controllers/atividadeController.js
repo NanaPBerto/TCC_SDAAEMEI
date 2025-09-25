@@ -31,21 +31,21 @@ exports.home = async (req, res) => {
       tamanhoBase64: img.imagemBase64 ? img.imagemBase64.length : 0
     })));
 
-    res.render('homeE', {
+    res.render('index', {
       imagensCarrossel,
       // ...outras variáveis necessárias...
     });
   } catch (error) {
     console.error('Erro ao carregar imagens do carrossel:', error);
-    res.render('homeE', { imagensCarrossel: [] });
+    res.render('index', { imagensCarrossel: [] });
   }
 };
 
 // Listar submissões
-exports.Msub = async (req, res) => {
+exports.submissoes = async (req, res) => {
   try {
     const usuario = res.locals.usuario;
-    console.log('Usuário na sessão (Msub):', usuario);
+    console.log('Usuário na sessão (submissoes):', usuario);
     console.log('Tipo:', usuario && usuario.tipo);
     console.log('ID:', usuario && usuario.id);
     if (!usuario || usuario.tipo !== 'musico' || !usuario.id) {
@@ -71,7 +71,7 @@ exports.Msub = async (req, res) => {
     const isMusico = usuario.tipo === 'musico';
 const isEducador = usuario.tipo === 'educador';
 
-res.render('Msub', {
+res.render('submissoes', {
   atividades: plainAtivs,
   isMusico,
   isEducador,
@@ -87,7 +87,7 @@ res.render('Msub', {
 exports.novaAtividade = async (req, res) => {
   try {
     const tipos = await Tipoatividade.findAll();
-    res.render('formulario', {
+    res.render('cadastroA', {
       tipos: tipos.map(tipo => tipo.toJSON()),
       atividade: null
     });
@@ -181,7 +181,7 @@ exports.add = async (req, res) => {
 exports.deletar = async (req, res) => {
   try {
     await ativ.destroy({ where: { id: req.params.id } });
-    res.redirect('/Msub'); // Alterado para /Msub
+    res.redirect('/submissoes'); // Alterado para /submissoes
   } catch (erro) {
     console.error('Erro ao deletar atividade:', erro);
     res.status(500).send('Erro ao deletar atividade. Tente novamente.');
@@ -196,7 +196,7 @@ exports.editar = async (req, res) => {
       return res.status(404).send('Atividade não encontrada');
     }
     const tipos = await Tipoatividade.findAll();
-    res.render('formulario', {
+    res.render('cadastroA', {
       atividade: atividade.toJSON(),
       tipos: tipos.map(tipo => tipo.toJSON())
     });
@@ -240,7 +240,7 @@ exports.atualizar = async (req, res) => {
     }
 
    await ativ.update(updateData, { where: { id: req.params.id } });
-    res.redirect('/Msub');
+    res.redirect('/submissoes');
   } catch (erro) {
     console.error('Erro ao atualizar atividade:', erro);
     res.status(500).send('Erro ao atualizar atividade. Tente novamente.');

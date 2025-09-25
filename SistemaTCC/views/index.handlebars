@@ -1,0 +1,191 @@
+<!-- Conteúdo Principal -->
+<div class="container-fluid mt-3">
+  <div class="row">
+    <!-- Coluna Esquerda -->
+    <div class="col-lg-6">
+      <!-- Área de Boas-Vindas -->
+      <div id="divInicial">
+        <h1 class="mb-3">Bem-Vindo ao <strong>Musicoteca</strong></h1>
+        <p class="lead text-muted mb-4">Seu acervo de atividades musicais educativas</p>
+        <div id="barraPes">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Pesquisar atividade..." id="pesquisa">
+        </div>
+      </div>
+      <!-- Carrossel -->
+      <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <!-- Indicadores -->
+        <div class="carousel-indicators">
+          {{#each imagensCarrossel}}
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="{{@index}}" class="{{#if @first}}active{{/if}}"></button>
+          {{/each}}
+          {{#unless imagensCarrossel.length}}
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+          {{/unless}}
+        </div>
+        <!-- Slides -->
+        <div class="carousel-inner">
+          {{#each imagensCarrossel}}
+            <div class="carousel-item {{#if @first}}active{{/if}}">
+              <img src="{{this.imagemBase64}}" alt="{{this.nome}}" class="d-block w-100">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{this.nome}}</h5>
+                <p>{{this.descricao}}</p>
+              </div>
+            </div>
+          {{/each}}
+          {{#unless imagensCarrossel.length}}
+            <div class="carousel-item active">
+              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1170&q=80" alt="Padrão" class="d-block w-100">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Bem-vindo!</h5>
+                <p>Cadastre atividades para ver suas imagens aqui.</p>
+              </div>
+            </div>
+          {{/unless}}
+        </div>
+      </div>
+    </div>
+    <!-- Coluna Direita - Área de Explorar -->
+    <div class="col-lg-6">
+      <div id="ativs">
+        <!-- Abas -->
+        <ul class="nav tab-folder" id="explorarTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="geral-tab" data-bs-toggle="tab" data-bs-target="#geral" type="button" role="tab">Geral</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="musica-tab" data-bs-toggle="tab" data-bs-target="#musica" type="button" role="tab">Música</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="explorarTabContent">
+          <!-- Aba Geral -->
+          <div class="tab-pane fade show active" id="geral" role="tabpanel">
+            <div class="row g-3">
+              <!-- ...categorias gerais... -->
+              <div class="col-md-4">
+                <a href="/tipoatividade/1" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-1">
+                    <div class="card-body">
+                      <h5 class="card-title">Linguagem</h5>
+                      <i class="fas fa-book-open"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/2" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-2">
+                    <div class="card-body">
+                      <h5 class="card-title">Números</h5>
+                      <i class="fas fa-calculator"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/3" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Formas<br> e<br> Espaço</h5>
+                      <i class="fas fa-shapes"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/4" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-4">
+                    <div class="card-body">
+                      <h5 class="card-title">Fauna</h5>
+                      <i class="fas fa-dove"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/5" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-5">
+                    <div class="card-body">
+                      <h5 class="card-title">Flora</h5>
+                      <i class="fas fa-leaf"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/6" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-6">
+                    <div class="card-body">
+                      <h5 class="card-title">Tempo<br> e<br> Clima</h5>
+                      <i class="fas fa-cloud-sun"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="/tipoatividade/7" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-7">
+                    <div class="card-body">
+                      <h5 class="card-title">Desenvolvimento<br> Motor</h5>
+                      <i class="fas fa-running"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+               <div class="col-md-4">
+                <a href="/tipoatividade/8" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Cidadania<br> e<br> MeioAmbiente</h5>
+                      <i class="fas fa-recycle"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+               <div class="col-md-4">
+                <a href="/tipoatividade/9" class="categoria-link text-decoration-none">
+                  <div class="card card-categoria categoria-9">
+                    <div class="card-body">
+                      <h5 class="card-title">Folclore<br> e<br> Cultura</h5>
+                      <i class="fas fa-globe-americas"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Aba Música -->
+          <div class="tab-pane fade" id="musica" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="card card-categoria" style="border-top-color: var(--primary);">
+                  <div class="card-body">
+                    <h5 class="card-title">Elementos<br> musicais</h5>
+                    <i class="fas fa-drum" style="color: var(--primary);"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-categoria" style="border-top-color: var(--secondary);">
+                  <div class="card-body">
+                    <h5 class="card-title">Rítmo</h5>
+                    <i class="fas fa-music" style="color: var(--secondary);"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-categoria" style="border-top-color: var(--accent1);">
+                  <div class="card-body">
+                    <h5 class="card-title">Melodia</h5>
+                    <i class="fas fa-guitar" style="color: var(--accent1);"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

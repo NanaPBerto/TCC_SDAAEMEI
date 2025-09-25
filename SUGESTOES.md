@@ -8,13 +8,9 @@ TROCAR OS NOMES DAS PÁGINAS
 
 >Página homeE deve virar index
 
->cadastroE vira cadastroEducador
-
->cadastro vira cadastroMusico
-
 >estatísticas tem que ser escatisticasM
 
->formulário vira cadastroAtividade
+>formulário vira cadastroA
 
 >repertorio vira repertorioM
 
@@ -30,15 +26,9 @@ CRIAR PAGINAS
 
 
 
->e as páginas universais pros dois (perfis)(configurações)
-
-
-
 RELATIVO AS ROTAS E LINKS
 
 >Botão Cadastro presente no menu principal deve levar para a página escolher
-
->Botão na página escolher (Area do educador) deve levar pra cadastroE e (Area do musico) deve levar pra cadastro \[**ate ta referenciado na view assim, mas não ta funcionando]**
 
 >logo musicoteca deve levar ao index
 

@@ -1,43 +1,45 @@
 <!-- Conteúdo Principal -->
     <div class="container-fluid mt-4">
-        <!-- Boas-vindas -->
-        <div class="welcome-section">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h2>Olá, Maestro {{usuario.nome}}!</h2>
-                    <p class="text-muted">Pronto para criar atividades incríveis hoje?</p>
+        <div class="painel-stack">
+            <!-- Boas-vindas -->
+            <div class="welcome-section">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2>Olá, Maestro {{usuario.nome}}!</h2>
+                        <p class="text-muted">Pronto para criar atividades incríveis hoje?</p>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="alert alert-info">
+                          <i class="fas fa-bell me-2"></i>
+                          Sua atividade "Ritmo com Copos" foi <strong>aprovada</strong>!
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="row quick-actions g-4 mb-4">
+                <div class="col-md-4">
+                  <a href="/novaAtividade"><div class="card shadow-sm">
+                        <i class="fas fa-plus-circle"></i>
+                        <h5>Nova Atividade</h5>
+                        <p class="text-muted">Crie do zero ou use um modelo</p>
+                    </div></a>
                 </div>
                 <div class="col-md-4">
-                  <div class="alert alert-info">
-                      <i class="fas fa-bell me-2"></i>
-                      Sua atividade "Ritmo com Copos" foi <strong>aprovada</strong>!
-                  </div>
-              </div>
-            </div>
-        </div>
-
-        <!-- Ações Rápidas -->
-        <div class="row quick-actions g-4 mb-4">
-            <div class="col-md-4">
-              <a href="/novaAtividade"><div class="card shadow-sm">
-                    <i class="fas fa-plus-circle"></i>
-                    <h5>Nova Atividade</h5>
-                    <p class="text-muted">Crie do zero ou use um modelo</p>
-                </div></a>
-            </div>
-            <div class="col-md-4">
-                <a href="/Msub"><div class="card shadow-sm">
-                    <i class="fas fa-tasks"></i>
-                    <h5>Minhas Submissões</h5>
-                    <p class="text-muted">Veja suas atividades enviadas</p>
-                </div></a>
-            </div>
-            <div class="col-md-4">
-                <a href="/repertorio"><div class="card shadow-sm">
-                    <i class="fas fa-chart-line"></i>
-                    <h5>Repertório</h5>
-                    <p class="text-muted">Todas as atividades e rascunhos</p>
-                </div></a>
+                    <a href="/Msub"><div class="card shadow-sm">
+                        <i class="fas fa-tasks"></i>
+                        <h5>Minhas Submissões</h5>
+                        <p class="text-muted">Veja suas atividades enviadas</p>
+                    </div></a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/repertorio"><div class="card shadow-sm">
+                        <i class="fas fa-chart-line"></i>
+                        <h5>Repertório</h5>
+                        <p class="text-muted">Todas as atividades e rascunhos</p>
+                    </div></a>
+                </div>
             </div>
         </div>
         

@@ -492,9 +492,12 @@ body.cadastro .form-control::placeholder {
 }
 
 .site-logo {
+    display: block !important;
+    position: relative;
+    z-index: 1200;
+    color: white !important;
     font-size: 1.5rem;
     font-weight: 700;
-    color: white;
     text-decoration: none;
 }
 
@@ -570,6 +573,521 @@ body.cadastro .form-control::placeholder {
 
 .sidebar:hover .sidebar-text {
     opacity: 1;
+}
+
+/* =========================
+   PÁGINA PAINELM - AJUSTE DE TELA
+   ========================= */
+
+/* Container principal - ocupa 100% da tela */
+.container-fluid.mt-4 {
+    margin-left: 70px;
+    padding-top: 20px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+    width: calc(100% - 70px);
+    box-sizing: border-box;
+}
+
+/* Seção de boas-vindas - largura total */
+.welcome-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(126, 87, 194, 0.1);
+    border-left: 5px solid var(--primary);
+    width: 100%;
+}
+
+.welcome-section h2 {
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.welcome-section .text-muted {
+    color: var(--text-light) !important;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+}
+
+.welcome-section .alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    border: none;
+    border-left: 4px solid var(--secondary);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+/* =========================
+   TRÊS CARDS
+   ========================= */
+
+/* Ações rápidas - alinhamento horizontal */
+.quick-actions {
+    margin-bottom: 2rem !important;
+    width: 100%;
+}
+
+.quick-actions .row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    margin: 0;
+    justify-content: space-between;
+}
+
+.quick-actions .col-md-4 {
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    min-width: 0; /* Permite que os cards se ajustem */
+}
+
+.quick-actions .card {
+    background: white;
+    border: none;
+    border-radius: 15px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    border-top: 4px solid var(--primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.quick-actions .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(126, 87, 194, 0.2) !important;
+}
+
+.quick-actions .card i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.quick-actions .card h5 {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.quick-actions .card .text-muted {
+    color: var(--text-light) !important;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.quick-actions a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.quick-actions a:hover {
+    color: inherit;
+}
+
+/* Responsividade para os cards */
+@media (max-width: 992px) {
+    .quick-actions .row {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .quick-actions .col-md-4 {
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-actions .row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .quick-actions .col-md-4 {
+        flex: 1 1 100%;
+    }
+    
+    .quick-actions .card {
+        min-height: 150px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .quick-actions .card i {
+        font-size: 2rem;
+    }
+    
+    .quick-actions .card h5 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .quick-actions .card {
+        min-height: 120px;
+        padding: 1rem;
+    }
+    
+    .quick-actions .card i {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .quick-actions .card h5 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .quick-actions .card .text-muted {
+        font-size: 0.8rem;
+    }
+}
+
+/* Para telas grandes - garantir alinhamento perfeito */
+@media (min-width: 993px) {
+    .quick-actions .row {
+        justify-content: center;
+    }
+    
+    .quick-actions .col-md-4 {
+        max-width: 350px;
+    }
+}
+
+.painel-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.painel-stack > .welcome-section,
+.painel-stack > .row.quick-actions {
+    width: 100%;
+    margin: 0;
+}
+
+.painel-stack > .row.quick-actions {
+    /* Remove margem inferior extra dos utilitários bootstrap */
+    margin-bottom: 0 !important;
+}
+
+/* Espaço extra entre os cards e a área de atividades recentes */
+.painel-stack + .form-section {
+    margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .painel-stack {
+        align-items: stretch;
+    }
+    .painel-stack > .welcome-section,
+    .painel-stack > .row.quick-actions {
+        min-width: 0;
+        max-width: 100%;
+    }
+    .painel-stack > .row.quick-actions .card {
+        height: 100%;
+        min-height: 140px;
+    }
+    .painel-stack > .welcome-section {
+        min-height: 140px;
+    }
+}
+
+/* =========================
+   SEÇÃO DE ATIVIDADES RECENTES - LARGURA TOTAL
+   ========================= */
+.form-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(126, 87, 194, 0.1);
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.form-section h4 {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+.form-section h4 i {
+    color: var(--primary) !important;
+}
+
+/* Lista de atividades - ocupa 100% da largura */
+.list-group {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.activity-card {
+    border: none !important;
+    border-left: 4px solid transparent !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.5rem !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    width: 100%;
+    display: block;
+}
+
+.activity-card:hover {
+    background: white !important;
+    border-left-color: var(--primary) !important;
+    transform: translateX(5px);
+    box-shadow: 0 2px 10px rgba(126, 87, 194, 0.1);
+}
+
+.activity-card h5 {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.activity-card .mb-1 {
+    color: var(--text-light);
+    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+    margin-bottom: 0.2rem !important;
+}
+
+/* Badges de status */
+.badge-status {
+    font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Cores dos badges */
+.bg-success {
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14) !important;
+    color: white !important;
+}
+
+.bg-secondary {
+    background: linear-gradient(135deg, #6c757d, #868e96) !important;
+}
+
+/* Ajustes de layout para ocupar toda a tela */
+.g-4 {
+    gap: 1.5rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+}
+
+/* Flexbox para alinhamento perfeito */
+.d-flex.w-100.justify-content-between {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Responsividade avançada */
+@media (max-width: 1200px) {
+    .container-fluid.mt-4 {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}
+
+@media (max-width: 992px) {
+    .quick-actions .row {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .welcome-section .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-section .col-md-8,
+    .welcome-section .col-md-4 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid.mt-4 {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+        padding-top: 80px;
+    }
+    
+    .welcome-section {
+        padding: 1.5rem;
+        margin: 0 0 1.5rem 0;
+    }
+    
+    .quick-actions .row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quick-actions .card {
+        padding: 1.5rem 1rem;
+        min-height: 180px;
+    }
+    
+    .form-section {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .activity-card {
+        padding: 1rem !important;
+    }
+    
+    .d-flex.w-100.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .badge-status {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-fluid.mt-4 {
+        padding: 10px;
+        padding-top: 70px;
+    }
+    
+    .welcome-section {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .quick-actions .card {
+        padding: 1rem;
+        min-height: 150px;
+    }
+    
+    .form-section {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .activity-card {
+        padding: 0.8rem !important;
+    }
+    
+    .welcome-section h2 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Ajustes para telas muito grandes */
+@media (min-width: 1600px) {
+    .container-fluid.mt-4 {
+        max-width: 95%;
+        margin: 0 auto 0 70px;
+    }
+    
+    .quick-actions .row {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+/* Garantir que tudo ocupe 100% da largura disponível */
+.welcome-section,
+.quick-actions,
+.form-section {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Melhorias de usabilidade para mobile */
+@media (max-width: 768px) {
+    .activity-card {
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .list-group {
+        gap: 0.8rem;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Animações suaves */
+.welcome-section,
+.quick-actions .card,
+.form-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar personalizada para webkit */
+.container-fluid.mt-4::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container-fluid.mt-4::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.container-fluid.mt-4::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+
+.container-fluid.mt-4::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
 }
 
 /* =========================
@@ -678,70 +1196,6 @@ main.container {
 
 .card-atividade:hover::before {
     opacity: 1;
-}
-
-/* =========================
-   DESTAQUES
-   ========================= */
-.destaques-section {
-    background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    margin-top: 2rem;
-    box-shadow: 0 4px 20px rgba(126, 87, 194, 0.08);
-    border: 1px solid rgba(126, 87, 194, 0.1);
-}
-
-.destaques-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(126, 87, 194, 0.1);
-}
-
-.destaques-header h4 {
-    color: var(--text);
-    font-weight: 600;
-    margin: 0;
-}
-
-.destaque-card {
-    border: none;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(126, 87, 194, 0.05);
-    border: 1px solid rgba(126, 87, 194, 0.08);
-    height: 100%;
-}
-
-.destaque-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(126, 87, 194, 0.12);
-}
-
-.destaque-img {
-    height: 160px;
-    background-color: rgba(126, 87, 194, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.destaque-img i {
-    font-size: 3rem;
-    color: var(--primary);
-}
-
-.destaque-card .card-body {
-    padding: 1.5rem;
-}
-
-.destaque-card .badge {
-    font-weight: 500;
-    padding: 0.35em 0.65em;
 }
 
 /* =========================

@@ -17,12 +17,14 @@
           <!-- Menu superior para usuário logado -->
           <nav class="navbar" id="navbar">
             <div class="navbar-container">
-              <div class="user-profile">
-                {{#if usuario.imagem}}
-                  <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle ms-2" style="width:48px; height:48px; object-fit:cover; vertical-align:middle;">
-                {{/if}}
-              </div>
-              <a href="/index" class="site-logo">MUSICOTECA</a>
+              {{#if usuario.imagem}}
+                <div class="d-flex align-items-center">
+                  <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                  <a href="/index" class="site-logo">MUSICOTECA</a>
+                </div>
+              {{else}}
+                <a href="/index" class="site-logo">MUSICOTECA</a>
+              {{/if}}
             </div>
           </nav>
         {{else}}
@@ -85,17 +87,26 @@
   {{#if showSidebar}}
     <div class="sidebar">
         <ul class="sidebar-nav">
-          <a href="/submissoes">
+
+          <a href="/painelM">
             <li class="sidebar-item">
-                <span class="sidebar-icon"><i class="fas fa-music"></i></span>
-                <span class="sidebar-text">Minhas Atividades</span>
-            </li>
-          </a>
+                <span class="sidebar-icon"><i class="fas fa-guitar"></i></span>
+                <span class="sidebar-text">Painel do Músico</span>
+            </li> </a>
+
           <a href="/novaAtividade">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-plus-circle"></i></span>
                 <span class="sidebar-text">Criar Atividades</span>
             </li> </a>
+
+          <a href="/submissoes">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-tasks"></i></span>
+                <span class="sidebar-text">Minhas Submissões</span>
+            </li>
+          </a>
+          
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-chart-line"></i></span>
                 <span class="sidebar-text">Estatísticas</span>

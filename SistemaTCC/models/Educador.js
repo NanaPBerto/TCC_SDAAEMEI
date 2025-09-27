@@ -3,7 +3,7 @@ const db = require('../db');
 const Educador = db.sequelize.define('educadores', {
     id: {
         type: db.Sequelize.INTEGER,
-        autoIncrement: true,
+        autoIncrement: true, 
         primaryKey: true
     },
     tipo: {

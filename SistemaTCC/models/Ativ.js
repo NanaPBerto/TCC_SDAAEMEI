@@ -34,19 +34,19 @@ const ativ = db.sequelize.define('atividades', {
             allowNull: false
         },
         imagem: {
-            type: db.Sequelize.BLOB,
+            type: db.Sequelize.STRING,
             allowNull: true
         }, 
         video: {
-            type: db.Sequelize.BLOB,
+            type: db.Sequelize.STRING,
             allowNull: true
         },
         musica: {
-            type: db.Sequelize.BLOB,
+            type: db.Sequelize.STRING,
             allowNull: true
         },
         partitura: {
-            type: db.Sequelize.BLOB,
+            type: db.Sequelize.STRING,
             allowNull: true
         },
         obs: {

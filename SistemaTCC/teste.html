@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste Upload</title>
+</head>
+<body>
+    <h1>Teste Upload de Áudio</h1>
+    <form action="/teste-upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="musica" accept="audio/*">
+        <button type="submit">Testar Upload</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const response = await fetch('/teste-upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            document.getElementById('result').innerHTML = JSON.stringify(result, null, 2);
+        });
+    </script>
+</body>
+</html>

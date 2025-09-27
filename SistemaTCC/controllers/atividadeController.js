@@ -9,13 +9,6 @@ exports.home = async (req, res) => {
       where: { imagem: { [require('sequelize').Op.ne]: null } }
     });
 
-    // LOG para depuração: veja se realmente há imagens vindas do banco
-    console.log('Atividades com imagem do banco:', atividadesComImagem.map(a => ({
-      nome: a.nome,
-      imagemTipo: typeof a.imagem,
-      imagemTamanho: a.imagem ? a.imagem.length : 0
-    })));
-
     const imagensCarrossel = atividadesComImagem
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
@@ -25,15 +18,8 @@ exports.home = async (req, res) => {
         imagemBase64: a.imagem ? `data:image/jpeg;base64,${Buffer.from(a.imagem).toString('base64')}` : null
       }));
 
-    console.log('Imagens enviadas para o carrossel:', imagensCarrossel.map(img => ({
-      nome: img.nome,
-      descricao: img.descricao,
-      tamanhoBase64: img.imagemBase64 ? img.imagemBase64.length : 0
-    })));
-
     res.render('index', {
       imagensCarrossel,
-      // ...outras variáveis necessárias...
     });
   } catch (error) {
     console.error('Erro ao carregar imagens do carrossel:', error);
@@ -46,15 +32,13 @@ exports.submissoes = async (req, res) => {
   try {
     const usuario = res.locals.usuario;
     console.log('Usuário na sessão (submissoes):', usuario);
-    console.log('Tipo:', usuario && usuario.tipo);
-    console.log('ID:', usuario && usuario.id);
+    
     if (!usuario || usuario.tipo !== 'musico' || !usuario.id) {
       return res.status(403).send('Acesso negado ou usuário sem id.');
     }
 
-    // Filtra atividades pelo ID do músico logado
     const ativs = await ativ.findAll({
-      where: { desenvolvedor: usuario.id }, // ajuste o campo conforme seu model
+      where: { desenvolvedor: usuario.id },
       order: [['createdAt', 'DESC']],
       include: [{ model: Tipoatividade, as: 'tipo' }]
     });
@@ -69,13 +53,13 @@ exports.submissoes = async (req, res) => {
     });
 
     const isMusico = usuario.tipo === 'musico';
-const isEducador = usuario.tipo === 'educador';
+    const isEducador = usuario.tipo === 'educador';
 
-res.render('submissoes', {
-  atividades: plainAtivs,
-  isMusico,
-  isEducador,
-});
+    res.render('submissoes', {
+      atividades: plainAtivs,
+      isMusico,
+      isEducador,
+    });
 
   } catch (erro) {
     console.error('Erro ao listar submissões:', erro);
@@ -97,91 +81,105 @@ exports.novaAtividade = async (req, res) => {
   }
 };
 
-// Adicionar atividade
 exports.add = async (req, res) => {
-  try {
-    console.log('Body recebido:', req.body);
-    console.log('Files recebidos:', req.files);
-    console.log('Usuário na sessão:', req.session.usuario);
-    if (!req.session.usuario || !req.session.usuario.id) {
-      return res.status(403).send('Usuário não logado ou id não encontrado.');
+    try {
+        console.log('Arquivos recebidos:', req.files);
+        console.log('Dados do formulário:', req.body);
+        
+        // Validar usuário logado
+        if (!req.session.usuario || !req.session.usuario.id) {
+            return res.status(401).send('Usuário não autenticado');
+        }
+
+        // Validar campos obrigatórios
+        const camposObrigatorios = [
+            'nome', 'descricao', 'objetivo', 'indicacao', 'vagas', 
+            'duracao', 'recursos', 'condicoes', 'tipoId'
+        ];
+        
+        for (const campo of camposObrigatorios) {
+            if (!req.body[campo]) {
+                return res.status(400).send(`Campo obrigatório faltando: ${campo}`);
+            }
+        }
+
+        // Acessar arquivos - AGORA COM FILENAME CORRETO
+        const imagem = req.files?.imagem?.[0];
+        const video = req.files?.video?.[0];
+        const musica = req.files?.musica?.[0];
+        const partitura = req.files?.partitura?.[0];
+
+        console.log('Detalhes dos arquivos:');
+        if (imagem) console.log('Imagem:', imagem.filename, imagem.size + ' bytes');
+        if (musica) console.log('Música:', musica.filename, musica.size + ' bytes');
+        if (video) console.log('Vídeo:', video ? video.filename : 'não enviado');
+        if (partitura) console.log('Partitura:', partitura ? partitura.filename : 'não enviado');
+
+        // Mapear classificação para ID
+        const classificacaoMap = {
+            '1 a 2 anos': 1,
+            '2 a 3 anos': 2,
+            '3 a 4 anos': 3,
+            '4 a 5 anos': 4,
+            '5 a 6 anos': 5
+        };
+
+        // ⭐⭐ CORREÇÃO: Salvar APENAS caminhos dos arquivos ⭐⭐
+        const atividadeData = {
+            nome: req.body.nome,
+            descricao: req.body.descricao,
+            objetivo: req.body.objetivo,
+            indicacao: req.body.indicacao,
+            vagas: req.body.vagas,
+            duracao: req.body.duracao,
+            recursos: req.body.recursos,
+            condicoes: req.body.condicoes,
+            obs: req.body.obs || null,
+            classificacao: classificacaoMap[req.body.indexao] || 3,
+            tipoId: req.body.tipoId,
+            desenvolvedor: req.session.usuario.id,
+            
+            // ⭐⭐ APENAS CAMINHOS - NÃO SALVAR BUFFERS NO BANCO ⭐⭐
+            imagemPath: imagem ? `/uploads/${imagem.filename}` : null,
+            musicaPath: musica ? `/uploads/${musica.filename}` : null,
+            videoPath: video ? `/uploads/${video.filename}` : null,
+            partituraPath: partitura ? `/uploads/${partitura.filename}` : null,
+            
+            // ⭐⭐ REMOVER estes campos para evitar erro de tamanho ⭐⭐
+            // imagem: null,  // NÃO salvar BLOB
+            // musica: null,  // NÃO salvar BLOB  
+            // video: null,   // NÃO salvar BLOB
+            // partitura: null // NÃO salvar BLOB
+        };
+
+        console.log('Dados para criar atividade:', atividadeData);
+
+        await ativ.create(atividadeData);
+
+        res.redirect('/painelM');
+
+    } catch (erro) {
+        console.error('Erro detalhado ao adicionar atividade:', erro);
+        
+        // Recarregar tipos para o formulário em caso de erro
+        try {
+            const tipos = await Tipoatividade.findAll();
+            res.render('cadastroA', {
+                tipos: tipos.map(tipo => tipo.toJSON()),
+                atividade: null,
+                error: 'Erro ao adicionar atividade: ' + erro.message,
+                formData: req.body
+            });
+        } catch (loadError) {
+            res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
+        }
     }
-
-    let imagemBuffer = null;
-    let imagemMime = null;
-    let videoBuffer = null;
-    let musicaBuffer = null;
-    let partituraBuffer = null;
-
-    // Processar arquivos específicos
-    if (req.files) {
-      if (req.files['imagem']) {
-        imagemBuffer = req.files['imagem'][0].buffer;
-        imagemMime = req.files['imagem'][0].mimetype;
-      }
-      if (req.files['video']) {
-        videoBuffer = req.files['video'][0].buffer;
-      }
-      if (req.files['musica']) {
-        musicaBuffer = req.files['musica'][0].buffer;
-      }
-      if (req.files['partitura']) {
-        partituraBuffer = req.files['partitura'][0].buffer;
-      }
-    }
-
-    // Validar campos obrigatórios do modelo
-    const camposObrigatorios = [
-      'nome', 'descricao', 'objetivo', 'indicacao', 'vagas', 
-      'duracao', 'recursos', 'condicoes', 'tipoId'
-    ];
-    
-    for (const campo of camposObrigatorios) {
-      if (!req.body[campo]) {
-        return res.status(400).send(`Campo obrigatório faltando: ${campo}`);
-      }
-    }
-
-    // Mapear classificação para ID (ajuste conforme sua tabela classificacao)
-    const classificacaoMap = {
-      '1 a 2 anos': 1,
-      '2 a 3 anos': 2,
-      '3 a 4 anos': 3,
-      '4 a 5 anos': 4,
-      '5 a 6 anos': 5
-    };
-
-    await ativ.create({
-      nome: req.body.nome,
-      descricao: req.body.descricao,
-      objetivo: req.body.objetivo,
-      indicacao: req.body.indicacao,
-      vagas: req.body.vagas,
-      duracao: req.body.duracao,
-      recursos: req.body.recursos,
-      condicoes: req.body.condicoes,
-      imagem: imagemBuffer,
-      imagemMime: imagemMime,
-      video: videoBuffer,
-      musica: musicaBuffer,
-      partitura: partituraBuffer,
-      obs: req.body.obs,
-      classificacao: classificacaoMap[req.body.classificacao] || 3,
-      tipoId: req.body.tipoId,
-      desenvolvedor: req.session.usuario.id // Confirme que este campo existe
-    });
-
-    res.redirect('/painelM');
-  } catch (erro) {
-    console.error('Erro detalhado ao adicionar atividade:', erro);
-    res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
-  }
 };
 
 exports.deletar = async (req, res) => {
   try {
     await ativ.destroy({ where: { id: req.params.id } });
-    res.redirect('/submissoes'); // Alterado para /submissoes
+    res.redirect('/submissoes');
   } catch (erro) {
     console.error('Erro ao deletar atividade:', erro);
     res.status(500).send('Erro ao deletar atividade. Tente novamente.');
@@ -209,17 +207,6 @@ exports.editar = async (req, res) => {
 // Atualizar atividade
 exports.atualizar = async (req, res) => {
   try {
-    let imagemBuffer = null;
-    let imagemMime = null;
-
-    if (req.files && req.files.length > 0) {
-      const imgFile = req.files.find(file => file.fieldname === 'anexos' && file.mimetype.startsWith('image/'));
-      if (imgFile) {
-        imagemBuffer = imgFile.buffer;
-        imagemMime = imgFile.mimetype;
-      }
-    }
-
     const updateData = {
       nome: req.body.nome,
       descricao: req.body.descricao,
@@ -234,12 +221,33 @@ exports.atualizar = async (req, res) => {
       tipoId: req.body.tipoId
     };
 
-    if (imagemBuffer) {
-      updateData.imagem = imagemBuffer;
-      updateData.imagemMime = imagemMime;
+    // Processar arquivos se existirem
+    if (req.files && req.files.length > 0) {
+      const imagem = req.files.find(file => file.fieldname === 'imagem');
+      const musica = req.files.find(file => file.fieldname === 'musica');
+      const video = req.files.find(file => file.fieldname === 'video');
+      const partitura = req.files.find(file => file.fieldname === 'partitura');
+
+      if (imagem) {
+        updateData.imagem = imagem.buffer;
+        updateData.imagemMime = imagem.mimetype;
+        updateData.imagemPath = `/uploads/${imagem.filename}`;
+      }
+      if (musica) {
+        updateData.musica = musica.buffer;
+        updateData.musicaPath = `/uploads/${musica.filename}`;
+      }
+      if (video) {
+        updateData.video = video.buffer;
+        updateData.videoPath = `/uploads/${video.filename}`;
+      }
+      if (partitura) {
+        updateData.partitura = partitura.buffer;
+        updateData.partituraPath = `/uploads/${partitura.filename}`;
+      }
     }
 
-   await ativ.update(updateData, { where: { id: req.params.id } });
+    await ativ.update(updateData, { where: { id: req.params.id } });
     res.redirect('/submissoes');
   } catch (erro) {
     console.error('Erro ao atualizar atividade:', erro);
@@ -274,7 +282,6 @@ exports.detalheAtividade = async (req, res) => {
     if (obj.musica) {
       obj.musicaBase64 = `data:audio/mpeg;base64,${Buffer.from(obj.musica.data ? obj.musica.data : obj.musica).toString('base64')}`;
     }
-    // Envie o nome do desenvolvedor (músico)
     obj.desenvolvedorNome = obj.musico ? obj.musico.nome : 'Desconhecido';
     res.render('atividade', { atividade: obj });
   } catch (error) {

@@ -6,7 +6,7 @@
     "express-handlebars": "^8.0.3",
     "express-session": "^1.18.2",
     "handlebars": "^4.7.8",
-    "multer": "^2.0.1",
+    "multer": "^2.0.2",
     "mysql2": "^3.14.1",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"

@@ -96,7 +96,19 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Aumentar limite de payload do Express
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Configuração específica para Multer
+app.use((req, res, next) => {
+    // Aumentar timeout para uploads grandes
+    req.setTimeout(300000); // 5 minutos
+    res.setTimeout(300000);
+    next();
+});
 
 // ROTAS - ORDEM CRÍTICA
 app.use('/', indexRoutes);

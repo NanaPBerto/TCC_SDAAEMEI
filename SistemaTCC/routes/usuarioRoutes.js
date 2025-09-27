@@ -1,17 +1,52 @@
-// usuarioRoutes.js
 const express = require('express');
 const router = express.Router();
 const Musico = require('../models/musico');
-const Educador = require('../models/educador')
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
+const Educador = require('../models/educador');
+const { usuarioUpload } = require('../middleware/uploadFile'); 
 
+// Middleware para tratamento de erros do Multer
+const handleMulterError = (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            if (req.originalUrl.includes('cadastro')) {
+                return res.render(req.session.usuario ? 'perfil' : 'cadastroM', { 
+                    error: 'Arquivo muito grande! Tamanho máximo permitido: 15MB por arquivo.',
+                    usuario: req.session.usuario || {},
+                    formData: req.body 
+                });
+            }
+        }
+    }
+    next(err);
+};
+
+// Usar o middleware unificado com tratamento de erro
 router.post(
   '/usuario/add',
-  upload.fields([
-    { name: 'imagem', maxCount: 1 },
-    { name: 'minicurriculo', maxCount: 1 }
-  ]),
+  (req, res, next) => {
+      usuarioUpload.fields([
+          { name: 'imagem', maxCount: 1 },
+          { name: 'minicurriculo', maxCount: 1 }
+      ])(req, res, (err) => {
+          if (err) {
+              console.error('Erro no upload:', err);
+              const tipo = req.body.tipo || 'musico';
+              const template = tipo === 'musico' ? 'cadastroM' : 'cadastroE';
+              
+              if (err.code === 'LIMIT_FILE_SIZE') {
+                  return res.render(template, { 
+                      error: 'Arquivo muito grande! Tamanho máximo permitido: 15MB por arquivo.',
+                      formData: req.body 
+                  });
+              }
+              return res.render(template, { 
+                  error: 'Erro no upload: ' + err.message,
+                  formData: req.body 
+              });
+          }
+          next();
+      });
+  },
   require('../controllers/usuarioController').add
 );
 
@@ -111,10 +146,14 @@ router.get('/perfil', (req, res) => {
   res.render('perfil', { usuario: req.session.usuario });
 });
 
-// Atualizar perfil (exemplo simples)
-router.post('/perfil', upload.fields([
-  { name: 'imagem', maxCount: 1 },
-  { name: 'minicurriculo', maxCount: 1 }
-]), require('../controllers/usuarioController').editarPerfil);
+// Atualizar perfil
+router.post('/perfil', 
+  usuarioUpload.fields([
+      { name: 'imagem', maxCount: 1 },
+      { name: 'minicurriculo', maxCount: 1 }
+  ]),
+  handleMulterError,
+  require('../controllers/usuarioController').editarPerfil
+);
 
 module.exports = router;

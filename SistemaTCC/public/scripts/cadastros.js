@@ -48,3 +48,19 @@ document.addEventListener('DOMContentLoaded', function() {
   setupDropArea('partituraDropArea', 'partituraInput', 'partituraFileName');
   setupDropArea('musicaDropArea', 'musicaInput', 'musicaFileName');
 });
+
+// Debug do formulário
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            console.log('Arquivo selecionado:', this.files[0]);
+            if (this.files[0]) {
+                console.log('Tamanho:', this.files[0].size, 'bytes');
+                console.log('Tipo:', this.files[0].type);
+            }
+        });
+    });
+});

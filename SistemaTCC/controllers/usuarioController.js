@@ -8,7 +8,7 @@ function getUsuarioModel(tipo) {
   if (tipo === 'E' || tipo === 'educador') return Educador;
   throw new Error('Tipo de usuário inválido');
 }
-
+ 
 // Adicionar usuario
 exports.add = async (req, res) => {
   try {
@@ -103,6 +103,13 @@ exports.editarPerfil = async (req, res) => {
     const usuarioAtualizado = await Usuario.findByPk(req.session.usuario.id);
     req.session.usuario = usuarioAtualizado.get({ plain: true });
     req.session.usuario.tipo = tipoUsuario;
+
+    // Adiciona imagemBase64 para exibição no menu
+    if (req.session.usuario.imagem) {
+      req.session.usuario.imagemBase64 = Buffer.from(req.session.usuario.imagem).toString('base64');
+    } else {
+      req.session.usuario.imagemBase64 = null;
+    }
 
     res.redirect('/perfil');
   } catch (erro) {

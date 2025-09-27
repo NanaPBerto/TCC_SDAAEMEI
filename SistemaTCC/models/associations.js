@@ -5,7 +5,7 @@ const Tipoatividade = require('./tipoatividade');
 const classificacao = require('./classificacao');
 const Musico = require('./musico');
 
-function setupAssociations() {
+function setupAssociations() { 
   // Associação Ativ -> Tipoatividade
   Ativ.belongsTo(Tipoatividade, {
     foreignKey: 'tipoId',

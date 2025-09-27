@@ -1,30 +1,16 @@
-<div class="container">
-  <div class="form-section">
-    <h4>{{#if atividade}}Editar Atividade{{else}}Cadastrar Nova Atividade{{/if}}</h4>
-    <form action="/novaAtividade" method="POST" enctype="multipart/form-data">
-      <div class="form-section">
-        <ul class="nav nav-tabs mb-4">
-            <li class="nav-item">
-                <a class="nav-link active" href="desenvolverAtividade.html">Principal</a>
-            </li>
-        </ul>
-        
-        <div class="mb-3">
-          <label for="tituloAtividade" class="form-label">Título da Atividade</label>
-          <input type="text" class="form-control" id="tituloAtividade" name="nome" placeholder="Ex: Ritmo com Copos" required>
-        </div>
+<div class="container py-5">
+  <div class="mx-auto" style="max-width: 800px;">
+    <div class="card shadow-lg border-0 rounded-4 p-4">
+      <h2 class="mb-4 text-center" style="color: var(--primary); font-weight:700;">
+        {{#if atividade}}Editar Atividade{{else}}Cadastrar Nova Atividade{{/if}}
+      </h2>
+      <form action="/novaAtividade" method="POST" enctype="multipart/form-data">
         <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <label for="descricaoAtividade" class="form-label">Descrição</label>
-            <textarea class="form-control" id="descricaoAtividade" name="descricao" rows="3" required></textarea>
+          <div class="col-md-8">
+            <label for="tituloAtividade" class="form-label">Título da Atividade</label>
+            <input type="text" class="form-control" id="tituloAtividade" name="nome" placeholder="Ex: Ritmo com Copos" required>
           </div>
-          <div class="col-md-6">
-            <label for="objetivoAtividade" class="form-label">Objetivo</label>
-            <textarea class="form-control" id="objetivoAtividade" name="objetivo" rows="3" required></textarea>
-          </div>
-        </div>
-        <div class="row g-3 mb-4">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Tipo</label>
             <select class="form-select" name="tipoId" required>
               <option value="1">Linguagem</option>
@@ -38,6 +24,18 @@
               <option value="9">Folclore e Cultura</option>
             </select>
           </div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="descricaoAtividade" class="form-label">Descrição</label>
+            <textarea class="form-control" id="descricaoAtividade" name="descricao" rows="3" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label for="objetivoAtividade" class="form-label">Objetivo</label>
+            <textarea class="form-control" id="objetivoAtividade" name="objetivo" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label">Classificação</label>
             <select class="form-select" name="indexao" required>
@@ -68,63 +66,49 @@
               <option value="+30">+30</option>
             </select>
           </div>
+          <div class="col-md-3">
+            <label for="indicacaoAtividade" class="form-label">Indicação</label>
+            <input type="text" class="form-control" id="indicacaoAtividade" name="indicacao" required>
+          </div>
         </div>
         <div class="row g-3 mb-4">
           <div class="col-md-4">
-            <label for="indicacaoAtividade" class="form-label">Indicação</label>
-            <textarea class="form-control" id="indicacaoAtividade" name="indicacao" rows="3" required></textarea>
-          </div>
-          <div class="col-md-4">
             <label for="recursosAtividade" class="form-label">Recursos</label>
-            <textarea class="form-control" id="recursosAtividade" name="recursos" rows="3" required></textarea>
+            <textarea class="form-control" id="recursosAtividade" name="recursos" rows="2" required></textarea>
           </div>
           <div class="col-md-4">
             <label for="condicoesAtividade" class="form-label">Condições</label>
-            <textarea class="form-control" id="condicoesAtividade" name="condicoes" rows="3" required></textarea>
+            <textarea class="form-control" id="condicoesAtividade" name="condicoes" rows="2" required></textarea>
+          </div>
+          <div class="col-md-4">
+            <label for="obsAtividade" class="form-label">Observações</label>
+            <textarea class="form-control" id="obsAtividade" name="obs" rows="2"></textarea>
           </div>
         </div>
-        <div class="row mb-4">
-          <label class="form-label">Anexos da Atividade</label>
-          <!-- Foto principal -->
-          <div id="imagemDropArea" class="col border rounded p-3 text-center mb-2 anexos-drop-area" style="cursor:pointer;">
-            <i class="fas fa-image display-4 text-muted mb-3"></i>
-            <p>Foto principal da atividade</p>
-            <small class="text-muted">Imagens (JPG, PNG)</small>
-            <input type="file" class="form-control d-none" id="imagemInput" name="imagem" accept="image/*">
-            <span id="imagemFileName" class="d-block mt-2"></span>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label">Foto principal</label>
+            <input type="file" class="form-control" name="imagem" accept="image/*">
           </div>
-          <!-- Partitura -->
-          <div id="partituraDropArea" class="col border rounded p-3 text-center mb-2 anexos-drop-area" style="cursor:pointer;">
-            <i class="fas fa-file-alt display-4 text-muted mb-3"></i>
-            <p>Partitura</p>
-            <small class="text-muted">PDF, imagens</small>
-            <input type="file" class="form-control d-none" id="partituraInput" name="partitura" accept=".pdf,image/*">
-            <span id="partituraFileName" class="d-block mt-2"></span>
+          <div class="col-md-4">
+            <label class="form-label">Partitura</label>
+            <input type="file" class="form-control" name="partitura" accept=".pdf,image/*">
           </div>
-          <!-- Áudio -->
-          <div id="musicaDropArea" class="col border rounded p-3 text-center anexos-drop-area" style="cursor:pointer;">
-            <i class="fas fa-music display-4 text-muted mb-3"></i>
-            <p>Áudio</p>
-            <small class="text-muted">MP3, WAV</small>
-            <input type="file" class="form-control d-none" id="musicaInput" name="musica" accept="audio/*">
-            <span id="musicaFileName" class="d-block mt-2"></span>
+          <div class="col-md-4">
+            <label class="form-label">Áudio</label>
+            <input type="file" class="form-control" name="musica" accept="audio/*">
           </div>
         </div>
-        <div class="mb-3">
-          <label for="obsAtividade" class="form-label">Obs</label>
-          <textarea class="form-control" id="obsAtividade" name="obs" rows="3"></textarea>
+        <div class="d-flex justify-content-end gap-3 mt-4">
+          <button type="submit" class="btn btn-primary px-4 py-2">
+            <i class="fas fa-save me-2"></i>Salvar Atividade
+          </button>
+          <button type="reset" class="btn btn-outline-secondary px-4 py-2">
+            <i class="fas fa-times-circle me-2"></i>Limpar
+          </button>
         </div>
-        <button type="submit" class="btn btn-primary px-4 py-2">
-          <i class="fas fa-save me-2"></i>Salvar Atividade
-        </button>
-        <button type="button" class="btn btn-primary px-4 py-2">
-          <i class="fas fa-times-circle me-2"></i>Cancelar
-        </button>
-        <button type="button" class="btn btn-primary px-4 py-2">
-          <i class="fas fa-file-alt me-2"></i>Rascunho
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 

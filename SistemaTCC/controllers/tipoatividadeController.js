@@ -13,4 +13,4 @@ exports.porCategoria = async (req, res) => {
     res.status(500).send('Erro ao buscar atividades do tipo selecionado.');
   }
 };
-
+ 

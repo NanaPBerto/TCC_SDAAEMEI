@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     console.error(error);
     res.redirect('/index');
   }
-});
+}); 
 
 // Rota para index (educador)
 router.get('/index', async (req, res) => {

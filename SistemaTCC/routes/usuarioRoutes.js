@@ -13,7 +13,7 @@ const handleMulterError = (err, req, res, next) => {
                     error: 'Arquivo muito grande! Tamanho máximo permitido: 15MB por arquivo.',
                     usuario: req.session.usuario || {},
                     formData: req.body 
-                });
+                }); 
             }
         }
     }

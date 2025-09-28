@@ -22,5 +22,5 @@ const Uf = db.sequelize.define('uf', {
         defaultValue: db.Sequelize.NOW
     }
 });
-
+ 
 module.exports = Uf;

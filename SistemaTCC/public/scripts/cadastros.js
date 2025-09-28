@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Drag over
+    // Drag over 
     dropArea.addEventListener('dragover', function(e) {
       e.preventDefault();
       dropArea.classList.add('bg-light');

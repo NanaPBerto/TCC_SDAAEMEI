@@ -1,9 +1,14 @@
-<div class="container cadastro py-5">
-  <div class="mx-auto" style="max-width: 700px;">
-    <h1 class="mb-4 text-center" style="color: var(--primary); font-weight:700;">
-      <i class="fas fa-user-plus me-2"></i>Faça seu Cadastro
-    </h1>
-    <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="bg-white rounded-4 shadow p-4">
+<div class="container cadastro-musico py-4">
+  <div class="cadastro-container">
+    <div class="cadastro-card">
+      <div class="cadastro-header">
+        <h1>
+          <i class="fas fa-user-plus me-2"></i>Cadastro de Músico
+        </h1>
+        <p class="subtitle">Junte-se à nossa comunidade de músicos</p>
+      </div>
+
+      <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="cadastro-form">
       <!-- Informações Pessoais -->
       <fieldset class="mb-4 border-0">
         <legend class="mb-3" style="color: var(--primary); font-size:1.2rem;">
@@ -97,7 +102,7 @@
               </select>
             </div>
           </div>
-          <!-- Cidade -->
+          <!-- Cidade --> 
           <div class="col-md-6">
             <label for="cidade" class="form-label">Cidade*</label>
             <div class="input-group">
@@ -140,7 +145,7 @@
         <a href="login.html" class="btn btn-outline-secondary">
           <i class="fas fa-times-circle me-2"></i>Cancelar
         </a>
-        <button type="submit" class="btn btn-primary" id="btnC">
+        <button type="submit" class="btn btn-outline-secondary" id="btnC">
           <i class="fas fa-user-plus me-2"></i>Criar Conta
         </button>
       </div>

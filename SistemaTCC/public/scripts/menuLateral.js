@@ -4,7 +4,7 @@ function abreMenuLateral() {
     menuLateral.classList.toggle("aberto");
     btnMenuLateral.classList.toggle("ativo");
 }
-
+ 
 function fechaMenuLateral() {
     const menuLateral = document.getElementById("menuLateral");
     const btnMenuLateral = document.getElementById("btnMenuLateral");

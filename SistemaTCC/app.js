@@ -15,7 +15,7 @@ const tipoatividade = require('./models/tipoatividade');
 const uf = require('./models/uf');
 const classificacao = require('./models/classificacao');
 
-
+ 
 // Configuração das sessions
 app.use(session({
   secret: '77NaNa@.77',

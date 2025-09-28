@@ -6,7 +6,7 @@ const Musico = db.sequelize.define('musicos', {
         autoIncrement: true,
         primaryKey: true
     },
-    tipo: {
+    tipo: { 
         type: db.Sequelize.STRING(20),
         allowNull: false,
         defaultValue: 'musico'

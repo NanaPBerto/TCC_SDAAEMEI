@@ -99,7 +99,7 @@ exports.editarPerfil = async (req, res) => {
 
     await Usuario.update(updateData, { where: { id: req.session.usuario.id } });
 
-    // Atualiza sessão
+    // Atualiza sessão 
     const usuarioAtualizado = await Usuario.findByPk(req.session.usuario.id);
     req.session.usuario = usuarioAtualizado.get({ plain: true });
     req.session.usuario.tipo = tipoUsuario;

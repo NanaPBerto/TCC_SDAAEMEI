@@ -1,13 +1,24 @@
-<h1>Atividades: {{tipo.nome}}</h1>
-
+<h1 class="mb-4" style="color: var(--primary); font-weight:700;">Atividades: {{tipo.nome}}</h1>
 <div class="atividades-container">
   {{#each atividades}}
-    <a href="/atividade/{{this.id}}" class="atividade-card-link text-decoration-none">
-      <div class="atividade-card">
-        <h3>{{this.nome}}</h3>
-        <p>{{this.descricao}}</p>
+    <div class="atividade-mini-card">
+      <div class="atividade-mini-titulo">{{this.nome}}</div>
+      <div class="atividade-mini-imgbox mb-2">
+        {{#if this.imagemBase64}}
+          <img src="data:{{this.imagemMime}};base64,{{this.imagemBase64}}" alt="Imagem da Atividade">
+        {{else}}
+          <i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>
+        {{/if}}
       </div>
-    </a>
+      <div class="atividade-mini-objetivo">{{this.objetivo}}</div>
+      <div class="atividade-mini-actions">
+        <a href="/atividade/{{this.id}}" title="Ver detalhes">
+          <button type="button" class="atividade-mini-btn">
+            <i class="fas fa-eye"></i>
+          </button>
+        </a>
+      </div>
+    </div>
   {{/each}}
 </div>
 

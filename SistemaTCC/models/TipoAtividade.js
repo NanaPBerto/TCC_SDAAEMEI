@@ -17,5 +17,5 @@ const Tipoatividade = db.sequelize.define('tipoatividade', {
 }, {
     tableName: 'tipoatividade'
 });
-
+ 
 module.exports = Tipoatividade; // Exporte apenas o modelo definido

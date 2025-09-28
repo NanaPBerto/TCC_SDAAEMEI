@@ -12,7 +12,7 @@ const ativ = db.sequelize.define('atividades', {
         objetivo: {
             type: db.Sequelize.STRING(70),
             allowNull: false
-        },
+        }, 
         indicacao: {
             type: db.Sequelize.STRING(20),
             allowNull: false

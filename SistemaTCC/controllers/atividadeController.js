@@ -8,7 +8,7 @@ exports.home = async (req, res) => {
     const atividadesComImagem = await ativ.findAll({
       where: { imagem: { [require('sequelize').Op.ne]: null } }
     });
-
+ 
     const imagensCarrossel = atividadesComImagem
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)

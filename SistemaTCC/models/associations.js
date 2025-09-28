@@ -10,7 +10,7 @@ function setupAssociations() {
   Ativ.belongsTo(Tipoatividade, {
     foreignKey: 'tipoId',
     as: 'tipo'
-  });
+  }); 
   
   // Associação inversa
   Tipoatividade.hasMany(Ativ, {

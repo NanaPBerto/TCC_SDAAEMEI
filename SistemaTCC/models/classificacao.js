@@ -14,4 +14,4 @@ const classificacao = db.sequelize.define('classificacao', {
     tableName: 'classificacao'
 });
 
-module.exports = classificacao;
+module.exports = classificacao; 

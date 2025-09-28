@@ -14,7 +14,7 @@
     --white: #FFFFFF;
     --light-bg: #F7FAFC;
     --dark-bg: #1A202C;
- 
+  
     /* Cores das categorias */
     --card-color-1: #EC407A; 
     --card-color-2: #FF7043; 
@@ -25,6 +25,13 @@
     --card-color-7: #42A5F5;
     --card-color-8: #5C6BC0; 
     --card-color-9: #AB47BC; 
+    --card-color-10: #9C27B0; 
+    --card-color-11: #FF5722; 
+    --card-color-12: #FF9800; 
+    --card-color-13: #009688; 
+    --card-color-14: #00BCD4; 
+    --card-color-15: #3F51B5; 
+    --card-color-16: #673AB7;
 }
 
 /* =========================
@@ -1199,6 +1206,620 @@ main.container {
 }
 
 /* =========================
+   ATIVIDADES REDUZIDAS
+   ========================= */
+
+.atividades-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 1.5rem 0;
+    width: 100%;
+}
+
+.atividade-mini-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border: 2.5px solid var(--primary);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(126, 87, 194, 0.12);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    aspect-ratio: 1 / 1
+    margin: 0 auto;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+}
+
+.atividade-mini-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.atividade-mini-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--secondary);
+    box-shadow: 0 16px 48px rgba(66, 165, 245, 0.18);
+}
+
+.atividade-mini-card:hover::before {
+    transform: scaleX(1);
+}
+
+.atividade-mini-titulo {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    line-height: 1.3;
+    padding: 0 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.atividade-mini-imgbox {
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+    border: 2px solid var(--primary-light);
+    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.atividade-mini-card:hover .atividade-mini-imgbox {
+    transform: scale(1.05);
+    border-color: var(--secondary);
+    box-shadow: 0 8px 24px rgba(126, 87, 194, 0.15);
+}
+
+.atividade-mini-imgbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px; 
+    transition: transform 0.3s ease;
+}
+
+.atividade-mini-card:hover .atividade-mini-imgbox img {
+    transform: scale(1.1);
+}
+
+.atividade-mini-imgbox .fa-music {
+    color: var(--primary-light);
+    font-size: 3rem;
+    transition: all 0.3s ease;
+}
+
+.atividade-mini-card:hover .atividade-mini-imgbox .fa-music {
+    color: var(--secondary);
+    transform: scale(1.1);
+}
+
+.atividade-mini-objetivo {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 1rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.atividade-mini-actions {
+    display: flex;
+    gap: 0.8rem;
+    width: 100%;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(126, 87, 194, 0.1);
+}
+
+.atividade-mini-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    border: none;
+    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(126, 87, 194, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.atividade-mini-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.atividade-mini-btn:hover::before {
+    left: 100%;
+}
+
+.atividade-mini-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(126, 87, 194, 0.3);
+}
+
+.atividade-mini-btn.editar {
+    background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+}
+
+.atividade-mini-btn.deletar {
+    background: linear-gradient(135deg, #FF7043 0%, #F4511E 100%);
+}
+
+.atividade-mini-btn.deletar:hover {
+    background: linear-gradient(135deg, #E64A19 0%, #D84315 100%);
+}
+
+/* =========================
+   ATIVIDADE DETALHADA
+   ========================= */
+
+.atividade-detalhada-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
+    border: 3px solid var(--primary);
+    border-radius: 28px;
+    box-shadow: 0 12px 40px rgba(126, 87, 194, 0.15);
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.atividade-detalhada-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+.atividade-detalhada-titulo {
+    color: var(--primary);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    padding: 0 2rem;
+}
+
+.atividade-detalhada-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    background: rgba(126, 87, 194, 0.03);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(126, 87, 194, 0.1);
+}
+
+.atividade-detalhada-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-light);
+    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.atividade-detalhada-avatar:hover {
+    transform: scale(1.1);
+    border-color: var(--secondary);
+}
+
+.atividade-detalhada-dev {
+    font-size: 1.3rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.atividade-detalhada-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.atividade-detalhada-badge {
+    background: linear-gradient(135deg, #f7f4fa 0%, #f0f7ff 100%);
+    border: 2px solid var(--primary-light);
+    border-radius: 16px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+}
+
+.atividade-detalhada-badge:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary);
+    box-shadow: 0 4px 12px rgba(126, 87, 194, 0.15);
+}
+
+.atividade-detalhada-badge i {
+    color: var(--secondary);
+    font-size: 1.2rem;
+}
+
+.atividade-detalhada-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.atividade-detalhada-imgbox {
+    border-radius: 20px;
+    border: 2px solid var(--primary-light);
+    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.atividade-detalhada-imgbox:hover {
+    transform: translateY(-5px);
+    border-color: var(--secondary);
+    box-shadow: 0 12px 32px rgba(126, 87, 194, 0.2);
+}
+
+.atividade-detalhada-imgbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+    transition: transform 0.5s ease;
+}
+
+.atividade-detalhada-imgbox:hover img {
+    transform: scale(1.05);
+}
+
+.atividade-detalhada-partitura {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.atividade-detalhada-partitura .btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(126, 87, 194, 0.2);
+}
+
+.atividade-detalhada-partitura .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(126, 87, 194, 0.3);
+}
+
+.atividade-detalhada-audio {
+    grid-column: 1 / -1;
+}
+
+.atividade-detalhada-audio audio {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(126, 87, 194, 0.1);
+}
+
+.atividade-detalhada-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.atividade-detalhada-info-col {
+    background: rgba(126, 87, 194, 0.02);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(126, 87, 194, 0.08);
+    transition: all 0.3s ease;
+}
+
+.atividade-detalhada-info-col:hover {
+    transform: translateY(-3px);
+    background: rgba(126, 87, 194, 0.05);
+    box-shadow: 0 8px 24px rgba(126, 87, 194, 0.1);
+}
+
+.atividade-detalhada-info-col strong {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.atividade-detalhada-info-col div {
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.atividade-detalhada-obs {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
+    border-left: 4px solid var(--accent);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.atividade-detalhada-obs strong {
+    color: var(--accent);
+}
+
+/* Responsividade */
+
+@media (max-width: 1200px) {
+    .atividade-detalhada-card {
+        margin: 1.5rem;
+        padding: 2.5rem;
+    }
+    
+    .atividade-detalhada-titulo {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .atividades-container {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .atividade-detalhada-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .atividade-detalhada-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .atividade-detalhada-top {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .atividade-detalhada-avatar {
+        align-self: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .atividades-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+    
+    .atividade-mini-card {
+        min-height: 340px;
+        padding: 1.5rem 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .atividade-mini-imgbox {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .atividade-mini-titulo {
+        font-size: 1.2rem;
+    }
+    
+    .atividade-detalhada-card {
+        margin: 1rem;
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+    }
+    
+    .atividade-detalhada-titulo {
+        font-size: 1.8rem;
+        padding: 0;
+    }
+    
+    .atividade-detalhada-info-col {
+        padding: 1.5rem;
+    }
+    
+    .atividade-detalhada-badge {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .atividade-mini-card {
+        min-height: 320px;
+        padding: 1.2rem 0.8rem;
+    }
+    
+    .atividade-mini-imgbox {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+    }
+    
+    .atividade-mini-titulo {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .atividade-mini-objetivo {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .atividade-mini-actions {
+        gap: 0.5rem;
+    }
+    
+    .atividade-mini-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+    
+    .atividade-detalhada-card {
+        padding: 1.5rem 1rem;
+        margin: 0.5rem;
+        border-radius: 16px;
+    }
+    
+    .atividade-detalhada-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .atividade-detalhada-top {
+        padding: 1rem;
+    }
+    
+    .atividade-detalhada-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+    
+    .atividade-detalhada-dev {
+        font-size: 1.1rem;
+    }
+    
+    .atividade-detalhada-badges {
+        gap: 0.5rem;
+    }
+    
+    .atividade-detalhada-badge {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animações especiais*/
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.atividade-mini-card,
+.atividade-detalhada-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Efeito de brilho nos botões */
+.atividade-mini-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(255,255,255,0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.atividade-mini-btn:hover::after {
+    opacity: 1;
+}
+
+/* Loading state para imagens */
+.atividade-mini-imgbox::before,
+.atividade-detalhada-imgbox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.atividade-mini-imgbox.loaded::before,
+.atividade-detalhada-imgbox.loaded::before {
+    display: none;
+}
+
+/* =========================
    FORMULÁRIOS E BOTÕES
    ========================= */
 .form-section {
@@ -1410,6 +2031,28 @@ button#btnSubmissões:hover {
 .categoria-9 { border-top-color: var(--card-color-9); }
 .categoria-9 i { color: var(--card-color-9); }
 
+.categoria-10 { border-top-color: var(--card-color-10); }
+.categoria-10 i { color: var(--card-color-10); }
+
+.categoria-11 { border-top-color: var(--card-color-11); }
+.categoria-11 i { color: var(--card-color-11); }
+
+.categoria-12 { border-top-color: var(--card-color-12); }
+.categoria-12 i { color: var(--card-color-12); }
+
+.categoria-13 { border-top-color: var(--card-color-13); }
+.categoria-13 i { color: var(--card-color-13); }
+
+.categoria-14 { border-top-color: var(--card-color-14); }
+.categoria-14 i { color: var(--card-color-14); }
+
+.categoria-15 { border-top-color: var(--card-color-15); }
+.categoria-15 i { color: var(--card-color-15); }
+
+.categoria-16 { border-top-color: var(--card-color-16); }
+.categoria-16 i { color: var(--card-color-16); }
+
+
 /* =========================
    ALERTAS VISUAIS
    ========================= */
@@ -1487,5 +2130,654 @@ button#btnSubmissões:hover {
 
     .sidebar:hover {
         width: 250px;
+    }
+}
+/* =========================
+   PÁGINAS DE CADASTRO UNIFICADAS
+   ========================= */
+
+/* Container principal para todas as páginas de cadastro */
+body.cadastro,
+body.cadastro-educador,
+body.cadastro-musico,
+body.cadastro-atividade {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e1bee7 0%, #bbdefb 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+    padding: 20px;
+}
+
+/* Container do formulário */
+.cadastro-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+}
+
+/* Card principal do formulário */
+.cadastro-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 15px 35px rgba(126, 87, 194, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Cabeçalho do formulário */
+.cadastro-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.cadastro-header h1 {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cadastro-header .subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Avatar Upload - Estilo Unificado */
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.avatar-preview {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
+}
+
+.avatar-preview img,
+.avatar-preview .avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary-light);
+    transition: all 0.3s ease;
+}
+
+.avatar-preview .avatar-placeholder {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.avatar-upload .avatar-edit-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(126, 87, 194, 0.3);
+    transition: all 0.3s ease;
+    border: 3px solid #fff;
+}
+
+.avatar-upload .avatar-edit-btn:hover {
+    background: var(--secondary);
+    transform: scale(1.1);
+}
+
+.avatar-upload input[type="file"] {
+    display: none;
+}
+
+.avatar-upload small {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Campos do formulário */
+.cadastro-form .form-label {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.cadastro-form .input-group {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid var(--primary-light);
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.cadastro-form .input-group:focus-within {
+    border-color: var(--secondary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.1);
+}
+
+.cadastro-form .input-group-text {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.cadastro-form .form-control,
+.cadastro-form .form-select {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text);
+    padding: 0.75rem 1rem;
+    box-shadow: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cadastro-form .form-control:focus,
+.cadastro-form .form-select:focus {
+    background: transparent;
+    color: var(--text);
+}
+
+.cadastro-form .form-control::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+/* Texto de ajuda abaixo dos campos */
+.cadastro-form .form-text {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+/* Checkbox de termos */
+.cadastro-form .form-check {
+    margin: 2rem 0;
+    padding-left: 2.5rem;
+}
+
+.cadastro-form .form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: -2.5rem;
+    margin-top: 0.25rem;
+    border: 2px solid var(--primary-light);
+    border-radius: 4px;
+}
+
+.cadastro-form .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.cadastro-form .form-check-label {
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.cadastro-form .form-check-label a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cadastro-form .form-check-label a:hover {
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+/* Botões */
+.cadastro-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn-cadastro {
+    padding: 0.75rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.btn-cadastro-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 15px rgba(126, 87, 194, 0.3);
+}
+
+.btn-cadastro-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(126, 87, 194, 0.4);
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+    color: white;
+}
+
+.btn-cadastro-secondary {
+    background: transparent;
+    border: 2px solid var(--primary-light);
+    color: var(--primary);
+}
+
+.btn-cadastro-secondary:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Estilos específicos para a página de cadastro de atividade */
+.cadastro-atividade .cadastro-card {
+    max-width: 1000px;
+}
+
+.cadastro-atividade .form-section {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(126, 87, 194, 0.1);
+}
+
+.cadastro-atividade .form-section h5 {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body.cadastro,
+    body.cadastro-educador,
+    body.cadastro-musico,
+    body.cadastro-atividade {
+        padding: 10px;
+        align-items: flex-start;
+    }
+    
+    .cadastro-container {
+        margin: 1rem auto;
+    }
+    
+    .cadastro-card {
+        padding: 2rem 1.5rem;
+        border-radius: 15px;
+    }
+    
+    .cadastro-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .avatar-preview {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .avatar-preview img,
+    .avatar-preview .avatar-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+    
+    .cadastro-actions {
+        justify-content: center;
+    }
+    
+    .btn-cadastro {
+        min-width: 120px;
+        padding: 0.65rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .cadastro-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .cadastro-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .avatar-preview {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .avatar-preview img,
+    .avatar-preview .avatar-placeholder {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+    
+    .cadastro-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-cadastro {
+        width: 100%;
+    }
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cadastro-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Estados de loading */
+.btn-cadastro.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-cadastro.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* === AVATAR DE UPLOAD DE IMAGEM DE PERFIL (CADASTRO) === */
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+.avatar-preview {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 0.5rem;
+}
+.avatar-preview img,
+.avatar-preview .avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.7rem;
+    color: var(--primary-light);
+    transition: box-shadow 0.2s;
+}
+.avatar-preview .avatar-placeholder {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.avatar-upload .avatar-edit-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    box-shadow: 0 2px 8px rgba(126,87,194,0.15);
+    transition: background 0.2s;
+    border: 2px solid #fff;
+}
+.avatar-upload .avatar-edit-btn:hover {
+    background: var(--secondary);
+}
+.avatar-upload input[type="file"] {
+    display: none;
+}
+
+/* === FORMULÁRIOS DE CADASTRO (ALINHAMENTO, BRANDING E RESPONSIVIDADE) === */
+body.cadastro .container,
+body .container.cadastro {
+    max-width: 650px;
+    margin: 2.5rem auto;
+    padding: 2.5rem 2rem;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(126,87,194,0.13), 0 2px 8px rgba(66,165,245,0.09);
+}
+body.cadastro form,
+body .container.cadastro form {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+body.cadastro fieldset {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 1.5rem;
+    border: none;
+}
+body.cadastro .form-label {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.01em;
+}
+body.cadastro .input-group {
+    border-radius: 10px;
+    background: #f7f4fa;
+    border: 2px solid var(--primary-light);
+    transition: border 0.2s;
+    box-shadow: 0 1px 4px rgba(126,87,194,0.04);
+    margin-bottom: 0.2rem;
+}
+body.cadastro .input-group:focus-within {
+    border-color: var(--secondary);
+    background: #fafdff;
+}
+body.cadastro .input-group-text {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    font-size: 1.15rem;
+    padding: 0 0.8rem;
+}
+body.cadastro .form-control,
+body.cadastro .form-select {
+    border: none;
+    border-radius: 0 10px 10px 0;
+    background: transparent;
+    font-size: 1.08rem;
+    color: var(--text);
+    padding: 0.7rem 1rem;
+    box-shadow: none;
+    outline: none;
+    transition: background 0.2s;
+}
+body.cadastro .form-control:focus,
+body.cadastro .form-select:focus {
+    background: #fff;
+    color: var(--primary);
+}
+body.cadastro .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+body.cadastro .btn-primary {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border: none;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(126,87,194,0.08);
+    letter-spacing: 0.02em;
+}
+body.cadastro .btn-primary:hover {
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    box-shadow: 0 4px 16px rgba(66,165,245,0.13);
+}
+body.cadastro .btn-outline-secondary {
+    border-radius: 10px;
+    border: 2px solid var(--primary-light);
+    color: var(--primary);
+    background: #f7f4fa;
+    font-weight: 600;
+    transition: border 0.2s, color 0.2s, background 0.2s;
+}
+body.cadastro .btn-outline-secondary:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    background: #fafdff;
+}
+body.cadastro .form-check-label a {
+    text-decoration: underline;
+    color: var(--secondary);
+}
+body.cadastro .form-check-label a:hover {
+    color: var(--primary);
+}
+body.cadastro textarea.form-control {
+    min-height: 80px;
+    resize: vertical;
+}
+body.cadastro small.text-muted,
+body.cadastro .input-group ~ small.text-muted {
+    font-size: 0.98em;
+    color: var(--secondary);
+    margin-left: 0.5rem;
+    display: block;
+    margin-top: 0.1rem;
+    margin-bottom: 0.2rem;
+    width: 100%;
+    text-align: left;
+}
+body.cadastro .input-group ~ small.text-muted {
+    font-size: 0.97em;
+    margin-left: 0;
+    margin-top: 0.15rem;
+}
+body.cadastro .form-check {
+    margin-top: 1.2rem;
+}
+body.cadastro .form-check-input {
+    border-radius: 6px;
+    border: 2px solid var(--primary-light);
+    width: 1.1em;
+    height: 1.1em;
+}
+body.cadastro .form-check-label {
+    font-size: 1.01rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+body.cadastro .d-flex.gap-3 {
+    gap: 1.2rem !important;
+}
+body.cadastro .btn {
+    min-width: 120px;
+    font-size: 1.07rem;
+}
+
+/* Responsividade cadastro */
+@media (max-width: 900px) {
+    body.cadastro .container,
+    body .container.cadastro {
+        max-width: 98vw;
+        padding: 1.2rem 0.5rem;
+    }
+}
+@media (max-width: 600px) {
+    body.cadastro .container,
+    body .container.cadastro {
+        padding: 0.7rem 0.1rem;
+        border-radius: 10px;
+    }
+    .avatar-preview,
+    .avatar-preview img,
+    .avatar-preview .avatar-placeholder {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+    body.cadastro .btn {
+        min-width: 90px;
+        font-size: 0.97rem;
+    }
+    body.cadastro .form-label {
+        font-size: 0.97rem;
+    }
+    body.cadastro .input-group-text {
+        font-size: 1rem;
+        padding: 0 0.5rem;
     }
 }

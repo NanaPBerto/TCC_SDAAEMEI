@@ -1,83 +1,152 @@
-<div class="container my-5">
-  <div class="atividade-destaque card shadow-lg border-0 p-4 mx-auto" style="max-width: 900px; border-radius: 20px;">
-    <div class="row g-4 align-items-center">
-      <div class="col-md-5 text-center">
-        {{#if atividade.imagemBase64}}
-          <img src="{{atividade.imagemBase64}}" alt="Imagem da atividade" class="img-fluid rounded-4 shadow mb-3" style="max-height:320px; object-fit:cover; border:4px solid #7E57C2;">
-        {{else}}
-          <div class="atividade-sem-imagem d-flex align-items-center justify-content-center bg-light rounded-4 mb-3" style="height: 220px;">
-            <i class="fas fa-music fa-4x text-secondary"></i>
-          </div>
-        {{/if}}
-        {{#if atividade.desenvolvedorNome}}
-          <div class="mt-3">
-            <span class="badge rounded-pill bg-primary px-3 py-2" style="font-size:1rem;">
-              <i class="fas fa-user me-2"></i>Desenvolvedor: {{atividade.desenvolvedorNome}}
-            </span>
-          </div>
-        {{/if}}
+<div class="atividade-detalhada-card my-5">
+  <div class="atividade-detalhada-titulo">{{atividade.nome}}</div>
+  <div class="atividade-detalhada-top">
+    <div class="atividade-detalhada-avatar">
+      <i class="fas fa-user"></i>
+    </div>
+    <div>
+      <div class="atividade-detalhada-dev">Desenvolvedor: {{atividade.desenvolvedorNome}}</div>
+      <div class="atividade-detalhada-badges">
+        <span class="atividade-detalhada-badge"><i class="fas fa-tag"></i> {{atividade.tipo.nome}}</span>
+        <span class="atividade-detalhada-badge"><i class="fas fa-users"></i> {{atividade.vagas}} integrantes</span>
+        <span class="atividade-detalhada-badge"><i class="fas fa-clock"></i> {{atividade.duracao}}</span>
+        <span class="atividade-detalhada-badge"><i class="fas fa-star"></i> {{atividade.classificacao}}</span>
       </div>
-      <div class="col-md-7">
-        <h2 class="atividade-titulo mb-2" style="color:#7E57C2; font-weight:700;">{{atividade.nome}}</h2>
-        <div class="atividade-categoria mb-3">
-          <span class="badge bg-secondary me-2" style="font-size:1rem;">
-            <i class="fas fa-tag me-1"></i>{{atividade.tipo.nome}}
-          </span>
-          <span class="badge bg-warning text-dark me-2" style="font-size:1rem;">
-            <i class="fas fa-users me-1"></i>{{atividade.vagas}} integrantes
-          </span>
-          <span class="badge bg-success me-2" style="font-size:1rem;">
-            <i class="fas fa-clock me-1"></i>{{atividade.duracao}}
-          </span>
-          <span class="badge bg-info text-dark" style="font-size:1rem;">
-            <i class="fas fa-star me-1"></i>{{atividade.classificacao}}
-          </span>
-        </div>
-        <div class="atividade-info mb-3">
-          <p class="mb-2"><strong>Descrição:</strong> <span class="text-muted">{{atividade.descricao}}</span></p>
-          <p class="mb-2"><strong>Objetivo:</strong> <span class="text-muted">{{atividade.objetivo}}</span></p>
-          <p class="mb-2"><strong>Indicação:</strong> <span class="text-muted">{{atividade.indicacao}}</span></p>
-          <p class="mb-2"><strong>Recursos:</strong> <span class="text-muted">{{atividade.recursos}}</span></p>
-          <p class="mb-2"><strong>Condições:</strong> <span class="text-muted">{{atividade.condicoes}}</span></p>
-          {{#if atividade.obs}}
-            <p class="mb-2"><strong>Observações:</strong> <span class="text-muted">{{atividade.obs}}</span></p>
-          {{/if}}
-        </div>
-        <div class="atividade-anexos mt-4">
-          {{#if atividade.partituraBase64}}
-            <div class="mb-3">
-              <span class="fw-bold"><i class="fas fa-file-alt me-2"></i>Partitura:</span>
-              <a href="{{atividade.partituraBase64}}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">Visualizar Partitura</a>
-            </div>
-          {{/if}}
-          {{#if atividade.musicaBase64}}
-            <div class="mb-3">
-              <span class="fw-bold"><i class="fas fa-music me-2"></i>Áudio:</span>
-              <audio controls class="w-100 mt-2">
-                <source src="{{atividade.musicaBase64}}">
-                Seu navegador não suporta o elemento de áudio.
-              </audio>
-            </div>
-          {{/if}}
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="atividade-detalhada-content">
+    <div class="atividade-detalhada-imgbox">
+      {{#if atividade.imagemBase64}}
+        <img src="{{atividade.imagemBase64}}" alt="Imagem da atividade">
+      {{else}}
+        <i class="fas fa-music fa-3x" style="color: var(--primary-light);"></i>
+      {{/if}}
+    </div>
+    <div class="atividade-detalhada-partitura">
+      {{#if atividade.partituraBase64}}
+        <a href="{{atividade.partituraBase64}}" target="_blank" class="btn btn-outline-primary btn-sm">
+          <i class="fas fa-file-alt me-2"></i>Visualizar Partitura
+        </a>
+      {{else}}
+        <span style="color: var(--primary-light);">Sem partitura</span>
+      {{/if}}
+    </div>
+    <div class="atividade-detalhada-audio">
+      {{#if atividade.musicaBase64}}
+        <audio controls class="w-100">
+          <source src="{{atividade.musicaBase64}}">
+          Seu navegador não suporta o elemento de áudio.
+        </audio>
+      {{else}}
+        <span style="color: var(--primary-light);">Sem áudio</span>
+      {{/if}}
+    </div>
+  </div>
+  <div class="atividade-detalhada-info">
+    <div class="atividade-detalhada-info-col">
+      <strong>Objetivo:</strong>
+      <div>{{atividade.objetivo}}</div>
+      <strong>Indicação:</strong>
+      <div>{{atividade.indicacao}}</div>
+    </div>
+    <div class="atividade-detalhada-info-col">
+      <strong>Condições:</strong>
+      <div>{{atividade.condicoes}}</div>
+      <strong>Recursos:</strong>
+      <div>{{atividade.recursos}}</div>
+    </div>
+    <div class="atividade-detalhada-info-col">
+      <strong>Descrição:</strong>
+      <div>{{atividade.descricao}}</div>
+      {{#if atividade.obs}}
+        <div class="atividade-detalhada-obs"><strong>Obs:</strong> {{atividade.obs}}</div>
+      {{/if}}
     </div>
   </div>
 </div>
 <style>
-/* ...adicione estilos extras se desejar, mas o style.css já cobre a maioria dos casos... */
-.atividade-destaque .atividade-titulo {
+.atividade-detalhada-card {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+.atividade-detalhada-titulo {
+  color: #7E57C2;
   font-size: 2rem;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
-.atividade-destaque .atividade-categoria .badge {
+.atividade-detalhada-top {
+  align-items: center;
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+.atividade-detalhada-avatar {
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+.atividade-detalhada-dev {
+  color: #333;
   font-size: 1rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 }
-.atividade-destaque .atividade-info p {
-  font-size: 1.08rem;
+.atividade-detalhada-badges {
+  display: flex;
+  flex-wrap: wrap;
 }
-.atividade-destaque .atividade-anexos .btn {
-  font-size: 0.98rem;
+.atividade-detalhada-badge {
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  color: #333;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+.atividade-detalhada-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+.atividade-detalhada-imgbox {
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+.atividade-detalhada-imgbox img {
+  display: block;
+  width: 100%;
+}
+.atividade-detalhada-partitura,
+.atividade-detalhada-audio {
+  margin-top: 1rem;
+  width: 100%;
+}
+.atividade-detalhada-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.atividade-detalhada-info-col {
+  flex: 1;
+  margin-right: 1rem;
+}
+.atividade-detalhada-info-col strong {
+  color: #7E57C2;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.atividade-detalhada-obs {
+  background-color: #f9f9f9;
+  border-left: 4px solid #7E57C2;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
 }
 </style>

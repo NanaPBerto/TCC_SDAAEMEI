@@ -19,7 +19,7 @@ const Educador = db.sequelize.define('educadores', {
         type: db.Sequelize.STRING(20),
         allowNull: false
     },
-    senha: {
+    senha: { 
         type: db.Sequelize.STRING(10),
         allowNull: false
     },

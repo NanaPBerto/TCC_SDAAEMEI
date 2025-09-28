@@ -1,14 +1,29 @@
-<div class="container cadastro py-5">
-  <div class="mx-auto" style="max-width: 700px;">
-    <h1 class="mb-4 text-center" style="color: var(--primary); font-weight:700;">
-      <i class="fas fa-user-plus me-2"></i>Faça seu Cadastro
-    </h1>
-    <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="bg-white rounded-4 shadow p-4">
+<div class="container cadastro-educador py-4">
+  <div class="cadastro-container">
+    <div class="cadastro-card">
+      <div class="cadastro-header">
+        <h1>
+          <i class="fas fa-user-plus me-2"></i>Cadastro de Educador
+        </h1>
+        <p class="subtitle">Crie sua conta para acessar recursos educacionais</p>
+      </div>
+
+      <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="cadastro-form">
+      <!-- Avatar Upload -->
+      <div class="avatar-upload mb-4">
+        <div class="avatar-preview">
+          <div class="avatar-placeholder" id="avatarPreviewE">
+            <i class="fas fa-camera"></i>
+          </div>
+          <label class="avatar-edit-btn" for="fotoP">
+            <i class="fas fa-camera"></i>
+            <input type="file" id="fotoP" name="imagem" accept="image/*" onchange="previewAvatar(event, 'avatarPreviewE')">
+          </label>
+        </div>
+        <small class="text-muted">Foto de Perfil</small>
+      </div>
       <!-- Informações Pessoais -->
       <fieldset class="mb-4 border-0">
-        <legend class="mb-3" style="color: var(--primary); font-size:1.2rem;">
-          <i class="fas fa-user-circle me-2"></i>Informações Pessoais
-        </legend>
         <input type="hidden" name="tipo" value="educador">
         <div class="row g-3">
           <!-- Nome -->
@@ -17,7 +32,7 @@
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
               <input type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome completo" maxlength="30" required>
-            </div>
+            </div> 
           </div>
           <!-- Usuário -->
           <div class="col-md-6">
@@ -89,32 +104,38 @@
               <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="30" required>
             </div>
           </div>
-          <!-- Foto de Perfil -->
-          <div class="col-md-6">
-            <label for="fotoP" class="form-label">Foto de Perfil</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-camera"></i></span>
-              <input type="file" class="form-control" id="fotoP" name="imagem" accept="image/*">
-            </div>
-          </div>
         </div>
       </fieldset>
-      <!-- Termos e Condições -->
+      <!-- Termos e Botões -->
       <div class="form-check mb-4">
         <input class="form-check-input" type="checkbox" id="termos" required>
         <label class="form-check-label" for="termos">
-          Li e aceito os <a href="#" style="color: var(--primary);">Termos de Serviço</a> e <a href="#" style="color: var(--primary);">Política de Privacidade</a>
+          Li e aceito os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a>
         </label>
       </div>
-      <!-- Botões -->
       <div class="d-flex justify-content-end gap-3">
         <a href="login.html" class="btn btn-outline-secondary">
           <i class="fas fa-times-circle me-2"></i>Cancelar
         </a>
-        <button type="submit" class="btn btn-primary" id="btnC">
+        <button type="submit" class="btn btn-outline-secondary" id="btnC">
           <i class="fas fa-user-plus me-2"></i>Criar Conta
         </button>
       </div>
     </form>
   </div>
 </div>
+<script>
+function previewAvatar(event, previewId) {
+  const input = event.target;
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    preview.innerHTML = `<i class="fas fa-camera"></i>`;
+  }
+}
+</script>

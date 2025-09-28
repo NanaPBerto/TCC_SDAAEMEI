@@ -11,4 +11,4 @@ const sequelize = new Sequelize('bdtcc', 'root', 'Necess1dad&', {
 module.exports = {
     Sequelize: Sequelize,
     sequelize: sequelize
-};
+}; 

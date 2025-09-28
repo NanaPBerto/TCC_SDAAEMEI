@@ -8,7 +8,7 @@ function requireMusico(req, res, next) {
     return res.status(403).send('sua sessão expirou ou você não tem permissão para acessar esta página.');
     
   }
-  next();
+  next(); 
 }
 
 // Middleware para tratamento de erros do Multer

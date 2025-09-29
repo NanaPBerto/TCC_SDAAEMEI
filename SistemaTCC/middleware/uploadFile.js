@@ -8,7 +8,7 @@ const memoryStorage = multer.memoryStorage();
 // Configuração para salvar no disco
 const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, '../uploads/');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);

@@ -117,3 +117,70 @@ exports.editarPerfil = async (req, res) => {
     res.render('perfil', { usuario: req.session.usuario, alert: 'Erro ao atualizar perfil.' });
   }
 };
+
+// Listar perfis
+exports.listarPerfis = async (req, res) => {
+  try {
+    const musicos = await Musico.findAll();
+    const educadores = await Educador.findAll();
+    
+    // Combinar e formatar os usuários
+    const usuarios = [
+      ...musicos.map(m => {
+        const usuario = m.get({ plain: true });
+        usuario.tipo = 'musico';
+        if (usuario.imagem) {
+          usuario.imagemBase64 = Buffer.from(usuario.imagem).toString('base64');
+        }
+        return usuario;
+      }),
+      ...educadores.map(e => {
+        const usuario = e.get({ plain: true });
+        usuario.tipo = 'educador';
+        return usuario;
+      })
+    ];
+    
+    res.render('perfis', { usuarios });
+  } catch (erro) {
+    console.error('Erro ao listar perfis:', erro);
+    res.status(500).send('Erro ao listar perfis');
+  }
+};
+// Ver perfil específico
+exports.verPerfil = async (req, res) => {
+  try {
+    let usuario = await Musico.findByPk(req.params.id);
+    let tipo = 'musico';
+    
+    if (!usuario) {
+      usuario = await Educador.findByPk(req.params.id);
+      tipo = 'educador';
+    }
+    
+    if (!usuario) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+
+    // Converter para objeto simples e adicionar tipo
+    const usuarioData = usuario.get({ plain: true });
+    usuarioData.tipo = tipo;
+
+    // Converter imagem para base64 se existir
+    if (usuarioData.imagem) {
+      usuarioData.imagemBase64 = Buffer.from(usuarioData.imagem).toString('base64');
+    }
+
+    // Verificar se é o próprio perfil
+    const isOwnProfile = req.session.usuario && req.session.usuario.id == req.params.id;
+
+    res.render('perfil', { 
+      usuario: usuarioData, 
+      isOwnProfile: isOwnProfile,
+      session: req.session // Passar sessão para a view
+    });
+  } catch (erro) {
+    console.error('Erro ao buscar perfil:', erro);
+    res.status(500).send('Erro ao buscar perfil');
+  }
+};

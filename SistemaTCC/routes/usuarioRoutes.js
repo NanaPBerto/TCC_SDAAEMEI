@@ -3,6 +3,7 @@ const router = express.Router();
 const Musico = require('../models/musico');
 const Educador = require('../models/educador');
 const { usuarioUpload } = require('../middleware/uploadFile'); 
+const { requireMusico } = require('./atividadeRoutes');
 
 // Middleware para tratamento de erros do Multer
 const handleMulterError = (err, req, res, next) => {
@@ -143,8 +144,16 @@ router.get('/perfil', (req, res) => {
   if (!req.session.usuario) {
     return res.redirect('/login');
   }
-  res.render('perfil', { usuario: req.session.usuario });
+  res.render('perfil', { 
+    usuario: req.session.usuario, 
+    isOwnProfile: true,
+    session: req.session
+  });
 });
+
+//acessar outros perfis
+router.get('/perfis', require('../controllers/usuarioController').listarPerfis);
+router.get('/perfis/:id', require('../controllers/usuarioController').verPerfil);
 
 // Atualizar perfil
 router.post('/perfil', 
@@ -155,5 +164,7 @@ router.post('/perfil',
   handleMulterError,
   require('../controllers/usuarioController').editarPerfil
 );
+
+
 
 module.exports = router;

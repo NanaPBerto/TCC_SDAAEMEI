@@ -1,9 +1,79 @@
 <div class="container my-5">
-  <h2>Meu Perfil</h2>
+  {{#if isOwnProfile}}
+    <h2>Meu Perfil</h2>
+  {{else}}
+    <h2>Perfil de {{usuario.nome}}</h2>
+    <div class="badge {{#if (eq usuario.tipo 'musico')}}bg-success{{else}}bg-info{{/if}} mb-3">
+      {{#if (eq usuario.tipo 'musico')}}
+        <i class="fas fa-music me-1"></i> Músico
+      {{else}}
+        <i class="fas fa-chalkboard-teacher me-1"></i> Educador
+      {{/if}}
+    </div>
+  {{/if}}
+
   {{#if alert}}
     <div class="alert alert-error">{{alert}}</div>
   {{/if}}
-  <form action="/perfil" method="POST" enctype="multipart/form-data">
+
+  {{#if isOwnProfile}}
+    <!-- MODO EDIÇÃO (próprio perfil) -->
+    <form action="/perfil" method="POST" enctype="multipart/form-data" id="perfilForm">
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 text-center">
+          {{#if usuario.imagem}}
+            <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
+          {{else}}
+            <i class="fas fa-user-circle fa-7x text-muted mb-3" id="defaultIcon"></i>
+          {{/if}}
+          <div>
+            <label class="form-label">Alterar Foto</label>
+            <input type="file" class="form-control" name="imagem" accept="image/*" id="imagemInput">
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="mb-3"> 
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" name="nome" value="{{usuario.nome}}" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" value="{{usuario.email}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Cidade</label>
+            <input type="text" class="form-control" name="cidade" value="{{usuario.cidade}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">UF</label>
+            <input type="text" class="form-control" name="uf" value="{{usuario.uf}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Observações</label>
+            <textarea class="form-control" name="obs">{{usuario.obs}}</textarea>
+          </div>
+          {{#if (eq usuario.tipo 'musico')}}
+          <div class="mb-3">
+            <label class="form-label">Minicurrículo</label>
+            <input type="file" class="form-control" name="minicurriculo">
+            {{#if usuario.minicurriculo}}
+              <small class="text-muted">Arquivo atual: minicurriculo.pdf</small>
+            {{/if}}
+          </div>
+          {{/if}}
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-1"></i> Salvar Alterações
+            </button>
+            <a href="/perfis" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-1"></i> Voltar
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  {{else}}
+    <!-- MODO VISUALIZAÇÃO (perfil de outros usuários) -->
     <div class="row g-3 mb-4">
       <div class="col-md-4 text-center">
         {{#if usuario.imagem}}
@@ -11,38 +81,99 @@
         {{else}}
           <i class="fas fa-user-circle fa-7x text-muted mb-3"></i>
         {{/if}}
-        <div>
-          <label class="form-label">Alterar Foto</label>
-          <input type="file" class="form-control" name="imagem" accept="image/*">
-        </div>
       </div>
       <div class="col-md-8">
-        <div class="mb-3"> 
-          <label class="form-label">Nome</label>
-          <input type="text" class="form-control" name="nome" value="{{usuario.nome}}" required>
-        </div>
         <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" value="{{usuario.email}}">
+          <label class="form-label fw-bold">Nome</label>
+          <p class="form-control-plaintext">{{usuario.nome}}</p>
         </div>
+        {{#if usuario.email}}
         <div class="mb-3">
-          <label class="form-label">Cidade</label>
-          <input type="text" class="form-control" name="cidade" value="{{usuario.cidade}}">
+          <label class="form-label fw-bold">Email</label>
+          <p class="form-control-plaintext">{{usuario.email}}</p>
         </div>
+        {{/if}}
+        {{#if usuario.cidade}}
         <div class="mb-3">
-          <label class="form-label">UF</label>
-          <input type="text" class="form-control" name="uf" value="{{usuario.uf}}">
+          <label class="form-label fw-bold">Localização</label>
+          <p class="form-control-plaintext">{{usuario.cidade}}/{{usuario.uf}}</p>
         </div>
+        {{/if}}
+        {{#if usuario.fone}}
         <div class="mb-3">
-          <label class="form-label">Observações</label>
-          <textarea class="form-control" name="obs">{{usuario.obs}}</textarea>
+          <label class="form-label fw-bold">Telefone</label>
+          <p class="form-control-plaintext">{{usuario.fone}}</p>
         </div>
+        {{/if}}
+        {{#if usuario.obs}}
         <div class="mb-3">
-          <label class="form-label">Minicurrículo</label>
-          <input type="file" class="form-control" name="minicurriculo">
+          <label class="form-label fw-bold">Observações</label>
+          <p class="form-control-plaintext">{{usuario.obs}}</p>
         </div>
-        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        {{/if}}
+        {{#if (eq usuario.tipo 'musico')}}
+          {{#if usuario.minicurriculo}}
+          <div class="mb-3">
+            <label class="form-label fw-bold">Minicurrículo</label>
+            <p class="form-control-plaintext">
+              <a href="#" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-download me-1"></i> Baixar Minicurrículo
+              </a>
+            </p>
+          </div>
+          {{/if}}
+        {{/if}}
+        <div class="d-flex gap-2">
+          <a href="/perfis" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Voltar para Lista
+          </a>
+          {{#if ../session.usuario}}
+            {{#if (eq ../session.usuario.tipo 'musico')}}
+              <button class="btn btn-primary">
+                <i class="fas fa-envelope me-1"></i> Entrar em Contato
+              </button>
+            {{/if}}
+          {{/if}}
+        </div>
       </div>
     </div>
-  </form>
+  {{/if}}
 </div>
+
+{{#if isOwnProfile}}
+<script>
+  // Preview da imagem antes de salvar
+  document.getElementById('imagemInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Esconde o ícone padrão
+        const defaultIcon = document.getElementById('defaultIcon');
+        if (defaultIcon) defaultIcon.style.display = 'none';
+        
+        // Mostra ou atualiza a imagem de preview
+        let previewImg = document.getElementById('previewImagem');
+        if (!previewImg) {
+          previewImg = document.createElement('img');
+          previewImg.id = 'previewImagem';
+          previewImg.className = 'rounded-circle mb-3';
+          previewImg.style.width = '120px';
+          previewImg.style.height = '120px';
+          previewImg.style.objectFit = 'cover';
+          document.querySelector('.col-md-4.text-center').insertBefore(previewImg, document.getElementById('imagemInput').parentNode);
+        }
+        previewImg.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Previne o envio duplo do formulário
+  document.getElementById('perfilForm').addEventListener('submit', function(e) {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Salvando...';
+  });
+</script>
+{{/if}}

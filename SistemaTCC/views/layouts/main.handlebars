@@ -20,7 +20,7 @@
             <div class="navbar-container justify-content-between d-flex align-items-center">
               <div class="d-flex align-items-center">
                 {{#if usuario.imagem}}
-                  <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                  <img src="data:image/jpeg;base64,{{this.usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                 {{/if}}
               </div>
               <a href="/index" class="site-logo ms-auto">MUSICOTECA</a>
@@ -105,20 +105,23 @@
                 <span class="sidebar-text">Minhas Submissões</span>
             </li>
           </a>
-          
+          <a href="/estatisticas">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-chart-line"></i></span>
                 <span class="sidebar-text">Estatísticas</span>
             </li>
+          </a>
+          <a href="/perfis">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-users"></i></span>
                 <span class="sidebar-text">Perfis</span>
             </li>
+          </a>
         </ul>
         <ul class="sidebar-footer">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
-                <a href="/perfil" class="sidebar-text">Configurações</a>
+                <a href="/perfil/{{usuario.id}}" class="sidebar-text">Configurações</a>
             </li>
             <a href="/logout" class="nav-link">
             <li class="sidebar-item">
@@ -173,5 +176,6 @@
     <script src="/public/scripts/cadastros.js"></script>
     <script src="/public/scripts/escolher.js"></script>
     <script src="/public/scripts/menuLateral.js"></script>
+    <script src="/public/scripts/isOwnProfile.js"></script>
 </body>
 </html>

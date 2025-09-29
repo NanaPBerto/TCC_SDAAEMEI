@@ -4,13 +4,13 @@
     <div class="atividade-mini-card">
       <div class="atividade-mini-titulo">{{this.nome}}</div>
       <div class="atividade-mini-imgbox mb-2">
-        {{#if this.imagemBase64}}
-          <img src="data:{{this.imagemMime}};base64,{{this.imagemBase64}}" alt="Imagem da Atividade">
+        {{#if this.atividade.imagemBase64}}
+          <img src="data:{{this.atividade.imagemMime}};base64,{{this.atividade.imagemBase64}}" alt="Imagem da Atividade">
         {{else}}
           <i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>
         {{/if}}
       </div>
-      <div class="atividade-mini-objetivo">{{this.objetivo}}</div>
+      <div class="atividade-mini-objetivo">{{this.atividade.objetivo}}</div>
       <div class="atividade-mini-actions">
         <a href="/atividade/{{this.id}}" title="Ver detalhes">
           <button type="button" class="atividade-mini-btn">

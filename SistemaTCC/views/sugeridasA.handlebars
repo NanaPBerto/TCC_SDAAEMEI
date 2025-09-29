@@ -1,0 +1,126 @@
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="bi bi-stars me-2"></i>Atividades Sugeridas para Você
+    </h4>
+    
+    <div class="atividades-container">
+        {{#each atividadesSugeridas}}
+        <div class="atividade-mini-card" data-categoria="{{this.categoria}}">
+            <div class="atividade-mini-titulo">{{this.titulo}}</div>
+            
+            <div class="atividade-mini-imgbox">
+                {{#if this.imagem}}
+                <img src="{{this.imagem}}" alt="{{this.titulo}}" class="img-fluid" 
+                     onload="this.parentElement.classList.add('loaded')">
+                {{else}}
+                <i class="fas fa-music"></i>
+                {{/if}}
+            </div>
+            
+            <div class="atividade-mini-objetivo">
+                {{this.objetivo}}
+            </div>
+            
+            <div class="atividade-mini-actions">
+                <button class="atividade-mini-btn visualizar" 
+                        data-id="{{this.id}}"
+                        title="Visualizar Atividade">
+                    <i class="bi bi-eye"></i>
+                </button>
+                
+                {{#if this.favoritada}}
+                <button class="atividade-mini-btn favorito ativo" 
+                        data-id="{{this.id}}"
+                        title="Remover dos Favoritos">
+                    <i class="bi bi-heart-fill"></i>
+                </button>
+                {{else}}
+                <button class="atividade-mini-btn favorito" 
+                        data-id="{{this.id}}"
+                        title="Adicionar aos Favoritos">
+                    <i class="bi bi-heart"></i>
+                </button>
+                {{/if}}
+                
+                <button class="atividade-mini-btn compartilhar" 
+                        data-id="{{this.id}}"
+                        title="Compartilhar">
+                    <i class="bi bi-share"></i>
+                </button>
+            </div>
+            
+            <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
+                <small class="text-muted">
+                    <i class="bi bi-clock me-1"></i>{{this.duracao}}min
+                </small>
+                <small class="text-muted">
+                    <i class="bi bi-person me-1"></i>{{this.nivel}}
+                </small>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    
+    {{#unless atividadesSugeridas}}
+    <div class="text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+        <h5 class="text-muted">Nenhuma atividade sugerida no momento</h5>
+        <p class="text-muted">Complete seu perfil para receber sugestões personalizadas</p>
+        <button class="btn btn-primary mt-3">
+            <i class="bi bi-person-gear me-2"></i>Completar Perfil
+        </button>
+    </div>
+    {{/unless}}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Favoritar atividade
+    document.querySelectorAll('.favorito').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            const isAtivo = this.classList.contains('ativo');
+            
+            // Simulação de toggle
+            if (isAtivo) {
+                this.classList.remove('ativo');
+                this.innerHTML = '<i class="bi bi-heart"></i>';
+                this.title = "Adicionar aos Favoritos";
+            } else {
+                this.classList.add('ativo');
+                this.innerHTML = '<i class="bi bi-heart-fill"></i>';
+                this.title = "Remover dos Favoritos";
+            }
+            
+            // Aqui você faria a chamada AJAX para atualizar no backend
+            console.log(`Atividade ${atividadeId} ${isAtivo ? 'desfavoritada' : 'favoritada'}`);
+        });
+    });
+    
+    // Visualizar atividade
+    document.querySelectorAll('.visualizar').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            window.location.href = `/atividade/${atividadeId}`;
+        });
+    });
+    
+    // Compartilhar atividade
+    document.querySelectorAll('.compartilhar').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            // Implementar lógica de compartilhamento
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Confira esta atividade musical!',
+                    url: `${window.location.origin}/atividade/${atividadeId}`
+                });
+            } else {
+                // Fallback para copiar link
+                navigator.clipboard.writeText(`${window.location.origin}/atividade/${atividadeId}`);
+                alert('Link copiado para a área de transferência!');
+            }
+        });
+    });
+});
+</script>

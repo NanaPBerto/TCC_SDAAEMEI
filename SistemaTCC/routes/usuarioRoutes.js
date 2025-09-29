@@ -165,6 +165,15 @@ router.post('/perfil',
   require('../controllers/usuarioController').editarPerfil
 );
 
+router.get('/sugeridasA', (req, res) => {
+  res.locals.showBackButton = true;
+  res.render('sugeridasA');
+});
+
+router.get('/historicoA', (req, res) => {
+  res.locals.showBackButton = true;
+  res.render('historicoA');
+});
 
 
 module.exports = router;

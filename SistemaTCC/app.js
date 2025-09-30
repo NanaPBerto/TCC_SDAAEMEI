@@ -89,14 +89,12 @@ app.use(bodyParser.json());
 
 // Arquivos estáticos
 app.use(express.static(__dirname));
-
-
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Aumentar limite de payload do Express
 app.use(express.json({ limit: '50mb' }));

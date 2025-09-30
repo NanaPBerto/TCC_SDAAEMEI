@@ -30,7 +30,11 @@ const Educador = db.sequelize.define('educadores', {
     uf: {
         type: db.Sequelize.STRING(2),
         allowNull: true
-    }
+    },
+    imagem: {
+        type: db.Sequelize.STRING,
+        allowNull: true
+    },
 });
 
 module.exports = Educador;

@@ -44,13 +44,11 @@ exports.submissoes = async (req, res) => {
     });
 
     const plainAtivs = ativs.map(ativ => {
-      const obj = ativ.toJSON();
-      if (obj.imagem) {
-        obj.imagemMime = obj.imagemMime || 'image/jpeg';
-        obj.imagemBase64 = Buffer.from(obj.imagem).toString('base64');
-      }
-      return obj;
-    });
+  const obj = ativ.toJSON();
+  // ⭐⭐ REMOVER conversão para Base64 - usar URLs diretas ⭐⭐
+  // obj.imagem já contém o caminho '/uploads/nome-do-arquivo.jpg'
+  return obj;
+});
 
     const isMusico = usuario.tipo === 'musico';
     const isEducador = usuario.tipo === 'educador';
@@ -83,8 +81,7 @@ exports.novaAtividade = async (req, res) => {
 
 exports.add = async (req, res) => {
     try {
-        console.log('Arquivos recebidos:', req.files);
-        console.log('Dados do formulário:', req.body);
+        const { nome, descricao, objetivo, indicacao, vagas, duracao, recursos, condicoes, obs, desenvolvedor, classificacao, tipoId } = req.body;
         
         // Validar usuário logado
         if (!req.session.usuario || !req.session.usuario.id) {
@@ -135,21 +132,15 @@ exports.add = async (req, res) => {
             recursos: req.body.recursos,
             condicoes: req.body.condicoes,
             obs: req.body.obs || null,
-            classificacao: classificacaoMap[req.body.indexao] || 3,
+            classificacao: classificacaoMap[req.body.indicacao] || 3, // Corrigido typo: indexao → indicacao
             tipoId: req.body.tipoId,
             desenvolvedor: req.session.usuario.id,
             
             // ⭐⭐ APENAS CAMINHOS - NÃO SALVAR BUFFERS NO BANCO ⭐⭐
-            imagemPath: imagem ? `/uploads/${imagem.filename}` : null,
-            musicaPath: musica ? `/uploads/${musica.filename}` : null,
-            videoPath: video ? `/uploads/${video.filename}` : null,
-            partituraPath: partitura ? `/uploads/${partitura.filename}` : null,
-            
-            // ⭐⭐ REMOVER estes campos para evitar erro de tamanho ⭐⭐
-            // imagem: null,  // NÃO salvar BLOB
-            // musica: null,  // NÃO salvar BLOB  
-            // video: null,   // NÃO salvar BLOB
-            // partitura: null // NÃO salvar BLOB
+            imagem: imagem ? `/uploads/${imagem.filename}` : null,
+            musica: musica ? `/uploads/${musica.filename}` : null,
+            video: video ? `/uploads/${video.filename}` : null,
+            partitura: partitura ? `/uploads/${partitura.filename}` : null,
         };
 
         console.log('Dados para criar atividade:', atividadeData);
@@ -221,7 +212,7 @@ exports.atualizar = async (req, res) => {
       tipoId: req.body.tipoId
     };
 
-    // Processar arquivos se existirem
+    // ⭐⭐ CORREÇÃO: Processar arquivos se existirem - APENAS CAMINHOS ⭐⭐
     if (req.files && req.files.length > 0) {
       const imagem = req.files.find(file => file.fieldname === 'imagem');
       const musica = req.files.find(file => file.fieldname === 'musica');
@@ -229,21 +220,16 @@ exports.atualizar = async (req, res) => {
       const partitura = req.files.find(file => file.fieldname === 'partitura');
 
       if (imagem) {
-        updateData.imagem = imagem.buffer;
-        updateData.imagemMime = imagem.mimetype;
-        updateData.imagemPath = `/uploads/${imagem.filename}`;
+        updateData.imagem = `/uploads/${imagem.filename}`;
       }
       if (musica) {
-        updateData.musica = musica.buffer;
-        updateData.musicaPath = `/uploads/${musica.filename}`;
+        updateData.musica = `/uploads/${musica.filename}`;
       }
       if (video) {
-        updateData.video = video.buffer;
-        updateData.videoPath = `/uploads/${video.filename}`;
+        updateData.video = `/uploads/${video.filename}`;
       }
       if (partitura) {
-        updateData.partitura = partitura.buffer;
-        updateData.partituraPath = `/uploads/${partitura.filename}`;
+        updateData.partitura = `/uploads/${partitura.filename}`;
       }
     }
 
@@ -273,16 +259,13 @@ exports.detalheAtividade = async (req, res) => {
       return res.status(404).send('Atividade não encontrada');
     }
     const obj = atividade.toJSON();
-    if (obj.imagem) {
-      obj.imagemBase64 = `data:image/jpeg;base64,${Buffer.from(obj.imagem.data ? obj.imagem.data : obj.imagem).toString('base64')}`;
-    }
-    if (obj.partitura) {
-      obj.partituraBase64 = `data:application/pdf;base64,${Buffer.from(obj.partitura.data ? obj.partitura.data : obj.partitura).toString('base64')}`;
-    }
-    if (obj.musica) {
-      obj.musicaBase64 = `data:audio/mpeg;base64,${Buffer.from(obj.musica.data ? obj.musica.data : obj.musica).toString('base64')}`;
-    }
+    
+    // ⭐⭐ CORREÇÃO: Usar URLs diretas em vez de Base64 ⭐⭐
+    // As imagens/arquivos agora são servidos estaticamente
+    // Não precisa converter para Base64
+    
     obj.desenvolvedorNome = obj.musico ? obj.musico.nome : 'Desconhecido';
+    
     res.render('atividade', { atividade: obj });
   } catch (error) {
     console.error('Erro ao buscar detalhes da atividade:', error);

@@ -1,19 +1,30 @@
-// uploadFile.js /*
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
-// Configuração para salvar em memória
-const memoryStorage = multer.memoryStorage();
- 
+// Garante que a pasta uploads existe
+const ensureUploadsDir = () => {
+    const uploadsDir = path.join(__dirname, '../public/uploads');
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    return uploadsDir;
+};
+
 // Configuração para salvar no disco
 const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../uploads/');
+        const uploadsDir = ensureUploadsDir();
+        cb(null, uploadsDir);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        // Nome único para evitar conflitos
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const extension = path.extname(file.originalname);
+        const filename = file.fieldname + '-' + uniqueSuffix + extension;
+        cb(null, filename);
     }
-}); 
+});
 
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/png' ||
@@ -28,45 +39,32 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// Configurações com limites aumentados
 const multerConfig = {
+    storage: diskStorage, // ← MUDEI AQUI para diskStorage
     fileFilter: fileFilter,
     limits: {
-        fileSize: 20 * 1024 * 1024, // 20MB limite por arquivo
-        files: 10 // Máximo de 10 arquivos
+        fileSize: 20 * 1024 * 1024,
+        files: 10
     }
 };
 
-// Exportar diferentes configurações
 module.exports = {
-    // Para salvar em memória (usar nas rotas)
-    memoryUpload: multer({ 
-        storage: memoryStorage,
-        ...multerConfig
-    }),
+    memoryUpload: multer({ ...multerConfig }),
+    diskUpload: multer({ ...multerConfig }),
     
-    // Para salvar no disco
-    diskUpload: multer({ 
-        storage: diskStorage,
-        ...multerConfig
-    }),
-    
-    // Para campos específicos com configurações personalizadas
     atividadeUpload: multer({
-        storage: memoryStorage,
-        fileFilter: fileFilter,
+        ...multerConfig,
         limits: {
-            fileSize: 20 * 1024 * 1024, // 20MB
-            files: 4 // Máximo 4 arquivos (imagem, video, musica, partitura)
+            fileSize: 20 * 1024 * 1024,
+            files: 4
         }
     }),
     
     usuarioUpload: multer({
-        storage: memoryStorage,
-        fileFilter: fileFilter,
+        ...multerConfig,
         limits: {
-            fileSize: 15 * 1024 * 1024, // 15MB
-            files: 2 // Máximo 2 arquivos (imagem, minicurriculo)
+            fileSize: 15 * 1024 * 1024,
+            files: 2
         }
     })
 };

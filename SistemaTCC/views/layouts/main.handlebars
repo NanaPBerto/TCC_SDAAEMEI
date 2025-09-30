@@ -19,8 +19,8 @@
           <nav class="navbar" id="navbar">
             <div class="navbar-container justify-content-between d-flex align-items-center">
               <div class="d-flex align-items-center">
-                {{#if usuario.imagem}}
-                  <img src="data:image/jpeg;base64,{{this.usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                {{#if this.usuario.imagem}}
+                  <img src="{{this.usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                 {{/if}}
               </div>
               <a href="/index" class="site-logo ms-auto">MUSICOTECA</a>

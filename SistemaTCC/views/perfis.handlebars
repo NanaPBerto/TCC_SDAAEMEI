@@ -14,8 +14,8 @@
             <div class="card-body text-center">
               <!-- Imagem do perfil -->
               <div class="mb-3">
-                {{#if this.imagemBase64}}
-                  <img src="data:image/jpeg;base64,{{this.imagemBase64}}" 
+                {{#if this.imagem}}
+                  <img src="{{this.imagem}}" 
                        alt="{{this.nome}}" 
                        class="rounded-circle" 
                        style="width: 100px; height: 100px; object-fit: cover;">

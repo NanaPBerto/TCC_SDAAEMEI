@@ -36,11 +36,11 @@ const Musico = db.sequelize.define('musicos', {
         allowNull: true
     },
     imagem: {
-        type: db.Sequelize.BLOB('long'), // Foto de perfil
+        type: db.Sequelize.STRING, // Foto de perfil
         allowNull: true
     },
     minicurriculo: {
-        type: db.Sequelize.BLOB('long'), // Arquivo de minicurrículo
+        type: db.Sequelize.STRING, // Arquivo de minicurrículo
         allowNull: true
     },
     cidade: {

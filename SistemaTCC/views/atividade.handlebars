@@ -16,15 +16,15 @@
   </div>
   <div class="atividade-detalhada-content">
     <div class="atividade-detalhada-imgbox">
-      {{#if atividade.imagemBase64}}
-        <img src="{{atividade.imagemBase64}}" alt="Imagem da atividade">
+      {{#if atividade.imagem}}
+        <img src="{{atividade.imagem}}" alt="Imagem da atividade">
       {{else}}
         <i class="fas fa-music fa-3x" style="color: var(--primary-light);"></i>
       {{/if}}
     </div>
     <div class="atividade-detalhada-partitura">
-      {{#if atividade.partituraBase64}}
-        <a href="{{atividade.partituraBase64}}" target="_blank" class="btn btn-outline-primary btn-sm">
+      {{#if atividade.partitura}}
+        <a href="{{atividade.partitura}}" target="_blank" class="btn btn-outline-primary btn-sm">
           <i class="fas fa-file-alt me-2"></i>Visualizar Partitura
         </a>
       {{else}}
@@ -32,9 +32,9 @@
       {{/if}}
     </div>
     <div class="atividade-detalhada-audio">
-      {{#if atividade.musicaBase64}}
+      {{#if atividade.musica}}
         <audio controls class="w-100">
-          <source src="{{atividade.musicaBase64}}">
+          <source src="{{atividade.musica}}">
           Seu navegador não suporta o elemento de áudio.
         </audio>
       {{else}}

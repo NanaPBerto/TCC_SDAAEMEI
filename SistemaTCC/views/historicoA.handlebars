@@ -1,0 +1,150 @@
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="bi bi-clock-history me-2"></i>Suas Últimas Atividades
+    </h4>
+    
+    <div class="atividades-container">
+        {{#each ultimasAtividades}}
+        <div class="atividade-mini-card" data-categoria="{{this.categoria}}">
+            <div class="atividade-mini-titulo">{{this.titulo}}</div>
+            
+            <div class="atividade-mini-imgbox">
+                {{#if this.imagem}}
+                <img src="{{this.imagem}}" alt="{{this.titulo}}" class="img-fluid"
+                     onload="this.parentElement.classList.add('loaded')">
+                {{else}}
+                <i class="fas fa-music"></i>
+                {{/if}}
+                
+                {{#if this.progresso}}
+                <div class="progresso-overlay">
+                    <div class="progresso-circle" data-progresso="{{this.progresso}}">
+                        <span>{{this.progresso}}%</span>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            
+            <div class="atividade-mini-objetivo">
+                {{this.objetivo}}
+            </div>
+            
+            <div class="atividade-mini-actions">
+                <button class="atividade-mini-btn continuar" 
+                        data-id="{{this.id}}"
+                        title="Continuar Atividade">
+                    <i class="bi bi-play-circle"></i>
+                </button>
+                
+                <button class="atividade-mini-btn refazer" 
+                        data-id="{{this.id}}"
+                        title="Refazer Atividade">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                
+                <button class="atividade-mini-btn detalhes" 
+                        data-id="{{this.id}}"
+                        title="Ver Detalhes">
+                    <i class="bi bi-info-circle"></i>
+                </button>
+            </div>
+            
+            <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
+                <small class="text-muted">
+                    <i class="bi bi-calendar me-1"></i>
+                    {{formatarData this.ultimoAcesso}}
+                </small>
+                <small class="text-muted">
+                    <i class="bi bi-check-circle me-1 {{#if this.concluida}}text-success{{/if}}"></i>
+                    {{#if this.concluida}}Concluída{{else}}Em andamento{{/if}}
+                </small>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    
+    {{#unless ultimasAtividades}}
+    <div class="text-center py-5">
+        <i class="bi bi-clock display-1 text-muted mb-3"></i>
+        <h5 class="text-muted">Nenhuma atividade recente</h5>
+        <p class="text-muted">Comece explorando as atividades disponíveis</p>
+        <button class="btn btn-primary mt-3" onclick="window.location.href='/atividades'">
+            <i class="bi bi-compass me-2"></i>Explorar Atividades
+        </button>
+    </div>
+    {{/unless}}
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar círculos de progresso
+    document.querySelectorAll('.progresso-circle').forEach(circle => {
+        const progresso = circle.dataset.progresso;
+        circle.style.setProperty('--progresso', `${progresso}%`);
+    });
+    
+    // Marcar atividades muito recentes
+    document.querySelectorAll('.atividade-mini-card').forEach(card => {
+        const dataAcesso = card.querySelector('.bi-calendar').parentElement.textContent;
+        if (ehMuitoRecente(dataAcesso)) {
+            card.classList.add('recente');
+        }
+    });
+    
+    // Continuar atividade
+    document.querySelectorAll('.continuar').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            window.location.href = `/atividade/${atividadeId}?continuar=true`;
+        });
+    });
+    
+    // Refazer atividade
+    document.querySelectorAll('.refazer').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            if (confirm('Deseja reiniciar esta atividade? Seu progresso atual será perdido.')) {
+                window.location.href = `/atividade/${atividadeId}?refazer=true`;
+            }
+        });
+    });
+    
+    // Ver detalhes
+    document.querySelectorAll('.detalhes').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const atividadeId = this.dataset.id;
+            window.location.href = `/atividade/${atividadeId}?detalhes=true`;
+        });
+    });
+    
+    function ehMuitoRecente(dataTexto) {
+        // Lógica para verificar se a atividade foi acessada nas últimas 24h
+        const hoje = new Date();
+        const dataAcesso = new Date(dataTexto);
+        const diferenca = hoje - dataAcesso;
+        const horas = diferenca / (1000 * 60 * 60);
+        return horas < 24;
+    }
+});
+
+// Helper para formatar data (deve ser registrado no Handlebars)
+function formatarData(data) {
+    if (!data) return '';
+    
+    const dataObj = new Date(data);
+    const agora = new Date();
+    const diferenca = agora - dataObj;
+    const minutos = Math.floor(diferenca / (1000 * 60));
+    const horas = Math.floor(diferenca / (1000 * 60 * 60));
+    const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+    
+    if (minutos < 1) return 'Agora mesmo';
+    if (minutos < 60) return `${minutos} min atrás`;
+    if (horas < 24) return `${horas} h atrás`;
+    if (dias === 1) return 'Ontem';
+    if (dias < 7) return `${dias} dias atrás`;
+    
+    return dataObj.toLocaleDateString('pt-BR');
+}
+</script>

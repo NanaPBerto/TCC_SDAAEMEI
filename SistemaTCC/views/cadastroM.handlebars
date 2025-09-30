@@ -9,6 +9,18 @@
       </div>
 
       <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="cadastro-form">
+      <div class="avatar-upload mb-4">
+        <div class="avatar-preview">
+          <div class="avatar-placeholder" id="avatarPreviewE">
+            <i class="fas fa-camera"></i>
+          </div>
+          <label class="avatar-edit-btn" for="fotoP">
+            <i class="fas fa-camera"></i>
+            <input type="file" id="fotoP" name="imagem" accept="image/*" onchange="previewAvatar(event, 'avatarPreviewE')">
+          </label>
+        </div>
+        <small class="text-muted">Foto de Perfil</small>
+      </div>
       <!-- Informações Pessoais -->
       <fieldset class="mb-4 border-0">
         <legend class="mb-3" style="color: var(--primary); font-size:1.2rem;">
@@ -108,14 +120,6 @@
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
               <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="30" required>
-            </div>
-          </div>
-          <!-- Foto de Perfil -->
-          <div class="col-md-6">
-            <label for="fotoP" class="form-label">Foto de Perfil</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-camera"></i></span>
-              <input type="file" class="form-control" id="fotoP" name="imagem" accept="image/*">
             </div>
           </div>
           <!-- Minicurrículo -->

@@ -1382,6 +1382,9 @@ main.container {
     background: linear-gradient(135deg, #E64A19 0%, #D84315 100%);
 }
 
+.atividade-mini-btn i {
+    align-items: center;
+}
 /* =========================
    ATIVIDADE DETALHADA
    ========================= */
@@ -2137,10 +2140,7 @@ button#btnSubmissões:hover {
    ========================= */
 
 /* Container principal para todas as páginas de cadastro */
-body.cadastro,
-body.cadastro-educador,
-body.cadastro-musico,
-body.cadastro-atividade {
+body[class*="cadastro"]{
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #e1bee7 0%, #bbdefb 100%);
     display: flex;
@@ -2430,324 +2430,6 @@ body.cadastro-atividade {
     border-bottom: 2px solid var(--primary-light);
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    body.cadastro,
-    body.cadastro-educador,
-    body.cadastro-musico,
-    body.cadastro-atividade {
-        padding: 10px;
-        align-items: flex-start;
-    }
-    
-    .cadastro-container {
-        margin: 1rem auto;
-    }
-    
-    .cadastro-card {
-        padding: 2rem 1.5rem;
-        border-radius: 15px;
-    }
-    
-    .cadastro-header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .avatar-preview {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .avatar-preview img,
-    .avatar-preview .avatar-placeholder {
-        width: 100px;
-        height: 100px;
-        font-size: 2rem;
-    }
-    
-    .cadastro-actions {
-        justify-content: center;
-    }
-    
-    .btn-cadastro {
-        min-width: 120px;
-        padding: 0.65rem 1.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .cadastro-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .cadastro-header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .avatar-preview {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .avatar-preview img,
-    .avatar-preview .avatar-placeholder {
-        width: 80px;
-        height: 80px;
-        font-size: 1.5rem;
-    }
-    
-    .cadastro-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .btn-cadastro {
-        width: 100%;
-    }
-}
-
-/* Animações */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.cadastro-card {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-/* Estados de loading */
-.btn-cadastro.loading {
-    position: relative;
-    color: transparent;
-}
-
-.btn-cadastro.loading::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* === AVATAR DE UPLOAD DE IMAGEM DE PERFIL (CADASTRO) === */
-.avatar-upload {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-.avatar-preview {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 0.5rem;
-}
-.avatar-preview img,
-.avatar-preview .avatar-placeholder {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--primary);
-    background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.7rem;
-    color: var(--primary-light);
-    transition: box-shadow 0.2s;
-}
-.avatar-preview .avatar-placeholder {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-.avatar-upload .avatar-edit-btn {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.4rem;
-    box-shadow: 0 2px 8px rgba(126,87,194,0.15);
-    transition: background 0.2s;
-    border: 2px solid #fff;
-}
-.avatar-upload .avatar-edit-btn:hover {
-    background: var(--secondary);
-}
-.avatar-upload input[type="file"] {
-    display: none;
-}
-
-/* === FORMULÁRIOS DE CADASTRO (ALINHAMENTO, BRANDING E RESPONSIVIDADE) === */
-body.cadastro .container,
-body .container.cadastro {
-    max-width: 650px;
-    margin: 2.5rem auto;
-    padding: 2.5rem 2rem;
-    background: #fff;
-    border-radius: 22px;
-    box-shadow: 0 8px 32px rgba(126,87,194,0.13), 0 2px 8px rgba(66,165,245,0.09);
-}
-body.cadastro form,
-body .container.cadastro form {
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-}
-body.cadastro fieldset {
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    margin-bottom: 1.5rem;
-    border: none;
-}
-body.cadastro .form-label {
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 0.3rem;
-    letter-spacing: 0.01em;
-}
-body.cadastro .input-group {
-    border-radius: 10px;
-    background: #f7f4fa;
-    border: 2px solid var(--primary-light);
-    transition: border 0.2s;
-    box-shadow: 0 1px 4px rgba(126,87,194,0.04);
-    margin-bottom: 0.2rem;
-}
-body.cadastro .input-group:focus-within {
-    border-color: var(--secondary);
-    background: #fafdff;
-}
-body.cadastro .input-group-text {
-    background: transparent;
-    border: none;
-    color: var(--primary);
-    font-size: 1.15rem;
-    padding: 0 0.8rem;
-}
-body.cadastro .form-control,
-body.cadastro .form-select {
-    border: none;
-    border-radius: 0 10px 10px 0;
-    background: transparent;
-    font-size: 1.08rem;
-    color: var(--text);
-    padding: 0.7rem 1rem;
-    box-shadow: none;
-    outline: none;
-    transition: background 0.2s;
-}
-body.cadastro .form-control:focus,
-body.cadastro .form-select:focus {
-    background: #fff;
-    color: var(--primary);
-}
-body.cadastro .form-check-input:checked {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-body.cadastro .btn-primary {
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border: none;
-    font-weight: 700;
-    border-radius: 10px;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(126,87,194,0.08);
-    letter-spacing: 0.02em;
-}
-body.cadastro .btn-primary:hover {
-    background: linear-gradient(90deg, var(--secondary), var(--primary));
-    box-shadow: 0 4px 16px rgba(66,165,245,0.13);
-}
-body.cadastro .btn-outline-secondary {
-    border-radius: 10px;
-    border: 2px solid var(--primary-light);
-    color: var(--primary);
-    background: #f7f4fa;
-    font-weight: 600;
-    transition: border 0.2s, color 0.2s, background 0.2s;
-}
-body.cadastro .btn-outline-secondary:hover {
-    border-color: var(--secondary);
-    color: var(--secondary);
-    background: #fafdff;
-}
-body.cadastro .form-check-label a {
-    text-decoration: underline;
-    color: var(--secondary);
-}
-body.cadastro .form-check-label a:hover {
-    color: var(--primary);
-}
-body.cadastro textarea.form-control {
-    min-height: 80px;
-    resize: vertical;
-}
-body.cadastro small.text-muted,
-body.cadastro .input-group ~ small.text-muted {
-    font-size: 0.98em;
-    color: var(--secondary);
-    margin-left: 0.5rem;
-    display: block;
-    margin-top: 0.1rem;
-    margin-bottom: 0.2rem;
-    width: 100%;
-    text-align: left;
-}
-body.cadastro .input-group ~ small.text-muted {
-    font-size: 0.97em;
-    margin-left: 0;
-    margin-top: 0.15rem;
-}
-body.cadastro .form-check {
-    margin-top: 1.2rem;
-}
-body.cadastro .form-check-input {
-    border-radius: 6px;
-    border: 2px solid var(--primary-light);
-    width: 1.1em;
-    height: 1.1em;
-}
-body.cadastro .form-check-label {
-    font-size: 1.01rem;
-    color: var(--text-light);
-    font-weight: 500;
-}
-body.cadastro .d-flex.gap-3 {
-    gap: 1.2rem !important;
-}
-body.cadastro .btn {
-    min-width: 120px;
-    font-size: 1.07rem;
-}
-
 /* Responsividade cadastro */
 @media (max-width: 900px) {
     body.cadastro .container,
@@ -2780,4 +2462,103 @@ body.cadastro .btn {
         font-size: 1rem;
         padding: 0 0.5rem;
     }
+}
+
+/* === CUSTOM BADGES E PROGRESSO PARA ATIVIDADE MINI CARD === */
+
+/* Badge "Sugerida" */
+.atividade-mini-card.sugerida::after {
+    content: '⭐ Sugerida';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
+    z-index: 2;
+}
+
+/* Badge "Recente" (não sobrescreve "Sugerida" se ambos) */
+.atividade-mini-card.recente:not(.sugerida)::before {
+    content: '🆕 Recente';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(66, 165, 245, 0.3);
+    z-index: 2;
+}
+
+/* Botão favorito ativo */
+.favorito.ativo {
+    background: linear-gradient(135deg, #EC407A 0%, #D81B60 100%) !important;
+}
+.favorito.ativo:hover {
+    background: linear-gradient(135deg, #D81B60 0%, #C2185B 100%) !important;
+}
+
+/* Progresso overlay e círculo */
+.progresso-overlay {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+.progresso-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary) 0% var(--progresso), #e0e0e0 var(--progresso) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.progresso-circle::before {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    left: 4px;
+    top: 4px;
+}
+.progresso-circle span {
+    position: relative;
+    z-index: 1;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Botões continuar/refazer customizados */
+.continuar {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+.continuar:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%) !important;
+}
+.refazer {
+    background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%) !important;
+}
+.refazer:hover {
+    background: linear-gradient(135deg, #6f42c1 0%, #17a2b8 100%) !important;
 }

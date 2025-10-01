@@ -156,3 +156,18 @@
     </form>
   </div>
 </div>
+<script>
+function previewAvatar(event, previewId) {
+  const input = event.target;
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    preview.innerHTML = `<i class="fas fa-camera"></i>`;
+  }
+}
+</script>

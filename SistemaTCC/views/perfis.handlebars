@@ -6,72 +6,84 @@
         Usuários Cadastrados
       </h4>
     </div>
+    
+    <!-- Filtros Rápidos -->
+    <div class="users-filters">
+      <div class="filter-btn active">Todos</div>
+      <div class="filter-btn">Músicos</div>
+      <div class="filter-btn">Educadores</div>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar usuários...">
+      </div>
+    </div>
+    
     <div class="card-body">
-      <div class="row">
+      <div class="user-list">
         {{#each usuarios}}
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-              <!-- Imagem do perfil -->
-              <div class="mb-3">
-                {{#if this.imagem}}
-                  <img src="{{this.imagem}}" 
-                       alt="{{this.nome}}" 
-                       class="rounded-circle" 
-                       style="width: 100px; height: 100px; object-fit: cover;">
-                {{else}}
-                  <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center" 
-                       style="width: 100px; height: 100px;">
-                    <i class="fas fa-user fa-2x text-secondary"></i>
-                  </div>
-                {{/if}}
-              </div>
-              
-              <!-- Informações do usuário -->
-              <h5 class="card-title">{{this.nome}}</h5>
-              
-              <!-- Tipo de usuário com badge colorido -->
-              <span class="badge {{#if (eq this.tipo 'musico')}}bg-success{{else}}bg-info{{/if}} mb-2">
+        <div class="user-item">
+          <!-- Avatar -->
+          <div class="user-avatar">
+            {{#if this.imagem}}
+              <img src="{{this.imagem}}" alt="{{this.nome}}">
+            {{else}}
+              <i class="fas fa-user"></i>
+            {{/if}}
+          </div>
+          
+          <!-- Informações Principais -->
+          <div class="user-main-info">
+            <div class="user-name-type">
+              <div class="user-name">{{this.nome}}</div>
+              <span class="user-badge {{this.tipo}}">
                 {{#if (eq this.tipo 'musico')}}
                   <i class="fas fa-music me-1"></i> Músico
                 {{else}}
                   <i class="fas fa-chalkboard-teacher me-1"></i> Educador
                 {{/if}}
               </span>
-              
-              <div class="user-info text-start small">
-                {{#if this.email}}
-                <p class="mb-1"><strong>Email:</strong> {{this.email}}</p>
-                {{/if}}
-                
-                {{#if this.cidade}}
-                <p class="mb-1"><strong>Localização:</strong> {{this.cidade}}/{{this.uf}}</p>
-                {{/if}}
-                
-                {{#if this.fone}}
-                <p class="mb-1"><strong>Telefone:</strong> {{this.fone}}</p>
-                {{/if}}
-                
-                {{#if this.obs}}
-                <p class="mb-1"><strong>Observações:</strong> {{this.obs}}</p>
-                {{/if}}
-              </div>
-              
-              <!-- Botão para ver perfil -->
-              <div class="mt-3">
-                <a href="/perfis/{{this.id}}" class="btn btn-primary btn-sm">
-                  <i class="fas fa-eye me-1"></i> Ver Perfil Completo
-                </a>
-              </div>
             </div>
+            
+            <!-- Detalhes de Contato -->
+            <div class="user-details">
+              {{#if this.email}}
+              <div class="detail-item">
+                <i class="fas fa-envelope"></i>
+                <span>{{this.email}}</span>
+              </div>
+              {{/if}}
+              
+              {{#if this.cidade}}
+              <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{this.cidade}}/{{this.uf}}</span>
+              </div>
+              {{/if}}
+              
+              {{#if this.fone}}
+              <div class="detail-item">
+                <i class="fas fa-phone"></i>
+                <span>{{this.fone}}</span>
+              </div>
+              {{/if}}
+            </div>
+          </div>
+          
+          <!-- Ações -->
+          <div class="user-actions">
+            <a href="/perfis/{{this.id}}" class="btn-sm btn-primary">
+              <i class="fas fa-eye"></i> Ver
+            </a>
+            <button class="btn-sm">
+              <i class="fas fa-comment"></i> Contatar
+            </button>
           </div>
         </div>
         {{else}}
-        <div class="col-12">
-          <div class="alert alert-info text-center">
-            <i class="fas fa-info-circle me-2"></i>
-            Nenhum usuário cadastrado no momento.
-          </div>
+        <div class="empty-state">
+          <i class="fas fa-users"></i>
+          <h5>Nenhum usuário cadastrado</h5>
+          <p>Quando usuários forem cadastrados, eles aparecerão aqui.</p>
         </div>
         {{/each}}
       </div>

@@ -175,5 +175,57 @@
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Salvando...';
   });
+
+  // Adicione este script no final do arquivo, antes do </body>
+
+// Efeitos visuais adicionais
+document.addEventListener('DOMContentLoaded', function() {
+    // Adiciona classe de loading nos botões ao enviar formulários
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const buttons = this.querySelectorAll('button[type="submit"]');
+            buttons.forEach(btn => {
+                btn.classList.add('loading');
+            });
+        });
+    });
+    
+    // Efeito de foco nos campos
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    });
+    
+    // Animação suave ao rolar para a seção
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, observerOptions);
+    
+    // Observa elementos para animação
+    const animatedElements = document.querySelectorAll('.row.g-3.mb-4, h2, .badge');
+    animatedElements.forEach(el => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(20px)";
+        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(el);
+    });
+});
 </script>
 {{/if}}

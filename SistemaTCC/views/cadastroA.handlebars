@@ -12,12 +12,12 @@
       <form action="/novaAtividade" method="POST" enctype="multipart/form-data" class="cadastro-form" id="formAtividade">
         <!-- Seção: Informações Básicas -->
         <div class="form-section">
-          <h5><i class="fas fa-info-circle me-2"></i>Informações Básicas</h5>
-          <div class="row g-3">
+          <h5></i>Informações Básicas</h5>
+          <div class="row g-3 align-items-end">
             <div class="col-md-8">
               <label for="tituloAtividade" class="form-label">Título da Atividade</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                <span class="input-group-text"><i class="fas fa-medal"></i></span>
                 <input type="text" class="form-control" id="tituloAtividade" name="nome" 
                        placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required>
               </div>
@@ -52,9 +52,9 @@
 
         <!-- Seção: Descrição e Objetivos -->
         <div class="form-section">
-          <h5><i class="fas fa-bullseye me-2"></i>Descrição e Objetivos</h5>
+          <h5></i>Descrição e Objetivos</h5>
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="descricaoAtividade" class="form-label">Descrição da Atividade</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-align-left"></i></span>
@@ -62,10 +62,10 @@
                           placeholder="Descreva detalhadamente como a atividade será realizada, passo a passo..." required></textarea>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="objetivoAtividade" class="form-label">Objetivos Educacionais</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-target"></i></span>
+                <span class="input-group-text"><i class="fas fa-bullseye me-2"></i></span>
                 <textarea class="form-control" id="objetivoAtividade" name="objetivo" rows="4" 
                           placeholder="Quais habilidades e competências serão desenvolvidas com esta atividade?" required></textarea>
               </div>
@@ -75,7 +75,7 @@
 
         <!-- Seção: Configurações -->
         <div class="form-section">
-          <h5><i class="fas fa-cogs me-2"></i>Configurações</h5>
+          <h5>Categorias</h5>
           <div class="row g-3">
             <div class="col-md-4">
               <label for="classificacaoAtividade" class="form-label">Faixa Etária</label>
@@ -124,9 +124,9 @@
 
         <!-- Seção: Recursos e Condições -->
         <div class="form-section">
-          <h5><i class="fas fa-tools me-2"></i>Recursos e Condições</h5>
+          <h5>Recursos e Condições</h5>
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="indicacaoAtividade" class="form-label">Nível de Dificuldade</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-star"></i></span>
@@ -134,7 +134,7 @@
                        placeholder="Ex: Iniciante, Intermediário, Avançado" required>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="recursosAtividade" class="form-label">Materiais Necessários</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-toolbox"></i></span>
@@ -142,9 +142,7 @@
                           placeholder="Liste todos os materiais e recursos necessários para a atividade..." required></textarea>
               </div>
             </div>
-          </div>
-          <div class="row g-3 mt-2">
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="condicoesAtividade" class="form-label">Condições de Execução</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-clipboard-check"></i></span>
@@ -152,7 +150,7 @@
                           placeholder="Descreva as condições ideais para realizar a atividade (espaço, ambiente, etc)..." required></textarea>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12">
               <label for="obsAtividade" class="form-label">Observações Adicionais</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
@@ -188,10 +186,10 @@
         <!-- Botões de Ação -->
         <div class="cadastro-actions">
           <button type="reset" class="btn-atividade btn-atividade-secondary">
-            <i class="fas fa-times-circle me-2"></i>Limpar Formulário
+            <i class="fas fa-times-circle me-2"></i>Limpar
           </button>
           <button type="submit" class="btn-atividade btn-atividade-primary" id="btnSubmit">
-            <i class="fas fa-save me-2"></i>Salvar Atividade
+            <i class="fas fa-save me-2"></i>Salvar
           </button>
         </div>
       </form>
@@ -251,5 +249,5 @@ document.querySelectorAll('.form-control, .form-select').forEach(input => {
             this.classList.remove('is-valid');
         }
     });
-});
+}); 
 </script>

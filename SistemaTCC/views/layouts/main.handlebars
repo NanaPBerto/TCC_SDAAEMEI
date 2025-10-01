@@ -29,20 +29,12 @@
         {{else}}
           <!-- Menu superior para visitante (não logado) -->
           <nav class="navbar" id="navbar">
-            <div class="navbar-container">
+            <div class="navbar-container d-flex align-items-center justify-content-between">
               <a href="/index" class="site-logo">MUSICOTECA</a>
-              <nav id="menuS" class="navbar navbar-expand-sm">
-                <div id="menuS" class="container-fluid">
-                  <ul class="navbar-nav w-100">
-                    <li class="nav-item" style="margin-left: 15px;">
-                    </li>
-                    <li class="nav-item ms-auto">
-                      <a href="/login" class="btn btn-outline-light me-2">Login</a>
-                      <a href="/escolher" class="btn btn-outline-light">Cadastro</a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+              <div class="menu-auth ms-auto d-flex align-items-center" style="gap: 1rem;">
+                <a href="/login" class="btn btn-outline-light me-0">Login</a>
+                <a href="/escolher" class="btn btn-outline-light">Cadastro</a>
+              </div>
             </div>
           </nav>
         {{/if}}

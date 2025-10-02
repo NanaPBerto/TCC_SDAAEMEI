@@ -2,7 +2,12 @@
   <div class="atividade-detalhada-titulo">{{atividade.nome}}</div>
   <div class="atividade-detalhada-top">
     <div class="atividade-detalhada-avatar">
-      <i class="fas fa-user"></i>
+      {{#if usuario.imagem}}
+        <img src="{{usuario.imagem}}" alt="Imagem do usuário" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+      {{else}}
+        <i class="fas fa-user"></i>
+      {{/if}}
+      
     </div>
     <div>
       <div class="atividade-detalhada-dev">Desenvolvedor: {{atividade.desenvolvedorNome}}</div>

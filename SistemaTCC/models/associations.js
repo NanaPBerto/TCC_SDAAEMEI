@@ -3,7 +3,6 @@ const Ativ = require('./ativ');
 const Tipoatividade = require('./tipoatividade');
 const classificacao = require('./classificacao');
 const Musico = require('./musico');
-const Estatistica = require('./Estatistica'); 
 
 function setupAssociations() { 
   // Associação Ativ -> Tipoatividade
@@ -40,29 +39,6 @@ function setupAssociations() {
     as: 'atividades'
   });
   
-  // Associação Estatistica -> Atividade
-  Estatistica.belongsTo(Ativ, {
-    foreignKey: 'atividade_id',
-    as: 'atividade'
-  });
-  
-  // Associação inversa
-  Ativ.hasMany(Estatistica, {
-    foreignKey: 'atividade_id',
-    as: 'estatisticas'
-  });
-  
-  // Associação Estatistica -> Musico
-  Estatistica.belongsTo(Musico, {
-    foreignKey: 'musico_id',
-    as: 'musico'
-  });
-  
-  // Associação inversa
-  Musico.hasMany(Estatistica, {
-    foreignKey: 'musico_id',
-    as: 'estatisticas'
-  });
 }
 
 module.exports = setupAssociations;

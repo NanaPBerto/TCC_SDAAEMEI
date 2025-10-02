@@ -21,7 +21,7 @@
     <form action="/perfil" method="POST" enctype="multipart/form-data" id="perfilForm">
       <div class="row g-3 mb-4">
         <div class="col-md-4 text-center">
-          {{#if usuario.imagem}}
+          {{#if this.usuario.imagem}}
             <img src="{{this.usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
           {{else}}
             <i class="fas fa-user-circle fa-7x text-muted mb-3" id="defaultIcon"></i>

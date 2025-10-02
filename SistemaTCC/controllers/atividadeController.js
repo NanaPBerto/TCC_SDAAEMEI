@@ -44,9 +44,6 @@ exports.submissoes = async (req, res) => {
 
     const plainAtivs = ativs.map(ativ => {
   const obj = ativ.toJSON();
-  // ⭐⭐ CORREÇÃO: Usar URLs diretas em vez de Base64 ⭐⭐
-  // As imagens/arquivos agora são servidos estaticamente
-  // Não precisa converter para Base64
   return obj;
 });
 

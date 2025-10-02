@@ -12,15 +12,16 @@ function getUsuarioModel(tipo) {
 // Adicionar usuario
 exports.add = async (req, res) => {
   try {
-    let imagemBuffer = null;
-    let minicurriculoBuffer = null;
+    let imagemPath = null;
+    let minicurriculoPath = null;
 
+    // ⭐⭐ CORREÇÃO: Salvar apenas caminhos dos arquivos ⭐⭐
     if (req.files) {
       if (req.files['imagem']) {
-        imagemBuffer = req.files['imagem'][0].buffer;
+        imagemPath = `/uploads/${req.files['imagem'][0].filename}`;
       }
       if (req.files['minicurriculo']) {
-        minicurriculoBuffer = req.files['minicurriculo'][0].buffer;
+        minicurriculoPath = `/uploads/${req.files['minicurriculo'][0].filename}`;
       }
     }
 
@@ -38,8 +39,9 @@ exports.add = async (req, res) => {
         email: req.body.email,
         fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null,
         uf: req.body.uf,
-        imagem: imagemBuffer,
-        minicurriculo: minicurriculoBuffer,
+        // ⭐⭐ APENAS CAMINHOS - NÃO SALVAR BUFFERS ⭐⭐
+        imagem: imagemPath,
+        minicurriculo: minicurriculoPath,
         obs: req.body.obs,
         cidade: req.body.cidade
       };
@@ -50,7 +52,9 @@ exports.add = async (req, res) => {
         login: req.body.usuario,
         senha: req.body.senha,
         cidade: req.body.cidade,
-        uf: req.body.uf
+        uf: req.body.uf,
+        // ⭐⭐ Educador também pode ter imagem ⭐⭐
+        imagem: imagemPath
       };
     }
 
@@ -58,7 +62,10 @@ exports.add = async (req, res) => {
     res.redirect('/');
   } catch (erro) {
     console.error('Erro detalhado:', erro);
-    res.render('cadastro' + (Usuario === Musico ? 'M' : 'E'), { alert: 'Houve um erro: ' + erro.message });
+    res.render('cadastro' + (tipoUsuario === 'musico' ? 'M' : 'E'), { 
+      alert: 'Houve um erro: ' + erro.message,
+      formData: req.body 
+    });
   }
 };
 
@@ -90,11 +97,12 @@ exports.editarPerfil = async (req, res) => {
       obs: req.body.obs
     };
 
+    // ⭐⭐ CORREÇÃO: Salvar apenas caminhos dos arquivos ⭐⭐
     if (req.files && req.files['imagem']) {
-      updateData.imagem = req.files['imagem'][0].buffer;
+      updateData.imagem = `/uploads/${req.files['imagem'][0].filename}`;
     }
     if (req.files && req.files['minicurriculo']) {
-      updateData.minicurriculo = req.files['minicurriculo'][0].buffer;
+      updateData.minicurriculo = `/uploads/${req.files['minicurriculo'][0].filename}`;
     }
 
     await Usuario.update(updateData, { where: { id: req.session.usuario.id } });
@@ -104,17 +112,16 @@ exports.editarPerfil = async (req, res) => {
     req.session.usuario = usuarioAtualizado.get({ plain: true });
     req.session.usuario.tipo = tipoUsuario;
 
-    // Adiciona imagemBase64 para exibição no menu
-    if (req.session.usuario.imagem) {
-      req.session.usuario.imagemBase64 = Buffer.from(req.session.usuario.imagem).toString('base64');
-    } else {
-      req.session.usuario.imagemBase64 = null;
-    }
+    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
+    // Não precisa mais de imagemBase64, a view vai usar a URL diretamente
 
     res.redirect('/perfil');
   } catch (erro) {
     console.error('Erro ao editar perfil:', erro);
-    res.render('perfil', { usuario: req.session.usuario, alert: 'Erro ao atualizar perfil.' });
+    res.render('perfil', { 
+      usuario: req.session.usuario, 
+      alert: 'Erro ao atualizar perfil.' 
+    });
   }
 };
 
@@ -124,23 +131,22 @@ exports.listarPerfis = async (req, res) => {
     const musicos = await Musico.findAll();
     const educadores = await Educador.findAll();
     
-    // Combinar e formatar os usuários
-    const usuarios = [
-      ...musicos.map(m => {
-        const usuario = m.get({ plain: true });
-        usuario.tipo = 'musico';
-        if (usuario.imagem) {
-          usuario.imagemBase64 = Buffer.from(usuario.imagem).toString('base64');
-        }
-        return usuario;
-      }),
-      ...educadores.map(e => {
-        const usuario = e.get({ plain: true });
-        usuario.tipo = 'educador';
-        return usuario;
-      })
-    ];
-    
+const usuarios = [
+  ...musicos.map(m => {
+    const usuario = m.get({ plain: true });
+    usuario.tipo = 'musico';
+    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
+    // usuario.imagem já contém o caminho '/uploads/nome-do-arquivo.jpg'
+    return usuario;
+  }),
+  ...educadores.map(e => {
+    const usuario = e.get({ plain: true });
+    usuario.tipo = 'educador';
+    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
+    return usuario;
+  })
+];
+
     res.render('perfis', { usuarios });
   } catch (erro) {
     console.error('Erro ao listar perfis:', erro);
@@ -165,12 +171,7 @@ exports.verPerfil = async (req, res) => {
     // Converter para objeto simples e adicionar tipo
     const usuarioData = usuario.get({ plain: true });
     usuarioData.tipo = tipo;
-
-    // Converter imagem para base64 se existir
-    if (usuarioData.imagem) {
-      usuarioData.imagemBase64 = Buffer.from(usuarioData.imagem).toString('base64');
-    }
-
+    
     // Verificar se é o próprio perfil
     const isOwnProfile = req.session.usuario && req.session.usuario.id == req.params.id;
 

@@ -22,7 +22,7 @@
       <div class="row g-3 mb-4">
         <div class="col-md-4 text-center">
           {{#if usuario.imagem}}
-            <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
+            <img src="{{this.usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
           {{else}}
             <i class="fas fa-user-circle fa-7x text-muted mb-3" id="defaultIcon"></i>
           {{/if}}
@@ -77,7 +77,7 @@
     <div class="row g-3 mb-4">
       <div class="col-md-4 text-center">
         {{#if usuario.imagem}}
-          <img src="data:image/jpeg;base64,{{usuario.imagemBase64}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;">
+          <img src="data:image/jpeg;base64,{{this.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;">
         {{else}}
           <i class="fas fa-user-circle fa-7x text-muted mb-3"></i>
         {{/if}}

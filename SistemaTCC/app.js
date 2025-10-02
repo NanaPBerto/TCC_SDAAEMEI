@@ -146,6 +146,22 @@ Promise.all([
         { id: 7, nome: 'preII' }
     ], { ignoreDuplicates: true });
 
+    // Usuário ADM
+    await musico.findOrCreate({
+        where: { login: 'Administrador' },
+        defaults: {
+            nome: 'ADM',
+            tipo: 'adm',
+            login: 'Administrador',
+            senha: '12345678', // coloque uma senha segura ou hash
+            cpf: '00000000000',
+            email: 'teste@teste.com',
+            fone: '00000000000',
+            cidade: 'TesteCity',
+            uf: 'TS'
+        }
+    });
+
     // Usuário teste musico
     await musico.findOrCreate({
         where: { login: 'teste' },

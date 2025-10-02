@@ -27,7 +27,7 @@
         <div class="carousel-inner">
           {{#each imagensCarrossel}}
             <div class="carousel-item {{#if @first}}active{{/if}}">
-              <img src="{{this.imagemBase64}}" alt="{{this.nome}}" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
+              <img src="{{this.imagem}}" alt="{{this.nome}}" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
               <div class="carousel-caption d-none d-md-block rounded-4 px-4 py-3" style="background:rgba(34,30,60,0.55);backdrop-filter:blur(2px);bottom:30px;">
                 <h5 class="fw-bold" style="color:#fff; text-shadow:0 2px 8px #000;">{{this.nome}}</h5>
                 <p style="color:#e0e0e0; text-shadow:0 1px 4px #000;">{{this.descricao}}</p>

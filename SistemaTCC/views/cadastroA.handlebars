@@ -9,6 +9,44 @@
         <p class="subtitle">Preencha os dados da atividade musical</p>
       </div>
 
+      <form action="/novaAtividade" method="POST" enctype="multipart/form-data" class="cadastro-form" id="formAtividade">
+        <!-- Seção: Informações Básicas -->
+        <div class="form-section">
+          <h5></i>Informações Básicas</h5>
+          <div class="row g-3 align-items-end">
+            <div class="col-md-8">
+              <label for="tituloAtividade" class="form-label">Título da Atividade</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-medal"></i></span>
+                <input type="text" class="form-control" id="tituloAtividade" name="nome" 
+                       placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="tipoAtividade" class="form-label">Tipo</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                <select class="form-select" id="tipoAtividade" name="tipoId" required>
+                  <option value="" disabled selected>Selecione o tipo</option>
+                  <option value="1">Linguagem</option>
+                  <option value="2">Números</option>
+                  <option value="3">Espaço</option>
+                  <option value="4">Fauna</option>
+                  <option value="5">Flora</option>
+                  <option value="6">Clima</option>
+                  <option value="7">Motricidade</option>
+                  <option value="8">Cidadania</option>
+                  <option value="9">Cultura</option>
+                  <option value="10">Altura</option>
+                  <option value="11">Intensidade</option>
+                  <option value="12">Duração</option>
+                  <option value="13">Timbre</option>
+                  <option value="14">Ritmo</option>
+                  <option value="15">Melodia</option>
+                  <option value="16">Harmonia</option>
+                </select>
+              </div>
+            </div>
       <form action="/novaAtividade" method="POST" enctype="multipart/form-data" class="cadastro-form">
         <div class="row g-3 mb-4">
           <div class="col-md-8">
@@ -30,6 +68,115 @@
             </select>
           </div> 
         </div>
+
+        <!-- Seção: Descrição e Objetivos -->
+        <div class="form-section">
+          <h5></i>Descrição e Objetivos</h5>
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="descricaoAtividade" class="form-label">Descrição da Atividade</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                <textarea class="form-control" id="descricaoAtividade" name="descricao" rows="4" 
+                          placeholder="Descreva detalhadamente como a atividade será realizada, passo a passo..." required></textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="objetivoAtividade" class="form-label">Objetivos Educacionais</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-bullseye me-2"></i></span>
+                <textarea class="form-control" id="objetivoAtividade" name="objetivo" rows="4" 
+                          placeholder="Quais habilidades e competências serão desenvolvidas com esta atividade?" required></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Configurações -->
+        <div class="form-section">
+          <h5>Categorias</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="classificacaoAtividade" class="form-label">Faixa Etária</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-child"></i></span>
+                <select class="form-select" id="classificacaoAtividade" name="indexao" required>
+                  <option value="" disabled selected>Selecione a faixa etária</option>
+                  <option value="1 a 2 anos">1 a 2 anos</option>
+                  <option value="2 a 3 anos">2 a 3 anos</option>
+                  <option value="3 a 4 anos">3 a 4 anos</option>
+                  <option value="4 a 5 anos">4 a 5 anos</option>
+                  <option value="5 a 6 anos">5 a 6 anos</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="duracaoAtividade" class="form-label">Duração Estimada</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                <select class="form-select" id="duracaoAtividade" name="duracao" required>
+                  <option value="" disabled selected>Selecione a duração</option>
+                  <option value="5-15 min">5-15 minutos</option>
+                  <option value="15-30 min">15-30 minutos</option>
+                  <option value="30+ min">Mais de 30 minutos</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="integrantesAtividade" class="form-label">Número de Participantes</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-users"></i></span>
+                <select class="form-select" id="integrantesAtividade" name="vagas" required>
+                  <option value="" disabled selected>Selecione o número</option>
+                  <option value="1-5">1-5 participantes</option>
+                  <option value="5-10">5-10 participantes</option>
+                  <option value="10-15">10-15 participantes</option>
+                  <option value="15-20">15-20 participantes</option>
+                  <option value="20-25">20-25 participantes</option>
+                  <option value="25-30">25-30 participantes</option>
+                  <option value="+30">Mais de 30 participantes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Recursos e Condições -->
+        <div class="form-section">
+          <h5>Recursos e Condições</h5>
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="indicacaoAtividade" class="form-label">Nível de Dificuldade</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-star"></i></span>
+                <input type="text" class="form-control" id="indicacaoAtividade" name="indicacao" 
+                       placeholder="Ex: Iniciante, Intermediário, Avançado" required>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="recursosAtividade" class="form-label">Materiais Necessários</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-toolbox"></i></span>
+                <textarea class="form-control" id="recursosAtividade" name="recursos" rows="3" 
+                          placeholder="Liste todos os materiais e recursos necessários para a atividade..." required></textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="condicoesAtividade" class="form-label">Condições de Execução</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-clipboard-check"></i></span>
+                <textarea class="form-control" id="condicoesAtividade" name="condicoes" rows="3" 
+                          placeholder="Descreva as condições ideais para realizar a atividade (espaço, ambiente, etc)..." required></textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="obsAtividade" class="form-label">Observações Adicionais</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+                <textarea class="form-control" id="obsAtividade" name="obs" rows="3" 
+                          placeholder="Informações complementares, dicas ou observações importantes..."></textarea>
+              </div>
+            </div>
         <div class="row g-3 mb-4">
           <div class="col-md-6">
             <label for="descricaoAtividade" class="form-label">Descrição</label>
@@ -104,6 +251,14 @@
             <input type="file" class="form-control" name="musica" accept="audio/*">
           </div>
         </div>
+
+        <!-- Botões de Ação -->
+        <div class="cadastro-actions">
+          <button type="reset" class="btn-atividade btn-atividade-secondary">
+            <i class="fas fa-times-circle me-2"></i>Limpar
+          </button>
+          <button type="submit" class="btn-atividade btn-atividade-primary" id="btnSubmit">
+            <i class="fas fa-save me-2"></i>Salvar
         <div class="d-flex justify-content-end gap-3 mt-4">
           <button type="submit" class="btn btn-outline-secondary px-4 py-2">
             <i class="fas fa-save me-2"></i>Salvar Atividade
@@ -116,3 +271,58 @@
     </div>
   </div>
 </div>
+
+<script>
+// Debug do formulário
+document.getElementById('formAtividade').addEventListener('submit', function(e) {
+    console.log('Formulário sendo enviado...');
+    
+    // Mostrar dados do formulário
+    const formData = new FormData(this);
+    console.log('Dados do formulário:');
+    for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+            console.log(`${key}: ${value.name} (${value.size} bytes, ${value.type})`);
+        } else {
+            console.log(`${key}: ${value}`);
+        }
+    }
+    
+    // Mostrar loading
+    const btn = document.getElementById('btnSubmit');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Salvando...';
+    btn.disabled = true;
+    btn.classList.add('loading');
+});
+
+// Mostrar nome dos arquivos selecionados
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        if (this.files[0]) {
+            console.log('Arquivo selecionado:', this.files[0].name);
+            
+            // Criar ou atualizar elemento de visualização
+            let fileNameElement = this.parentElement.querySelector('.file-selected');
+            if (!fileNameElement) {
+                fileNameElement = document.createElement('small');
+                fileNameElement.className = 'file-selected';
+                this.parentElement.appendChild(fileNameElement);
+            }
+            fileNameElement.textContent = this.files[0].name;
+        }
+    });
+});
+
+// Validação em tempo real
+document.querySelectorAll('.form-control, .form-select').forEach(input => {
+    input.addEventListener('blur', function() {
+        if (this.checkValidity()) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+}); 
+</script>

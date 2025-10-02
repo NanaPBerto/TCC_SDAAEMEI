@@ -1,4 +1,3 @@
-const express = require('express');
 const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
 
@@ -15,7 +14,7 @@ exports.home = async (req, res) => {
       .map(a => ({
         nome: a.nome,
         descricao: a.descricao,
-        imagemBase64: a.imagem ? `data:image/jpeg;base64,${Buffer.from(a.imagem).toString('base64')}` : null
+        imagemBase64: a.imagem ? `/uploads/${a.imagem}` : null
       }));
 
     res.render('index', {
@@ -45,8 +44,9 @@ exports.submissoes = async (req, res) => {
 
     const plainAtivs = ativs.map(ativ => {
   const obj = ativ.toJSON();
-  // ⭐⭐ REMOVER conversão para Base64 - usar URLs diretas ⭐⭐
-  // obj.imagem já contém o caminho '/uploads/nome-do-arquivo.jpg'
+  // ⭐⭐ CORREÇÃO: Usar URLs diretas em vez de Base64 ⭐⭐
+  // As imagens/arquivos agora são servidos estaticamente
+  // Não precisa converter para Base64
   return obj;
 });
 
@@ -259,11 +259,6 @@ exports.detalheAtividade = async (req, res) => {
       return res.status(404).send('Atividade não encontrada');
     }
     const obj = atividade.toJSON();
-    
-    // ⭐⭐ CORREÇÃO: Usar URLs diretas em vez de Base64 ⭐⭐
-    // As imagens/arquivos agora são servidos estaticamente
-    // Não precisa converter para Base64
-    
     obj.desenvolvedorNome = obj.musico ? obj.musico.nome : 'Desconhecido';
     
     res.render('atividade', { atividade: obj });

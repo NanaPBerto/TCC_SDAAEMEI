@@ -9,7 +9,7 @@
         <p class="subtitle">Preencha os dados da atividade musical</p>
       </div>
 
-      <form action="/novaAtividade" method="POST" enctype="multipart/form-data" class="cadastro-form" id="formAtividade">
+      <form action="{{#if edicao}}/editar/{{atividade.id}}{{else}}/novaAtividade{{/if}}" method="POST" enctype="multipart/form-data" class="cadastro-form" id="formAtividade">
         <!-- Seção: Informações Básicas -->
         <div class="form-section">
           <h5></i>Informações Básicas</h5>
@@ -19,31 +19,31 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-medal"></i></span>
                 <input type="text" class="form-control" id="tituloAtividade" name="nome" 
-                       placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required>
+                       placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required value="{{#if atividade}} {{atividade.nome}} {{/if}}">
               </div>
             </div>
             <div class="col-md-4">
               <label for="tipoAtividade" class="form-label">Tipo</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                <select class="form-select" id="tipoAtividade" name="tipoId" required>
+                <select class="form-select" id="tipoAtividade" name="tipoId" required value="{{#if atividade}} {{atividade.tipoId}} {{/if}}">
                   <option value="" disabled selected>Selecione o tipo</option>
-                  <option value="1">Linguagem</option>
-                  <option value="2">Números</option>
-                  <option value="3">Espaço</option>
-                  <option value="4">Fauna</option>
-                  <option value="5">Flora</option>
-                  <option value="6">Clima</option>
-                  <option value="7">Motricidade</option>
-                  <option value="8">Cidadania</option>
-                  <option value="9">Cultura</option>
-                  <option value="10">Altura</option>
-                  <option value="11">Intensidade</option>
-                  <option value="12">Duração</option>
-                  <option value="13">Timbre</option>
-                  <option value="14">Ritmo</option>
-                  <option value="15">Melodia</option>
-                  <option value="16">Harmonia</option>
+                  <option value="1" {{#if atividade}} {{#if (eq atividade.tipoId 1)}} selected {{/if}} {{/if}}>Linguagem</option>
+                  <option value="2" {{#if atividade}} {{#if (eq atividade.tipoId 2)}} selected {{/if}} {{/if}}>Números</option>
+                  <option value="3" {{#if atividade}} {{#if (eq atividade.tipoId 3)}} selected {{/if}} {{/if}}>Espaço</option>
+                  <option value="4" {{#if atividade}} {{#if (eq atividade.tipoId 4)}} selected {{/if}} {{/if}}>Fauna</option>
+                  <option value="5" {{#if atividade}} {{#if (eq atividade.tipoId 5)}} selected {{/if}} {{/if}}>Flora</option>
+                  <option value="6" {{#if atividade}} {{#if (eq atividade.tipoId 6)}} selected {{/if}} {{/if}}>Clima</option>
+                  <option value="7" {{#if atividade}} {{#if (eq atividade.tipoId 7)}} selected {{/if}} {{/if}}>Motricidade</option>
+                  <option value="8" {{#if atividade}} {{#if (eq atividade.tipoId 8)}} selected {{/if}} {{/if}}>Cidadania</option>
+                  <option value="9" {{#if atividade}} {{#if (eq atividade.tipoId 9)}} selected {{/if}} {{/if}}>Cultura</option>
+                  <option value="10" {{#if atividade}} {{#if (eq atividade.tipoId 10)}} selected {{/if}} {{/if}}>Altura</option>
+                  <option value="11" {{#if atividade}} {{#if (eq atividade.tipoId 11)}} selected {{/if}} {{/if}}>Intensidade</option>
+                  <option value="12" {{#if atividade}} {{#if (eq atividade.tipoId 12)}} selected {{/if}} {{/if}}>Duração</option>
+                  <option value="13" {{#if atividade}} {{#if (eq atividade.tipoId 13)}} selected {{/if}} {{/if}}>Timbre</option>
+                  <option value="14" {{#if atividade}} {{#if (eq atividade.tipoId 14)}} selected {{/if}} {{/if}}>Ritmo</option>
+                  <option value="15" {{#if atividade}} {{#if (eq atividade.tipoId 15)}} selected {{/if}} {{/if}}>Melodia</option>
+                  <option value="16" {{#if atividade}} {{#if (eq atividade.tipoId 16)}} selected {{/if}} {{/if}}>Harmonia</option>
                 </select>
               </div>
             </div>
@@ -58,7 +58,7 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-align-left"></i></span>
                 <textarea class="form-control" id="descricaoAtividade" name="descricao" rows="4" 
-                          placeholder="Descreva detalhadamente como a atividade será realizada, passo a passo..." required></textarea>
+                          placeholder="Descreva detalhadamente como a atividade será realizada, passo a passo..." required> {{#if atividade}} {{atividade.descricao}} {{/if}} </textarea>
               </div>
             </div>
             <div class="col-12">
@@ -66,7 +66,7 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-bullseye me-2"></i></span>
                 <textarea class="form-control" id="objetivoAtividade" name="objetivo" rows="4" 
-                          placeholder="Quais habilidades e competências serão desenvolvidas com esta atividade?" required></textarea>
+                          placeholder="Quais habilidades e competências serão desenvolvidas com esta atividade?" required> {{#if atividade}} {{atividade.objetivo}} {{/if}} </textarea>
               </div>
             </div>
           </div>
@@ -80,25 +80,27 @@
               <label for="classificacaoAtividade" class="form-label">Faixa Etária</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-child"></i></span>
-                <select class="form-select" id="classificacaoAtividade" name="indexao" required>
-                  <option value="" disabled selected>Selecione a faixa etária</option>
-                  <option value="1 a 2 anos">1 a 2 anos</option>
-                  <option value="2 a 3 anos">2 a 3 anos</option>
-                  <option value="3 a 4 anos">3 a 4 anos</option>
-                  <option value="4 a 5 anos">4 a 5 anos</option>
-                  <option value="5 a 6 anos">5 a 6 anos</option>
-                </select>
+                   <select class="form-select" id="classificacaoAtividade" name="classificacao" required>
+      <option value="" disabled selected>Selecione a faixa etária</option>
+      <option value="berçário I" {{#if atividade}}{{#if (eq atividade.classificacao 1)}}selected{{/if}}{{/if}}>berçário I</option>
+      <option value="berçário II" {{#if atividade}}{{#if (eq atividade.classificacao 2)}}selected{{/if}}{{/if}}>berçário II</option>
+      <option value="berçário III" {{#if atividade}}{{#if (eq atividade.classificacao 3)}}selected{{/if}}{{/if}}>berçário III</option>
+      <option value="maternal I" {{#if atividade}}{{#if (eq atividade.classificacao 4)}}selected{{/if}}{{/if}}>maternal I</option>
+      <option value="maternal II" {{#if atividade}}{{#if (eq atividade.classificacao 5)}}selected{{/if}}{{/if}}>maternal II</option>
+      <option value="pré I" {{#if atividade}}{{#if (eq atividade.classificacao 6)}}selected{{/if}}{{/if}}>pré I</option>
+      <option value="pré II" {{#if atividade}}{{#if (eq atividade.classificacao 7)}}selected{{/if}}{{/if}}>pré II</option>
+    </select>
               </div>
             </div>
             <div class="col-md-4">
               <label for="duracaoAtividade" class="form-label">Duração Estimada</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-clock"></i></span>
-                <select class="form-select" id="duracaoAtividade" name="duracao" required>
+                <select class="form-select" id="duracaoAtividade" name="duracao" required value="{{#if atividade}} {{atividade.duracao}} {{/if}}">
                   <option value="" disabled selected>Selecione a duração</option>
-                  <option value="5-15 min">5-15 minutos</option>
-                  <option value="15-30 min">15-30 minutos</option>
-                  <option value="30+ min">Mais de 30 minutos</option>
+                  <option value="5-15 min" {{#if atividade}} {{#if (eq atividade.duracao "5-15 min")}} selected {{/if}} {{/if}}>5-15 minutos</option>
+                  <option value="15-30 min" {{#if atividade}} {{#if (eq atividade.duracao "15-30 min")}} selected {{/if}} {{/if}}>15-30 minutos</option>
+                  <option value="30+ min" {{#if atividade}} {{#if (eq atividade.duracao "30+ min")}} selected {{/if}} {{/if}}>Mais de 30 minutos</option>
                 </select>
               </div>
             </div>
@@ -106,15 +108,15 @@
               <label for="integrantesAtividade" class="form-label">Número de Participantes</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-users"></i></span>
-                <select class="form-select" id="integrantesAtividade" name="vagas" required>
+                <select class="form-select" id="integrantesAtividade" name="vagas" required value="{{#if atividade}} {{atividade.vagas}} {{/if}}">
                   <option value="" disabled selected>Selecione o número</option>
-                  <option value="1-5">1-5 participantes</option>
-                  <option value="5-10">5-10 participantes</option>
-                  <option value="10-15">10-15 participantes</option>
-                  <option value="15-20">15-20 participantes</option>
-                  <option value="20-25">20-25 participantes</option>
-                  <option value="25-30">25-30 participantes</option>
-                  <option value="+30">Mais de 30 participantes</option>
+                  <option value="1-5" {{#if atividade}} {{#if (eq atividade.vagas "1-5")}} selected {{/if}} {{/if}}>1-5 participantes</option>
+                  <option value="5-10" {{#if atividade}} {{#if (eq atividade.vagas "5-10")}} selected {{/if}} {{/if}}>5-10 participantes</option>
+                  <option value="10-15" {{#if atividade}} {{#if (eq atividade.vagas "10-15")}} selected {{/if}} {{/if}}>10-15 participantes</option>
+                  <option value="15-20" {{#if atividade}} {{#if (eq atividade.vagas "15-20")}} selected {{/if}} {{/if}}>15-20 participantes</option>
+                  <option value="20-25" {{#if atividade}} {{#if (eq atividade.vagas "20-25")}} selected {{/if}} {{/if}}>20-25 participantes</option>
+                  <option value="25-30" {{#if atividade}} {{#if (eq atividade.vagas "25-30")}} selected {{/if}} {{/if}}>25-30 participantes</option>
+                  <option value="+30" {{#if atividade}} {{#if (eq atividade.vagas "+30")}} selected {{/if}} {{/if}}>Mais de 30 participantes</option>
                 </select>
               </div>
             </div>
@@ -130,7 +132,7 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-star"></i></span>
                 <input type="text" class="form-control" id="indicacaoAtividade" name="indicacao" 
-                       placeholder="Ex: Iniciante, Intermediário, Avançado" required>
+                       placeholder="Ex: Iniciante, Intermediário, Avançado" value="{{#if atividade}} {{atividade.indicacao}} {{/if}}" required>
               </div>
             </div>
             <div class="col-12">
@@ -138,7 +140,7 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-toolbox"></i></span>
                 <textarea class="form-control" id="recursosAtividade" name="recursos" rows="3" 
-                          placeholder="Liste todos os materiais e recursos necessários para a atividade..." required></textarea>
+                          placeholder="Liste todos os materiais e recursos necessários para a atividade..." required>{{#if atividade}} {{atividade.recursos}} {{/if}}</textarea>
               </div>
             </div>
             <div class="col-12">
@@ -146,7 +148,7 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-clipboard-check"></i></span>
                 <textarea class="form-control" id="condicoesAtividade" name="condicoes" rows="3" 
-                          placeholder="Descreva as condições ideais para realizar a atividade (espaço, ambiente, etc)..." required></textarea>
+                          placeholder="Descreva as condições ideais para realizar a atividade (espaço, ambiente, etc)..." required>{{#if atividade}} {{atividade.condicoes}} {{/if}}</textarea>
               </div>
             </div>
             <div class="col-12">
@@ -154,23 +156,55 @@
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
                 <textarea class="form-control" id="obsAtividade" name="obs" rows="3" 
-                          placeholder="Informações complementares, dicas ou observações importantes..."></textarea>
+                          placeholder="Informações complementares, dicas ou observações importantes...">{{#if atividade}} {{atividade.obs}} {{/if}}</textarea>
               </div>
             </div>
-        <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <label class="form-label">Foto principal</label>
-            <input type="file" class="form-control" name="imagem" accept="image/*">
           </div>
-          <div class="col-md-4">
-            <label class="form-label">Partitura</label>
-            <input type="file" class="form-control" name="partitura" accept=".pdf,image/*">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Áudio</label>
-            <input type="file" class="form-control" name="musica" accept="audio/*">
-          </div>
-        </div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <label class="form-label">Foto principal</label>
+    <input type="file" class="form-control" name="imagem" accept="image/*">
+    {{#if edicao}}
+      {{#if atividade.imagem}}
+      <small class="text-muted d-block mt-1">
+        <i class="fas fa-file-image me-1"></i>
+        Arquivo atual: <a href="{{atividade.imagem}}" target="_blank">Visualizar</a>
+      </small>
+      {{/if}}
+    {{/if}}
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Partitura</label>
+    <input type="file" class="form-control" name="partitura" accept=".pdf,image/*">
+    {{#if edicao}}
+      {{#if atividade.partitura}}
+      <small class="text-muted d-block mt-1">
+        <i class="fas fa-file-pdf me-1"></i>
+        Arquivo atual: <a href="{{atividade.partitura}}" target="_blank">Visualizar</a>
+      </small>
+      {{/if}}
+    {{/if}}
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Áudio</label>
+    <input type="file" class="form-control" name="musica" accept="audio/*">
+    {{#if edicao}}
+      {{#if atividade.musica}}
+      <small class="text-muted d-block mt-1">
+        <i class="fas fa-file-audio me-1"></i>
+        Arquivo atual: <a href="{{atividade.musica}}" target="_blank">Visualizar</a>
+      </small>
+      {{/if}}
+    {{/if}}
+  </div>
+</div>
+
+        {{#if edicao}}
+          <input type="hidden" name="imagemAtual" value="{{atividade.imagem}}">
+          <input type="hidden" name="partituraAtual" value="{{atividade.partitura}}">
+          <input type="hidden" name="musicaAtual" value="{{atividade.musica}}">
+          <input type="hidden" name="videoAtual" value="{{atividade.video}}">
+        {{/if}}
 
         <!-- Botões de Ação -->
         <div class="cadastro-actions">
@@ -185,58 +219,3 @@
     </div>
   </div>
 </div>
-
-<script>
-// Debug do formulário
-document.getElementById('formAtividade').addEventListener('submit', function(e) {
-    console.log('Formulário sendo enviado...');
-    
-    // Mostrar dados do formulário
-    const formData = new FormData(this);
-    console.log('Dados do formulário:');
-    for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-            console.log(`${key}: ${value.name} (${value.size} bytes, ${value.type})`);
-        } else {
-            console.log(`${key}: ${value}`);
-        }
-    }
-    
-    // Mostrar loading
-    const btn = document.getElementById('btnSubmit');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Salvando...';
-    btn.disabled = true;
-    btn.classList.add('loading');
-});
-
-// Mostrar nome dos arquivos selecionados
-document.querySelectorAll('input[type="file"]').forEach(input => {
-    input.addEventListener('change', function() {
-        if (this.files[0]) {
-            console.log('Arquivo selecionado:', this.files[0].name);
-            
-            // Criar ou atualizar elemento de visualização
-            let fileNameElement = this.parentElement.querySelector('.file-selected');
-            if (!fileNameElement) {
-                fileNameElement = document.createElement('small');
-                fileNameElement.className = 'file-selected';
-                this.parentElement.appendChild(fileNameElement);
-            }
-            fileNameElement.textContent = this.files[0].name;
-        }
-    });
-});
-
-// Validação em tempo real
-document.querySelectorAll('.form-control, .form-select').forEach(input => {
-    input.addEventListener('blur', function() {
-        if (this.checkValidity()) {
-            this.classList.add('is-valid');
-            this.classList.remove('is-invalid');
-        } else {
-            this.classList.add('is-invalid');
-            this.classList.remove('is-valid');
-        }
-    });
-}); 
-</script>

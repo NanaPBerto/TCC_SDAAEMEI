@@ -7,7 +7,6 @@
       {{else}}
         <i class="fas fa-user"></i>
       {{/if}}
-      
     </div>
     <div>
       <div class="atividade-detalhada-dev">Desenvolvedor: {{atividade.desenvolvedorNome}}</div>
@@ -15,7 +14,9 @@
         <span class="atividade-detalhada-badge"><i class="fas fa-tag"></i> {{atividade.tipo.nome}}</span>
         <span class="atividade-detalhada-badge"><i class="fas fa-users"></i> {{atividade.vagas}} integrantes</span>
         <span class="atividade-detalhada-badge"><i class="fas fa-clock"></i> {{atividade.duracao}}</span>
-        <span class="atividade-detalhada-badge"><i class="fas fa-child"></i> {{atividade.classificacao}} anos</span>
+<span class="atividade-detalhada-badge"><i class="fas fa-child"></i> 
+  {{#if atividade.faixaEtaria}}{{atividade.faixaEtaria.nome}}{{else}}Berçario III{{/if}}
+</span>
       </div>
     </div>
   </div>

@@ -41,14 +41,13 @@
       {{/if}}
     </header>
 
-    {{#if showBackButton}}
-      <div class="w-100 d-flex" style="z-index: 1050;">
-        <div class="mt-2 ms-2">
-          <button type="button" class="btn btn- px-1 py-1" onclick="history.back()">
-            <i class="bi bi-arrow-left me-2"></i>
-          </button>
-        </div>
-      </div>
+ {{#if showBackButton}}
+    <!-- Botão Voltar - Posicionamento Fixo -->
+    <div class="back-button-container">
+        <button type="button" class="back-button" onclick="history.back()">
+            <i class="bi bi-arrow-left"></i>
+        </button>
+    </div>
     {{/if}}
 
     <!-- Menu Lateral para NÃO logado, exceto na página de escolher -->
@@ -152,7 +151,9 @@
     <script src="/public/scripts/escolher.js"></script>
     <script src="/public/scripts/menuLateral.js"></script>
     <script src="/public/scripts/isOwnProfile.js"></script>
-    <script src="/public/scripts/historicoA.js"></script>
+    <script src="/public/scripts/historico.js"></script>
     <script src="/public/scripts/sugeridas.js"></script>
+    <script src="/public/scripts/atividade.js"></script>
+    <script src="/public/scripts/pesquisas.js"></script>
 </body>
 </html>

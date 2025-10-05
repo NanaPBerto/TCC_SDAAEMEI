@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Debug do formulário
 document.getElementById('formAtividade').addEventListener('submit', function(e) {
     console.log('Formulário sendo enviado...');
+    console.log('Action:', this.action); // Deve mostrar /editar/ID na edição
     
     // Mostrar dados do formulário
     const formData = new FormData(this);

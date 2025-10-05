@@ -39,7 +39,6 @@ exports.add = async (req, res) => {
         email: req.body.email,
         fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null,
         uf: req.body.uf,
-        // ⭐⭐ APENAS CAMINHOS - NÃO SALVAR BUFFERS ⭐⭐
         imagem: imagemPath,
         minicurriculo: minicurriculoPath,
         obs: req.body.obs,
@@ -53,12 +52,33 @@ exports.add = async (req, res) => {
         senha: req.body.senha,
         cidade: req.body.cidade,
         uf: req.body.uf,
-        // ⭐⭐ Educador também pode ter imagem ⭐⭐
         imagem: imagemPath
       };
     }
 
-    await Usuario.create(dados);
+     // ⭐⭐ MODIFICAÇÃO: Criar usuário e fazer login automático ⭐⭐
+    const novoUsuario = await Usuario.create(dados);
+    
+    // Criar sessão para o usuário
+    req.session.usuario = {
+      id: novoUsuario.id,
+      nome: novoUsuario.nome,
+      tipo: novoUsuario.tipo,
+      login: novoUsuario.login,
+      senha: novoUsuario.senha,
+      email: novoUsuario.email,
+      cidade: novoUsuario.cidade,
+      uf: novoUsuario.uf,
+      imagem: novoUsuario.imagem,
+      cpf: novoUsuario.cpf,
+      fone: novoUsuario.fone,
+      ...(novoUsuario.minicurriculo && { minicurriculo: novoUsuario.minicurriculo }),
+      ...(novoUsuario.obs && { obs: novoUsuario.obs })
+    };
+
+    console.log('✅ Usuário criado e logado automaticamente:', req.session.usuario);
+
+    // Redirecionar para a página inicial já logado
     res.redirect('/');
   } catch (erro) {
     console.error('Erro detalhado:', erro);
@@ -97,7 +117,6 @@ exports.editarPerfil = async (req, res) => {
       obs: req.body.obs
     };
 
-    // ⭐⭐ CORREÇÃO: Salvar apenas caminhos dos arquivos ⭐⭐
     if (req.files && req.files['imagem']) {
       updateData.imagem = `/uploads/${req.files['imagem'][0].filename}`;
     }
@@ -112,9 +131,6 @@ exports.editarPerfil = async (req, res) => {
     req.session.usuario = usuarioAtualizado.get({ plain: true });
     req.session.usuario.tipo = tipoUsuario;
 
-    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
-    // Não precisa mais de imagemBase64, a view vai usar a URL diretamente
-
     res.redirect('/perfil');
   } catch (erro) {
     console.error('Erro ao editar perfil:', erro);
@@ -125,33 +141,57 @@ exports.editarPerfil = async (req, res) => {
   }
 };
 
-// Listar perfis
 exports.listarPerfis = async (req, res) => {
-  try {
-    const musicos = await Musico.findAll();
-    const educadores = await Educador.findAll();
-    
-const usuarios = [
-  ...musicos.map(m => {
-    const usuario = m.get({ plain: true });
-    usuario.tipo = 'musico';
-    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
-    // usuario.imagem já contém o caminho '/uploads/nome-do-arquivo.jpg'
-    return usuario;
-  }),
-  ...educadores.map(e => {
-    const usuario = e.get({ plain: true });
-    usuario.tipo = 'educador';
-    // ⭐⭐ REMOVER conversão para Base64 - usar URL direta ⭐⭐
-    return usuario;
-  })
-];
+    try {
+        const { filtro, pesquisa } = req.query;
+        
+        let musicos = [];
+        let educadores = [];
 
-    res.render('perfis', { usuarios });
-  } catch (erro) {
-    console.error('Erro ao listar perfis:', erro);
-    res.status(500).send('Erro ao listar perfis');
-  }
+        // Buscar baseado no filtro
+        if (!filtro || filtro === 'todos' || filtro === 'musico') {
+            musicos = await Musico.findAll();
+        }
+        
+        if (!filtro || filtro === 'todos' || filtro === 'educador') {
+            educadores = await Educador.findAll();
+        }
+
+        let usuarios = [
+            ...musicos.map(m => {
+                const usuario = m.get({ plain: true });
+                usuario.tipo = 'musico';
+                return usuario;
+            }),
+            ...educadores.map(e => {
+                const usuario = e.get({ plain: true });
+                usuario.tipo = 'educador';
+                return usuario;
+            })
+        ];
+
+        // Aplicar filtro de pesquisa se existir
+        if (pesquisa) {
+            const termo = pesquisa.toLowerCase();
+            usuarios = usuarios.filter(usuario => 
+                usuario.nome.toLowerCase().includes(termo)
+            );
+        }
+
+        // Aplicar filtro de tipo se especificado
+        if (filtro && filtro !== 'todos') {
+            usuarios = usuarios.filter(usuario => usuario.tipo === filtro);
+        }
+
+        res.render('perfis', { 
+            usuarios,
+            filtroAtual: filtro || 'todos',
+            pesquisaAtual: pesquisa || ''
+        });
+    } catch (erro) {
+        console.error('Erro ao listar perfis:', erro);
+        res.status(500).send('Erro ao listar perfis');
+    }
 };
 // Ver perfil específico
 exports.verPerfil = async (req, res) => {

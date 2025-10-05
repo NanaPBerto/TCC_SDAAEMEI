@@ -587,6 +587,38 @@ body.cadastro .form-control::placeholder {
     opacity: 1;
 }
 
+/* Estilos para o botão de voltar */
+.back-button-container {
+    position: fixed;
+    top: 80px; /* Abaixo do header */
+    left: 90px; /* Ao lado do sidebar */
+    z-index: 1040; /* Abaixo do header mas acima do conteúdo */
+    background: transparent;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #6c757d;
+}
+
+.back-button:hover {
+    background: #fff;
+    border-color: #7E57C2;
+    color: #7E57C2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 /* =========================
    PÁGINA PAINELM - AJUSTE DE TELA
    ========================= */
@@ -1274,8 +1306,8 @@ main.container {
 }
 
 .atividade-mini-imgbox {
-    width: 180px;
-    height: 180px;
+    width: 280px;
+    height: 200px;
     border-radius: 8px;
     border: 2px solid var(--primary-light);
     background: linear-gradient(135deg, #ede7f6 0%, #e3f2fd 100%);

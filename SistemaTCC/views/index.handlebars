@@ -9,57 +9,62 @@
         <p class="lead text-muted mb-4">Seu acervo de atividades musicais educativas</p>
         <div id="barraPes">
           <i class="bi bi-search"></i> 
-          <input type="text" placeholder="Pesquisar atividade..." id="pesquisa">
+          <input type="search" placeholder="Pesquisar atividade..." id="pesquisa">
         </div>
       </div>
       <!-- Carrossel -->  
-      <div id="demo" class="carousel slide custom-carousel shadow-lg rounded-4 overflow-hidden flex-grow-1 d-flex flex-column justify-content-end" data-bs-ride="carousel" style="background: #fff; min-height:340px;">
-        <!-- Indicadores -->
-        <div class="carousel-indicators mb-0" style="bottom: -25px;">
-          {{#each atividades}}
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="{{@index}}" class="{{#if @first}}active{{/if}}" style="width:16px;height:16px;border-radius:50%;background:#7E57C2;border:none;margin:0 4px;opacity:0.5;"></button>
-          {{/each}}
-          {{#unless atividades.length}}
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active" style="width:16px;height:16px;border-radius:50%;background:#7E57C2;border:none;margin:0 4px;opacity:0.5;"></button>
-          {{/unless}}
-        </div>
-        <!-- Slides -->
-        <div class="carousel-inner">
-          {{#each atividades}}
-            <div class="carousel-item {{#if @first}}active{{/if}}">
-              {{#if this.atividade.imagemBase64}}
-                <img src="data:{{this.atividade.imagemMime}};base64,{{this.atividade.imagemBase64}}" alt="{{this.nome}}" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
-              {{else}}
-                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1170&q=80" alt="Padrão" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
-              {{/if}}
-              <img src="{{this.imagem}}" alt="{{this.nome}}" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
-              <div class="carousel-caption d-none d-md-block rounded-4 px-4 py-3" style="background:rgba(34,30,60,0.55);backdrop-filter:blur(2px);bottom:30px;">
-                <h5 class="fw-bold" style="color:#fff; text-shadow:0 2px 8px #000;">{{this.nome}}</h5>
-                <p style="color:#e0e0e0; text-shadow:0 1px 4px #000;">{{this.atividade.objetivo}}</p>
-              </div>
-            </div>
-          {{/each}}
-          {{#unless atividades.length}}
-            <div class="carousel-item active">
-              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1170&q=80" alt="Padrão" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
-              <div class="carousel-caption d-none d-md-block rounded-4 px-4 py-3" style="background:rgba(34,30,60,0.55);backdrop-filter:blur(2px);bottom:30px;">
-                <h5 class="fw-bold" style="color:#fff; text-shadow:0 2px 8px #000;">Bem-vindo!</h5>
-                <p style="color:#e0e0e0; text-shadow:0 1px 4px #000;">Cadastre atividades para ver suas imagens aqui.</p>
-              </div>
-            </div>
-          {{/unless}}
-        </div>
-        <!-- Setas customizadas -->
-        <button class="carousel-control-prev d-flex align-items-center justify-content-center" type="button" data-bs-target="#demo" data-bs-slide="prev" style="width:48px;">
-          <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:rgba(126,87,194,0.8);border-radius:50%;width:36px;height:36px;"></span>
-          <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next d-flex align-items-center justify-content-center" type="button" data-bs-target="#demo" data-bs-slide="next" style="width:48px;">
-          <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:rgba(126,87,194,0.8);border-radius:50%;width:36px;height:36px;"></span>
-          <span class="visually-hidden">Próximo</span>
-        </button>
+<div id="demo" class="carousel slide custom-carousel shadow-lg rounded-4 overflow-hidden flex-grow-1 d-flex flex-column justify-content-end" data-bs-ride="carousel" style="background: #fff; min-height:340px;">
+  <!-- Indicadores -->
+  <div class="carousel-indicators mb-0" style="bottom: -25px;">
+    {{#each atividades}}
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="{{@index}}" class="{{#if @first}}active{{/if}}" style="width:16px;height:16px;border-radius:50%;background:#7E57C2;border:none;margin:0 4px;opacity:0.5;"></button>
+    {{/each}}
+    {{#unless atividades.length}}
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active" style="width:16px;height:16px;border-radius:50%;background:#7E57C2;border:none;margin:0 4px;opacity:0.5;"></button>
+    {{/unless}}
+  </div>
+  
+  <!-- Slides -->
+  <div class="carousel-inner">
+    {{#each atividades}}
+      <div class="carousel-item {{#if @first}}active{{/if}}">
+        <a href="/atividade/{{this.id}}" class="d-block w-100 h-100 text-decoration-none">
+          {{#if this.imagem}}
+            <img src="{{this.imagem}}" alt="{{this.nome}}" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
+          {{else}}
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1170&q=80" alt="Padrão" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
+          {{/if}}
+          
+          <div class="carousel-caption d-none d-md-block rounded-4 px-4 py-3" style="background:rgba(34,30,60,0.55);backdrop-filter:blur(2px);bottom:30px;">
+            <h5 class="fw-bold" style="color:#fff; text-shadow:0 2px 8px #000;">{{this.nome}}</h5>
+            <p style="color:#e0e0e0; text-shadow:0 1px 4px #000;">{{this.objetivo}}</p>
+          </div>
+        </a>
       </div>
-    </div>
+    {{/each}}
+    
+    {{#unless atividades.length}}
+      <div class="carousel-item active">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1170&q=80" alt="Padrão" class="d-block w-100" style="object-fit:cover; height:340px; border-radius: 18px;">
+        <div class="carousel-caption d-none d-md-block rounded-4 px-4 py-3" style="background:rgba(34,30,60,0.55);backdrop-filter:blur(2px);bottom:30px;">
+          <h5 class="fw-bold" style="color:#fff; text-shadow:0 2px 8px #000;">Bem-vindo!</h5>
+          <p style="color:#e0e0e0; text-shadow:0 1px 4px #000;">Cadastre atividades para ver suas imagens aqui.</p>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+  
+  <!-- Setas customizadas -->
+  <button class="carousel-control-prev d-flex align-items-center justify-content-center" type="button" data-bs-target="#demo" data-bs-slide="prev" style="width:48px;">
+    <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:rgba(126,87,194,0.8);border-radius:50%;width:36px;height:36px;"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next d-flex align-items-center justify-content-center" type="button" data-bs-target="#demo" data-bs-slide="next" style="width:48px;">
+    <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:rgba(126,87,194,0.8);border-radius:50%;width:36px;height:36px;"></span>
+    <span class="visually-hidden">Próximo</span>
+  </button>
+</div>
+</div>
     <!-- Área de Explorar -->
     <div class="col-lg-6 d-flex flex-column" style="height: 100%;">
       <div id="ativs" class="d-flex flex-column h-100" style="justify-content: flex-start;">

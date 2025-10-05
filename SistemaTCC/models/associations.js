@@ -17,16 +17,16 @@ function setupAssociations() {
     as: 'atividades'
   });
   
-  // Associação Ativ -> classificacao
+  // ⭐⭐ CORREÇÃO: Mude o alias para evitar conflito ⭐⭐
   Ativ.belongsTo(classificacao, {
     foreignKey: 'classificacao',
-    as: 'class'
+    as: 'faixaEtaria' // ⭐⭐ ALIAS DIFERENTE DO NOME DO MODELO ⭐⭐
   });
   
-  // Associação inversa
+  // Associação inversa (também com alias diferente)
   classificacao.hasMany(Ativ, {
     foreignKey: 'classificacao',
-    as: 'atividades'
+    as: 'atividadesClassificadas' // ⭐⭐ ALIAS DIFERENTE ⭐⭐
   });
   
   // Associação Ativ -> Musico
@@ -34,11 +34,11 @@ function setupAssociations() {
     foreignKey: 'desenvolvedor',
     as: 'musico'
   });
+  
   Musico.hasMany(Ativ, {
     foreignKey: 'desenvolvedor',
     as: 'atividades'
   });
-  
 }
 
 module.exports = setupAssociations;

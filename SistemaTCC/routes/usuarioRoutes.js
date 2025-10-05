@@ -3,8 +3,8 @@ const router = express.Router();
 const Musico = require('../models/musico');
 const Educador = require('../models/educador');
 const { usuarioUpload } = require('../middleware/uploadFile'); 
-const { requireMusico } = require('./atividadeRoutes');
-
+const usuarioController = require('../controllers/usuarioController');
+const atividadeController = require('../controllers/atividadeController');
 // Middleware para tratamento de erros do Multer
 const handleMulterError = (err, req, res, next) => {
     if (err instanceof multer.MulterError) {
@@ -52,11 +52,17 @@ router.post(
 );
 
 // Rotas de autenticação
+// Rota de login (GET)
 router.get('/login', (req, res) => {
-  res.locals.showBackButton = true;
-  res.render('login');
+  const alertMessage = req.session.alertMessage;
+  // Limpa a mensagem da sessão após pegar
+  delete req.session.alertMessage;
+  
+  res.render('login', { 
+    alertMessage: alertMessage 
+  });
 });
-
+// Rota de login (POST)
 router.post('/login', async (req, res) => {
     const { login, senha } = req.body;
 
@@ -154,7 +160,7 @@ router.get('/perfil', (req, res) => {
 //acessar outros perfis
 router.get('/perfis', require('../controllers/usuarioController').listarPerfis);
 router.get('/perfis/:id', require('../controllers/usuarioController').verPerfil);
-
+router.get('/perfis', usuarioController.listarPerfis);
 // Atualizar perfil
 router.post('/perfil', 
   usuarioUpload.fields([

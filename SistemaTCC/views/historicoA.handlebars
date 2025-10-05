@@ -3,74 +3,17 @@
         <i class="bi bi-clock-history me-2"></i>Suas Últimas Atividades
     </h4>
     
-    <div class="atividades-container">
-        {{#each ultimasAtividades}}
-        <div class="atividade-mini-card" data-categoria="{{this.categoria}}">
-            <div class="atividade-mini-titulo">{{this.titulo}}</div>
-            
-            <div class="atividade-mini-imgbox">
-                {{#if this.imagem}}
-                <img src="{{this.imagem}}" alt="{{this.titulo}}" class="img-fluid"
-                     onload="this.parentElement.classList.add('loaded')">
-                {{else}}
-                <i class="fas fa-music"></i>
-                {{/if}}
-                
-                {{#if this.progresso}} 
-                <div class="progresso-overlay">
-                    <div class="progresso-circle" data-progresso="{{this.progresso}}">
-                        <span>{{this.progresso}}%</span>
-                    </div>
-                </div>
-                {{/if}}
-            </div>
-            
-            <div class="atividade-mini-objetivo">
-                {{this.objetivo}}
-            </div>
-            
-            <div class="atividade-mini-actions">
-                <button class="atividade-mini-btn continuar" 
-                        data-id="{{this.id}}"
-                        title="Continuar Atividade">
-                    <i class="bi bi-play-circle"></i>
-                </button>
-                
-                <button class="atividade-mini-btn refazer" 
-                        data-id="{{this.id}}"
-                        title="Refazer Atividade">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
-                
-                <button class="atividade-mini-btn detalhes" 
-                        data-id="{{this.id}}"
-                        title="Ver Detalhes">
-                    <i class="bi bi-info-circle"></i>
-                </button>
-            </div>
-            
-            <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
-                <small class="text-muted">
-                    <i class="bi bi-calendar me-1"></i>
-                    {{formatarData this.ultimoAcesso}}
-                </small>
-                <small class="text-muted">
-                    <i class="bi bi-check-circle me-1 {{#if this.concluida}}text-success{{/if}}"></i>
-                    {{#if this.concluida}}Concluída{{else}}Em andamento{{/if}}
-                </small>
-            </div>
-        </div>
-        {{/each}}
+    <div id="historico-container" class="atividades-container">
+        <!-- Será preenchido via JavaScript -->
     </div>
     
-    {{#unless ultimasAtividades}}
-    <div class="text-center py-5">
+    <div id="historico-vazio" class="text-center py-5" style="display: none;">
         <i class="bi bi-clock display-1 text-muted mb-3"></i>
         <h5 class="text-muted">Nenhuma atividade recente</h5>
         <p class="text-muted">Comece explorando as atividades disponíveis</p>
-        <button class="btn btn-primary mt-3" onclick="window.location.href='/atividades'">
+        <button class="btn btn-primary mt-3" onclick="window.location.href='/sugeridasA'">
             <i class="bi bi-compass me-2"></i>Explorar Atividades
         </button>
     </div>
-    {{/unless}}
 </div>
+

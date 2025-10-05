@@ -50,11 +50,24 @@ app.use((req, res, next) => {
     next();
 });
 
+// ⭐⭐ MIDDLEWARE DO BOTÃO VOLTAR ⭐⭐
+app.use((req, res, next) => {
+    // Rotas principais onde NÃO mostrar botão voltar
+    const rotasPrincipais = ['/', '/index', '/login', '/escolher', '/cadastroM', '/cadastroE','/painelM'];
+    
+    // Não mostrar botão nas rotas principais
+    const mostrarVoltar = !rotasPrincipais.includes(req.path);
+    
+    res.locals.showBackButton = mostrarVoltar;
+    next();
+});
+
 app.use((req, res, next) => {
   console.log('Session ID:', req.sessionID);
   console.log('Session data:', req.session);
   next();
 });
+
 // Configuração do template engine handlebars
 
 const handlebars = require('express-handlebars');
@@ -75,6 +88,9 @@ const hbs = handlebars.create({
         'Cultura e Folclore': 'fas fa-globe-americas'
       };
       return icons[nome] || 'fas fa-music';
+    },
+        json: function(context) {
+      return JSON.stringify(context);
     }
   }
 });
@@ -109,9 +125,9 @@ app.use((req, res, next) => {
 });
 
 // ROTAS - ORDEM CRÍTICA
+app.use('/', atividadeRoutes);
 app.use('/', indexRoutes);
 app.use('/', usuarioRoutes);
-app.use('/', atividadeRoutes);
 app.use('/', tipoatividadeRoutes);
 
 Promise.all([
@@ -132,7 +148,14 @@ Promise.all([
         { id: 6, nome: 'TempoeClima' },
         { id: 7, nome: 'DesenvolvimentoMotor' },
         { id: 8, nome: 'CidadaniaeMeioAmbiente' },
-        { id: 9, nome: 'FolcloreeCultura' }
+        { id: 9, nome: 'FolcloreeCultura' },
+        { id: 10, nome: 'Altura' },
+        { id: 11, nome: 'Intensidade' },
+        { id: 12, nome: 'Duracao' },
+        { id: 13, nome: 'Timbre' },
+        { id: 14, nome: 'Ritmo' },
+        { id: 15, nome: 'Melodia' },
+        { id: 16, nome: 'Harmonia' }
     ], { ignoreDuplicates: true });
 
     // Registros padrão para classificacao

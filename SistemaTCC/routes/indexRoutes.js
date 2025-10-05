@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Tipoatividade = require('../models/tipoatividade');
+const atividadeController = require('../controllers/atividadeController'); // ← ADD
 
-// Rota principal
+// Rota principal - REDIRECIONAMENTO
 router.get('/', async (req, res) => {
   try {
     if (req.session.usuario) {
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
 }); 
 
 // Rota para index (educador)
-router.get('/index', async (req, res) => {
+router.get('/index', atividadeController.home, async (req, res) => {
   try {
     const tipoatividades = await Tipoatividade.findAll();
     

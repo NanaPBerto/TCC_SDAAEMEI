@@ -1,74 +1,37 @@
 <div class="form-section">
-    <h4 class="mb-4">
-        <i class="bi bi-stars me-2"></i>Atividades Sugeridas para Você
-    </h4>
-    
-    <div class="atividades-container">
-        {{#each atividadesSugeridas}}
-        <div class="atividade-mini-card" data-categoria="{{this.categoria}}">
-            <div class="atividade-mini-titulo">{{this.titulo}}</div>
-            
-            <div class="atividade-mini-imgbox">
-                {{#if this.imagem}}
-                <img src="{{this.imagem}}" alt="{{this.titulo}}" class="img-fluid" 
-                     onload="this.parentElement.classList.add('loaded')">
-                {{else}}
-                <i class="fas fa-music"></i>
-                {{/if}}
-            </div>
-            
-            <div class="atividade-mini-objetivo">
-                {{this.objetivo}}
-            </div>
-             
-            <div class="atividade-mini-actions">
-                <button class="atividade-mini-btn visualizar" 
-                        data-id="{{this.id}}"
-                        title="Visualizar Atividade">
-                    <i class="bi bi-eye"></i>
-                </button>
-                
-                {{#if this.favoritada}}
-                <button class="atividade-mini-btn favorito ativo" 
-                        data-id="{{this.id}}"
-                        title="Remover dos Favoritos">
-                    <i class="bi bi-heart-fill"></i>
-                </button>
-                {{else}}
-                <button class="atividade-mini-btn favorito" 
-                        data-id="{{this.id}}"
-                        title="Adicionar aos Favoritos">
-                    <i class="bi bi-heart"></i>
-                </button>
-                {{/if}}
-                
-                <button class="atividade-mini-btn compartilhar" 
-                        data-id="{{this.id}}"
-                        title="Compartilhar">
-                    <i class="bi bi-share"></i>
-                </button>
-            </div>
-            
-            <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
-                <small class="text-muted">
-                    <i class="bi bi-clock me-1"></i>{{this.duracao}}min
-                </small>
-                <small class="text-muted">
-                    <i class="bi bi-person me-1"></i>{{this.nivel}}
-                </small>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">
+            <i class="bi bi-stars me-2"></i>Atividades Sugeridas para Você
+        </h4>
+        <div>
+            <button class="btn btn-outline-primary btn-sm" onclick="recarregarSugestoes()">
+                <i class="bi bi-arrow-clockwise me-1"></i>Atualizar
+            </button>
         </div>
-        {{/each}}
+    </div>
+
+    <!-- Container das sugestões -->
+    <div id="sugeridas-container" class="atividades-container" 
+         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- Será preenchido via JavaScript -->
     </div>
     
-    {{#unless atividadesSugeridas}}
-    <div class="text-center py-5">
+    <!-- Mensagem quando não há sugestões -->
+    <div id="sugeridas-vazio" class="text-center py-5" style="display: none;">
         <i class="bi bi-inbox display-1 text-muted mb-3"></i>
         <h5 class="text-muted">Nenhuma atividade sugerida no momento</h5>
-        <p class="text-muted">Complete seu perfil para receber sugestões personalizadas</p>
-        <button class="btn btn-primary mt-3">
-            <i class="bi bi-person-gear me-2"></i>Completar Perfil
+        <p class="text-muted">Tente atualizar as sugestões ou verifique se há atividades cadastradas.</p>
+        <button class="btn btn-primary mt-3" onclick="recarregarSugestoes()">
+            <i class="bi bi-arrow-clockwise me-2"></i>Recarregar Sugestões
         </button>
     </div>
-    {{/unless}}
 </div>
+
+<!-- Dados das atividades (invisível) -->
+{{#if atividades}}
+<script id="atividades-data" type="application/json">
+{{{json atividades}}}
+</script>
+{{else}}
+<script id="atividades-data" type="application/json">[]</script>
+{{/if}}

@@ -1,4 +1,10 @@
 <!-- Área de Login -->
+{{#if alertMessage}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{alertMessage}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
 <div id="login-container" class="container">
     <div id="login-box" class="row g-0">
         <div class="col-md-6 login-form">

@@ -1,13 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const app = express();
 const atividadeController = require('../controllers/atividadeController');
+const sugeridasController = require('../controllers/sugeridasController');
 const { atividadeUpload } = require('../middleware/uploadFile'); // Usar a configuração específica
 
 function requireMusico(req, res, next) {
-  if (!req.session.usuario || req.session.usuario.tipo !== 'musico') {
-    return res.status(403).send('sua sessão expirou ou você não tem permissão para acessar esta página.');
-    
+  if (!req.session.usuario) {
+    req.session.alertMessage = 'Sua sessão expirou. Faça login novamente.';
+    return res.redirect('/login');
   }
+  
+  if (req.session.usuario.tipo !== 'musico') {
+    req.session.alertMessage = 'Você não tem permissão para acessar esta página.';
+    return res.redirect('/login');
+  }
+  
   next(); 
 }
 
@@ -29,8 +37,33 @@ const handleMulterError = (err, req, res, next) => {
 };
 
 // Rotas para atividades
+router.get('/api/atividades/sugestoes', atividadeController.sugestoesAtividades);
 router.get('/submissoes', requireMusico, atividadeController.submissoes);
 router.get('/novaAtividade', requireMusico, atividadeController.novaAtividade);
+router.get('/sugeridas', sugeridasController.getSugeridas);
+
+
+
+// Adicione esta rota para teste rápido
+router.get('/teste-sugeridas', async (req, res) => {
+    try {
+        const Atividade = require('../models/ativ');
+        const atividades = await Atividade.findAll({
+            attributes: ['id', 'nome', 'objetivo', 'imagem'],
+            limit: 10
+        });
+        
+        res.json({
+            message: 'Teste de atividades',
+            count: atividades.length,
+            atividades: atividades.map(a => a.get({ plain: true }))
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 router.post(
   '/novaAtividade',
@@ -46,12 +79,13 @@ router.post(
 
 // Rotas de CRUD para atividades
 router.get('/deletar/:id', atividadeController.deletar);
-router.get('/editar/:id', atividadeController.editar);
+router.get('/editar/:id', requireMusico, atividadeController.carregarEdicao); // GET - carregar formulário
 
 router.post('/editar/:id', 
+  requireMusico,
   atividadeUpload.any(),
   handleMulterError,
-  atividadeController.atualizar
+  atividadeController.processarEdicao // POST - processar atualização
 );
 
 // Página de escolha

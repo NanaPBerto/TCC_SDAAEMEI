@@ -1,28 +1,53 @@
 const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
+const db = require('../db');
 
-// Página inicial de atividades
+// Página inicial de atividades - VERSÃO CORRIGIDA E TESTADA
 exports.home = async (req, res) => {
   try {
-    const atividadesComImagem = await ativ.findAll({
-      where: { imagem: { [require('sequelize').Op.ne]: null } }
+    console.log('=== INICIANDO CARREGAMENTO DO CARROSSEL ===');
+    
+    const atividades = await ativ.findAll({
+      limit: 5,
+      order: db.sequelize.random(),
+      where: {
+        [db.Sequelize.Op.and]: [
+          { imagem: { [db.Sequelize.Op.ne]: null } },
+          { imagem: { [db.Sequelize.Op.ne]: '' } }
+        ]
+      },
+      attributes: ['id', 'nome', 'objetivo', 'imagem']
     });
- 
-    const imagensCarrossel = atividadesComImagem
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3)
-      .map(a => ({
-        nome: a.nome,
-        descricao: a.descricao,
-        imagemBase64: a.imagem ? `/uploads/${a.imagem}` : null
-      }));
+
+    console.log(`✅ Encontradas ${atividades.length} atividades para o carrossel`);
+    
+    // Log detalhado para debug
+    atividades.forEach((atividade, index) => {
+      console.log(`📁 Atividade ${index + 1}:`, {
+        id: atividade.id,
+        nome: atividade.nome,
+        imagem: atividade.imagem,
+        objetivo: atividade.objetivo
+      });
+    });
+
+    // Garantir que os dados sejam objetos simples
+    const atividadesCarrossel = atividades.map(a => a.get ? a.get({ plain: true }) : a);
+
+    console.log('🎯 Dados que serão enviados para o template:', atividadesCarrossel);
 
     res.render('index', {
-      imagensCarrossel,
+      atividades: atividadesCarrossel,
+      layout: 'main' // Garantir que use o layout correto
     });
+
   } catch (error) {
-    console.error('Erro ao carregar imagens do carrossel:', error);
-    res.render('index', { imagensCarrossel: [] });
+    console.error('❌ Erro ao carregar carrossel:', error);
+    // Em caso de erro, enviar array vazio explicitamente
+    res.render('index', { 
+      atividades: [],
+      layout: 'main'
+    });
   }
 };
 
@@ -78,7 +103,7 @@ exports.novaAtividade = async (req, res) => {
 
 exports.add = async (req, res) => {
     try {
-        const { nome, descricao, objetivo, indicacao, vagas, duracao, recursos, condicoes, obs, desenvolvedor, classificacao, tipoId } = req.body;
+        const { nome, descricao, objetivo, indicacao, vagas, duracao, recursos, condicoes, obs, tipoId } = req.body;
         
         // Validar usuário logado
         if (!req.session.usuario || !req.session.usuario.id) {
@@ -97,7 +122,7 @@ exports.add = async (req, res) => {
             }
         }
 
-        // Acessar arquivos - AGORA COM FILENAME CORRETO
+        // Acessar arquivos
         const imagem = req.files?.imagem?.[0];
         const video = req.files?.video?.[0];
         const musica = req.files?.musica?.[0];
@@ -109,8 +134,8 @@ exports.add = async (req, res) => {
         if (video) console.log('Vídeo:', video ? video.filename : 'não enviado');
         if (partitura) console.log('Partitura:', partitura ? partitura.filename : 'não enviado');
 
-        // Mapear classificação para ID
-        const classificacaoMap = {
+  
+        const faixaEtariaMap = {
             '1 a 2 anos': 1,
             '2 a 3 anos': 2,
             '3 a 4 anos': 3,
@@ -118,22 +143,29 @@ exports.add = async (req, res) => {
             '5 a 6 anos': 5
         };
 
-        // ⭐⭐ CORREÇÃO: Salvar APENAS caminhos dos arquivos ⭐⭐
+        const faixaEtariaSelecionada = req.body.classificacao;
+        const classificacaoId = faixaEtariaMap[faixaEtariaSelecionada] || 3;
+
+        console.log('Faixa etária selecionada:', faixaEtariaSelecionada);
+        console.log('Classificação ID calculada:', classificacaoId);
+
+        // Dados da atividade
         const atividadeData = {
             nome: req.body.nome,
             descricao: req.body.descricao,
             objetivo: req.body.objetivo,
-            indicacao: req.body.indicacao,
+            indicacao: req.body.indicacao, // Nível de dificuldade (input text)
             vagas: req.body.vagas,
             duracao: req.body.duracao,
             recursos: req.body.recursos,
             condicoes: req.body.condicoes,
             obs: req.body.obs || null,
-            classificacao: classificacaoMap[req.body.indicacao] || 3, // Corrigido typo: indexao → indicacao
+
+            classificacao: classificacaoId,
             tipoId: req.body.tipoId,
             desenvolvedor: req.session.usuario.id,
             
-            // ⭐⭐ APENAS CAMINHOS - NÃO SALVAR BUFFERS NO BANCO ⭐⭐
+            // Caminhos dos arquivos
             imagem: imagem ? `/uploads/${imagem.filename}` : null,
             musica: musica ? `/uploads/${musica.filename}` : null,
             video: video ? `/uploads/${video.filename}` : null,
@@ -143,7 +175,6 @@ exports.add = async (req, res) => {
         console.log('Dados para criar atividade:', atividadeData);
 
         await ativ.create(atividadeData);
-
         res.redirect('/painelM');
 
     } catch (erro) {
@@ -174,42 +205,73 @@ exports.deletar = async (req, res) => {
   }
 };
 
-// Página editar atividade
-exports.editar = async (req, res) => {
+// Editar atividade
+
+// Carregar formulário de edição (GET) - VERSÃO SEGURA
+exports.carregarEdicao = async (req, res) => {
   try {
+    // Por enquanto, não inclua associações para evitar problemas
     const atividade = await ativ.findByPk(req.params.id);
+    const tipos = await Tipoatividade.findAll();
+    
     if (!atividade) {
       return res.status(404).send('Atividade não encontrada');
     }
-    const tipos = await Tipoatividade.findAll();
+
     res.render('cadastroA', {
+      tipos: tipos.map(tipo => tipo.toJSON()),
       atividade: atividade.toJSON(),
-      tipos: tipos.map(tipo => tipo.toJSON())
+      edicao: true
     });
-  } catch (erro) {
-    console.error('Erro ao editar atividade:', erro);
-    res.status(500).send('Erro ao carregar edição');
+  } catch (error) {
+    console.error('Erro ao carregar edição:', error);
+    res.status(500).send('Erro ao carregar formulário de edição');
   }
 };
 
-// Atualizar atividade
-exports.atualizar = async (req, res) => {
+// Processar edição (POST)
+exports.processarEdicao = async (req, res) => {
   try {
+    const atividadeId = req.params.id;
+    
+    // Buscar atividade atual para preservar arquivos
+    const atividadeAtual = await ativ.findByPk(atividadeId);
+    if (!atividadeAtual) {
+      return res.status(404).send('Atividade não encontrada');
+    }
+
     const updateData = {
       nome: req.body.nome,
       descricao: req.body.descricao,
       objetivo: req.body.objetivo,
-      indicacao: req.body.indicacao,
+      indicacao: req.body.indicacao, // Nível de dificuldade (input text)
       vagas: req.body.vagas,
       duracao: req.body.duracao,
       recursos: req.body.recursos,
       condicoes: req.body.condicoes,
       obs: req.body.obs,
-      classificacao: req.body.classificacao,
       tipoId: req.body.tipoId
     };
 
-    // ⭐⭐ CORREÇÃO: Processar arquivos se existirem - APENAS CAMINHOS ⭐⭐
+
+    const faixaEtariaMap = {
+      'berçário I': 1,
+      'berçário II': 2,
+      'berçário III': 3,
+      'maternal I': 4,
+      'maternal II': 5,
+      'pré I': 6,
+      'pré II': 7
+    };
+
+    // ⭐⭐ IMPORTANTE: O campo 'classificacao' no formulário é a FAIXA ETÁRIA ⭐⭐
+    const faixaEtariaSelecionada = req.body.classificacao;
+    updateData.classificacao = faixaEtariaMap[faixaEtariaSelecionada] || 3;
+
+    console.log('Faixa etária selecionada:', faixaEtariaSelecionada);
+    console.log('Classificação ID calculada:', updateData.classificacao);
+
+    // Processar arquivos - preservar existentes se não enviar novos
     if (req.files && req.files.length > 0) {
       const imagem = req.files.find(file => file.fieldname === 'imagem');
       const musica = req.files.find(file => file.fieldname === 'musica');
@@ -218,23 +280,55 @@ exports.atualizar = async (req, res) => {
 
       if (imagem) {
         updateData.imagem = `/uploads/${imagem.filename}`;
+      } else {
+        updateData.imagem = atividadeAtual.imagem;
       }
       if (musica) {
         updateData.musica = `/uploads/${musica.filename}`;
+      } else {
+        updateData.musica = atividadeAtual.musica;
       }
       if (video) {
         updateData.video = `/uploads/${video.filename}`;
+      } else {
+        updateData.video = atividadeAtual.video;
       }
       if (partitura) {
         updateData.partitura = `/uploads/${partitura.filename}`;
+      } else {
+        updateData.partitura = atividadeAtual.partitura;
       }
+    } else {
+      // Se não enviou novos arquivos, manter os atuais
+      updateData.imagem = atividadeAtual.imagem;
+      updateData.musica = atividadeAtual.musica;
+      updateData.video = atividadeAtual.video;
+      updateData.partitura = atividadeAtual.partitura;
     }
 
-    await ativ.update(updateData, { where: { id: req.params.id } });
+    console.log('Atualizando atividade:', updateData);
+    
+    await ativ.update(updateData, { where: { id: atividadeId } });
     res.redirect('/submissoes');
+    
   } catch (erro) {
     console.error('Erro ao atualizar atividade:', erro);
-    res.status(500).send('Erro ao atualizar atividade. Tente novamente.');
+    
+    // Recarregar tipos e atividade em caso de erro
+    try {
+      const tipos = await Tipoatividade.findAll();
+      const atividade = await ativ.findByPk(req.params.id);
+      
+      res.render('cadastroA', {
+        tipos: tipos.map(tipo => tipo.toJSON()),
+        atividade: atividade ? atividade.toJSON() : null,
+        edicao: true,
+        error: 'Erro ao atualizar atividade: ' + erro.message,
+        formData: req.body
+      });
+    } catch (loadError) {
+      res.status(500).send('Erro ao atualizar atividade. Tente novamente.');
+    }
   }
 };
 
@@ -243,13 +337,15 @@ exports.escolher = (req, res) => {
   res.render('escolher');
 };
 
+//função detalheAtividade
 exports.detalheAtividade = async (req, res) => {
   try {
     const id = req.params.id;
     const atividade = await ativ.findByPk(id, {
       include: [
         { model: Tipoatividade, as: 'tipo' },
-        { model: require('../models/musico'), as: 'musico' }
+        { model: require('../models/musico'), as: 'musico' },
+        { model: require('../models/classificacao'), as: 'faixaEtaria' } 
       ]
     });
     if (!atividade) {
@@ -263,4 +359,26 @@ exports.detalheAtividade = async (req, res) => {
     console.error('Erro ao buscar detalhes da atividade:', error);
     res.status(500).send('Erro ao buscar detalhes da atividade.');
   }
+};
+
+//pesquisas
+exports.sugestoesAtividades = async (req, res) => {
+    try {
+        const termo = req.query.q || '';
+        
+        const atividades = await ativ.findAll({
+            where: {
+                nome: {
+                    [db.Sequelize.Op.like]: `%${termo}%`
+                }
+            },
+            limit: 5, // Limitar a 5 sugestões
+            attributes: ['id', 'nome', 'objetivo'] // Apenas campos necessários
+        });
+
+        res.json(atividades);
+    } catch (error) {
+        console.error('Erro ao buscar sugestões:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
 };

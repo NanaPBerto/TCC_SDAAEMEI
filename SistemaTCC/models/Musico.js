@@ -20,7 +20,7 @@ const Musico = db.sequelize.define('musicos', {
         allowNull: false
     },
     senha: { 
-        type: db.Sequelize.STRING(100), // aumente para hash futuro
+        type: db.Sequelize.STRING(100), 
         allowNull: false
     },
     cpf: {

@@ -1,33 +1,6 @@
-// controllers/adminController.js
 const Musico = require('../models/musico');
 const Educador = require('../models/educador');
-
-exports.validarUsuarios = async (req, res) => {
-    try {
-        if (!req.session.usuario || req.session.usuario.tipo !== 'adm') {
-            return res.redirect('/login');
-        }
-
-        // Buscar todos os músicos não validados
-        const musicosPendentes = await Musico.findAll({
-            where: { validado: false }
-        });
-
-        // Buscar todos os músicos validados
-        const musicosValidados = await Musico.findAll({
-            where: { validado: true }
-        });
-
-        res.render('admin/validarUsuarios', {
-            musicosPendentes,
-            musicosValidados,
-            usuario: req.session.usuario
-        });
-    } catch (erro) {
-        console.error('Erro ao carregar página de validação:', erro);
-        res.status(500).send('Erro interno do servidor');
-    }
-};
+const EmailService = require('../services/emailService'); // ⭐⭐ IMPORTE O SERVIÇO DE EMAIL
 
 exports.validarUsuario = async (req, res) => {
     try {
@@ -37,7 +10,22 @@ exports.validarUsuario = async (req, res) => {
 
         const { id } = req.params;
         
+        // Buscar o usuário antes de atualizar para enviar o email
+        const usuario = await Musico.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({ success: false, message: 'Usuário não encontrado' });
+        }
+        
+        // Atualizar para validado
         await Musico.update({ validado: true }, { where: { id } });
+        
+        // ⭐⭐ ENVIAR EMAIL DE NOTIFICAÇÃO ⭐⭐
+        try {
+            await EmailService.enviarNotificacaoValidacao(usuario.get({ plain: true }));
+        } catch (emailError) {
+            console.error('❌ Erro ao enviar email, mas usuário foi validado:', emailError);
+            // Não impedir a validação se o email falhar
+        }
         
         res.json({ success: true, message: 'Usuário validado com sucesso' });
     } catch (erro) {
@@ -54,7 +42,22 @@ exports.desvalidarUsuario = async (req, res) => {
 
         const { id } = req.params;
         
+        // Buscar o usuário antes de atualizar para enviar o email
+        const usuario = await Musico.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({ success: false, message: 'Usuário não encontrado' });
+        }
+        
+        // Atualizar para não validado
         await Musico.update({ validado: false }, { where: { id } });
+        
+        // ⭐⭐ ENVIAR EMAIL DE NOTIFICAÇÃO ⭐⭐
+        try {
+            await EmailService.enviarNotificacaoDesvalidacao(usuario.get({ plain: true }));
+        } catch (emailError) {
+            console.error('❌ Erro ao enviar email, mas usuário foi desvalidado:', emailError);
+            // Não impedir a desvalidação se o email falhar
+        }
         
         res.json({ success: true, message: 'Usuário desvalidado com sucesso' });
     } catch (erro) {
@@ -63,16 +66,22 @@ exports.desvalidarUsuario = async (req, res) => {
     }
 };
 
-exports.listarTodosUsuarios = async (req, res) => {
+exports.listarUsuarios = async (req, res) => {
     try {
-        if (!req.session.usuario || req.session.usuario.tipo !== 'adm') {
-            return res.redirect('/login');
+        const filtro = req.query.filtro || 'todos';
+        let musicos = [];
+        let educadores = [];
+
+        if (filtro === 'validados') {
+            musicos = await Musico.findAll({ where: { validado: true } });
+        } else if (filtro === 'nao-validados') {
+            musicos = await Musico.findAll({ where: { validado: false } });
+        } else {
+            musicos = await Musico.findAll();
         }
+        educadores = await Educador.findAll();
 
-        const musicos = await Musico.findAll();
-        const educadores = await Educador.findAll();
-
-        const usuarios = [
+        let usuarios = [
             ...musicos.map(m => {
                 const usuario = m.get({ plain: true });
                 usuario.tipo = 'musico';
@@ -81,16 +90,17 @@ exports.listarTodosUsuarios = async (req, res) => {
             ...educadores.map(e => {
                 const usuario = e.get({ plain: true });
                 usuario.tipo = 'educador';
+                usuario.validado = null; // Educador não tem validação
                 return usuario;
             })
         ];
 
         res.render('admin/listarUsuarios', {
             usuarios,
-            usuario: req.session.usuario
+            filtroAtual: filtro
         });
     } catch (erro) {
         console.error('Erro ao listar usuários:', erro);
-        res.status(500).send('Erro interno do servidor');
+        res.status(500).send('Erro ao listar usuários');
     }
 };

@@ -80,10 +80,9 @@ exports.submissoes = async (req, res) => {
       isMusico,
       isEducador,
     });
-
   } catch (erro) {
     console.error('Erro ao listar submissões:', erro);
-    res.status(500).send('Erro ao listar submissões. Tente novamente mais tarde.');
+    res.render('submissoes', { atividades: [], alert: 'Erro ao listar submissões. Tente novamente mais tarde.' });
   }
 };
 
@@ -97,7 +96,7 @@ exports.novaAtividade = async (req, res) => {
     });
   } catch (error) {
     console.error('Erro ao carregar formulário:', error);
-    res.status(500).send('Erro ao carregar formulário');
+    res.render('cadastroA', { tipos: [], atividade: null, alert: 'Erro ao carregar formulário' });
   }
 };
 
@@ -176,21 +175,20 @@ exports.add = async (req, res) => {
 
         await ativ.create(atividadeData);
         res.redirect('/painelM');
-
     } catch (erro) {
         console.error('Erro detalhado ao adicionar atividade:', erro);
-        
-        // Recarregar tipos para o formulário em caso de erro
         try {
             const tipos = await Tipoatividade.findAll();
             res.render('cadastroA', {
                 tipos: tipos.map(tipo => tipo.toJSON()),
                 atividade: null,
                 error: 'Erro ao adicionar atividade: ' + erro.message,
+                alert: 'Erro ao adicionar atividade: ' + erro.message,
                 formData: req.body
             });
         } catch (loadError) {
-            res.status(500).send('Erro ao adicionar atividade. Tente novamente.');
+            req.session.alert = 'Erro ao adicionar atividade. Tente novamente.';
+            return res.redirect('/painelM');
         }
     }
 };
@@ -201,7 +199,8 @@ exports.deletar = async (req, res) => {
     res.redirect('/submissoes');
   } catch (erro) {
     console.error('Erro ao deletar atividade:', erro);
-    res.status(500).send('Erro ao deletar atividade. Tente novamente.');
+    req.session.alert = 'Erro ao deletar atividade. Tente novamente.';
+    res.redirect('/submissoes');
   }
 };
 
@@ -225,7 +224,7 @@ exports.carregarEdicao = async (req, res) => {
     });
   } catch (error) {
     console.error('Erro ao carregar edição:', error);
-    res.status(500).send('Erro ao carregar formulário de edição');
+    res.render('cadastroA', { tipos: [], atividade: null, edicao: true, alert: 'Erro ao carregar formulário de edição' });
   }
 };
 
@@ -312,21 +311,20 @@ exports.processarEdicao = async (req, res) => {
     
   } catch (erro) {
     console.error('Erro ao atualizar atividade:', erro);
-    
-    // Recarregar tipos e atividade em caso de erro
     try {
       const tipos = await Tipoatividade.findAll();
       const atividade = await ativ.findByPk(req.params.id);
-      
       res.render('cadastroA', {
         tipos: tipos.map(tipo => tipo.toJSON()),
         atividade: atividade ? atividade.toJSON() : null,
         edicao: true,
         error: 'Erro ao atualizar atividade: ' + erro.message,
+        alert: 'Erro ao atualizar atividade: ' + erro.message,
         formData: req.body
       });
     } catch (loadError) {
-      res.status(500).send('Erro ao atualizar atividade. Tente novamente.');
+      req.session.alert = 'Erro ao atualizar atividade. Tente novamente.';
+      return res.redirect('/submissoes');
     }
   }
 };
@@ -356,7 +354,7 @@ exports.detalheAtividade = async (req, res) => {
     res.render('atividade', { atividade: obj });
   } catch (error) {
     console.error('Erro ao buscar detalhes da atividade:', error);
-    res.status(500).send('Erro ao buscar detalhes da atividade.');
+    res.render('atividade', { atividade: null, alert: 'Erro ao buscar detalhes da atividade.' });
   }
 };
 
@@ -378,6 +376,6 @@ exports.sugestoesAtividades = async (req, res) => {
         res.json(atividades);
     } catch (error) {
         console.error('Erro ao buscar sugestões:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
+        res.status(500).json({ error: 'Erro interno do servidor', alert: 'Erro ao buscar sugestões.' });
     }
 };

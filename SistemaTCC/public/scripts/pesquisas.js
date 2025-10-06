@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filtroBtns.forEach(btn => {
             const textoBtn = btn.textContent.trim().toLowerCase();
             if ((filtroAtual === 'todos' && textoBtn === 'todos') ||
-                (filtroAtual === 'musico' && textoBtn === 'músicos') ||
+                (filtroAtual === 'musico' && textoBtn === 'professores de música') ||
                 (filtroAtual === 'educador' && textoBtn === 'educadores')) {
                 btn.classList.add('active');
             }
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const texto = this.textContent.trim().toLowerCase();
                 let novoTipo = 'todos';
 
-                if (texto === 'músicos') novoTipo = 'musico';
+                if (texto === 'professores de música') novoTipo = 'musico';
                 else if (texto === 'educadores') novoTipo = 'educador';
 
                 // Navegar para a mesma página com novo filtro
@@ -185,10 +185,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 timeoutId = setTimeout(() => {
                     const filtroAtivo = document.querySelector('.filter-btn.active');
-                    const textoFiltro = filtroAtivo ? filtroAtivo.textContent.trim().toLowerCase() : 'todos';
+                    const textoFiltro = filtroAtivo ? filtroAtivo.textContent.trim().toLowerCase() : '';
                     let tipo = 'todos';
                     
-                    if (textoFiltro === 'músicos') tipo = 'musico';
+                    if (textoFiltro === 'professores de música') tipo = 'musico';
                     else if (textoFiltro === 'educadores') tipo = 'educador';
 
                     navegarComFiltro(tipo, termo);
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const textoFiltro = filtroAtivo ? filtroAtivo.textContent.trim().toLowerCase() : 'todos';
                     let tipo = 'todos';
                     
-                    if (textoFiltro === 'músicos') tipo = 'musico';
+                    if (textoFiltro === 'professores de música') tipo = 'musico';
                     else if (textoFiltro === 'educadores') tipo = 'educador';
 
                     navegarComFiltro(tipo, this.value.trim());

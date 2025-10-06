@@ -52,7 +52,8 @@ exports.getSugeridas = async (req, res) => {
         console.error('❌ Erro CRÍTICO em getSugeridas:', error);
         res.render('sugeridasA', { 
             atividades: [],
-            error: error.message 
+            error: error.message,
+            alert: 'Erro ao carregar atividades sugeridas.'
         });
     }
 };

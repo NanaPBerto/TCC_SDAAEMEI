@@ -9,6 +9,23 @@
         </div>
     </div>
 
+    <!-- Filtros de validação -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="btn-group" role="group">
+                <a href="/admin/listar-usuarios?filtro=todos" class="btn btn-outline-primary {{#if (eq filtroAtual 'todos')}}active{{/if}}">
+                    Todos
+                </a>
+                <a href="/admin/listar-usuarios?filtro=validados" class="btn btn-outline-success {{#if (eq filtroAtual 'validados')}}active{{/if}}">
+                    Validados
+                </a>
+                <a href="/admin/listar-usuarios?filtro=nao-validados" class="btn btn-outline-warning {{#if (eq filtroAtual 'nao-validados')}}active{{/if}}">
+                    Não Validados
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -69,7 +86,7 @@
                                                     </button>
                                                 {{/if}}
                                             {{/if}}
-                                            <a href="/perfis/{{this.id}}" class="btn btn-info btn-sm" target="_blank">
+                                            <a href="/perfil/{{this.id}}" class="btn btn-info btn-sm" target="_blank">
                                                 <i class="fas fa-eye me-1"></i>Ver
                                             </a>
                                         </td>

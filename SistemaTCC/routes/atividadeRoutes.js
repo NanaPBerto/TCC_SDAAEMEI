@@ -10,7 +10,7 @@ function requireMusico(req, res, next) {
     return res.redirect('/login');
   }
   
-  if (req.session.usuario.tipo !== 'musico') {
+  if (req.session.usuario.tipo == 'educador' ) {
     req.session.alertMessage = 'Você não tem permissão para acessar esta página.';
     return res.redirect('/login');
   }
@@ -36,32 +36,6 @@ const handleMulterError = (err, req, res, next) => {
 };
 
 
-// ⭐⭐ ROTA DE TESTE DAS SUGERIDAS ⭐⭐
-router.get('/teste-sugeridas', async (req, res) => {
-    try {
-        const Atividade = require('../models/ativ');
-        const atividades = await Atividade.findAll({
-            attributes: ['id', 'nome', 'objetivo', 'imagem'],
-            limit: 10
-        });
-        
-        console.log('=== TESTE SUGERIDAS - ATIVIDADES NO BANCO ===');
-        console.log(`Total: ${atividades.length} atividades`);
-        atividades.forEach((ativ, index) => {
-            console.log(`${index + 1}. ${ativ.nome} (ID: ${ativ.id})`);
-        });
-        
-        res.json({
-            success: true,
-            message: 'Teste de atividades no banco',
-            count: atividades.length,
-            atividades: atividades.map(a => a.get({ plain: true }))
-        });
-    } catch (error) {
-        console.error('❌ Erro no teste:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
 
 // Rotas para atividades
 router.get('/api/atividades/sugestoes', atividadeController.sugestoesAtividades);

@@ -9,13 +9,12 @@ function getUsuarioModel(tipo) {
   throw new Error('Tipo de usuário inválido');
 }
  
-// Adicionar usuario
+// Adicionar usuario - ATUALIZADO
 exports.add = async (req, res) => {
   try {
     let imagemPath = null;
     let minicurriculoPath = null;
 
-    // ⭐⭐ CORREÇÃO: Salvar apenas caminhos dos arquivos ⭐⭐
     if (req.files) {
       if (req.files['imagem']) {
         imagemPath = `/uploads/${req.files['imagem'][0].filename}`;
@@ -42,7 +41,8 @@ exports.add = async (req, res) => {
         imagem: imagemPath,
         minicurriculo: minicurriculoPath,
         obs: req.body.obs,
-        cidade: req.body.cidade
+        cidade: req.body.cidade,
+        validado: false // ⭐⭐ MÚSICOS NOVOS COMEÇAM NÃO VALIDADOS ⭐⭐
       };
     } else {
       dados = {
@@ -56,30 +56,37 @@ exports.add = async (req, res) => {
       };
     }
 
-     // ⭐⭐ MODIFICAÇÃO: Criar usuário e fazer login automático ⭐⭐
     const novoUsuario = await Usuario.create(dados);
     
-    // Criar sessão para o usuário
-    req.session.usuario = {
-      id: novoUsuario.id,
-      nome: novoUsuario.nome,
-      tipo: novoUsuario.tipo,
-      login: novoUsuario.login,
-      senha: novoUsuario.senha,
-      email: novoUsuario.email,
-      cidade: novoUsuario.cidade,
-      uf: novoUsuario.uf,
-      imagem: novoUsuario.imagem,
-      cpf: novoUsuario.cpf,
-      fone: novoUsuario.fone,
-      ...(novoUsuario.minicurriculo && { minicurriculo: novoUsuario.minicurriculo }),
-      ...(novoUsuario.obs && { obs: novoUsuario.obs })
-    };
+    // ⭐⭐ MODIFICAÇÃO: SÓ FAZ LOGIN AUTOMÁTICO SE NÃO FOR MÚSICO OU SE FOR VALIDADO ⭐⭐
+    if (Usuario !== Musico || novoUsuario.validado) {
+      // Criar sessão para o usuário
+      req.session.usuario = {
+        id: novoUsuario.id,
+        nome: novoUsuario.nome,
+        tipo: novoUsuario.tipo,
+        login: novoUsuario.login,
+        senha: novoUsuario.senha,
+        email: novoUsuario.email,
+        cidade: novoUsuario.cidade,
+        uf: novoUsuario.uf,
+        imagem: novoUsuario.imagem,
+        cpf: novoUsuario.cpf,
+        fone: novoUsuario.fone,
+        validado: novoUsuario.validado,
+        ...(novoUsuario.minicurriculo && { minicurriculo: novoUsuario.minicurriculo }),
+        ...(novoUsuario.obs && { obs: novoUsuario.obs })
+      };
 
-    console.log('✅ Usuário criado e logado automaticamente:', req.session.usuario);
+      console.log('✅ Usuário criado e logado automaticamente:', req.session.usuario);
+      res.redirect('/');
+    } else {
+      // ⭐⭐ MÚSICO NÃO VALIDADO: MOSTRA MENSAGEM E REDIRECIONA PARA LOGIN ⭐⭐
+      console.log('⚠️ Músico criado mas aguardando validação:', novoUsuario.nome);
+      req.session.alertMessage = 'Cadastro realizado! Sua conta está aguardando validação do administrador.';
+      res.redirect('/login');
+    }
 
-    // Redirecionar para a página inicial já logado
-    res.redirect('/');
   } catch (erro) {
     console.error('Erro detalhado:', erro);
     res.render('cadastro' + (tipoUsuario === 'musico' ? 'M' : 'E'), { 

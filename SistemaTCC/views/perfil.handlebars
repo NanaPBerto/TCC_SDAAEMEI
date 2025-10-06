@@ -57,7 +57,12 @@
             <label class="form-label">Minicurrículo</label>
             <input type="file" class="form-control" name="minicurriculo">
             {{#if usuario.minicurriculo}}
-              <small class="text-muted">Arquivo atual: minicurriculo.pdf</small>
+              <small class="text-muted">
+                Arquivo atual:
+                <a href="{{usuario.minicurriculo}}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">
+                  <i class="fas fa-file-alt me-1"></i> Visualizar Minicurrículo
+                </a>
+              </small>
             {{/if}}
           </div>
           {{/if}}
@@ -116,8 +121,8 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Minicurrículo</label>
             <p class="form-control-plaintext">
-              <a href="#" class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-download me-1"></i> Baixar Minicurrículo
+              <a href="{{usuario.minicurriculo}}" target="_blank" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-file-alt me-1"></i> Visualizar Minicurrículo
               </a>
             </p>
           </div>

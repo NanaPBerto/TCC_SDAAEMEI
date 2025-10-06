@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const session = require('express-session'); 
@@ -150,13 +151,13 @@ Promise.all([
     await tipoatividade.bulkCreate([
         { id: 1, nome: 'Linguagem' },
         { id: 2, nome: 'Numeros' },
-        { id: 3, nome: 'FormaseEspaco' },
+        { id: 3, nome: 'Formas' },
         { id: 4, nome: 'Fauna' },
         { id: 5, nome: 'Flora' },
-        { id: 6, nome: 'TempoeClima' },
-        { id: 7, nome: 'DesenvolvimentoMotor' },
-        { id: 8, nome: 'CidadaniaeMeioAmbiente' },
-        { id: 9, nome: 'FolcloreeCultura' },
+        { id: 6, nome: 'Clima' },
+        { id: 7, nome: 'Motricidade' },
+        { id: 8, nome: 'Cidadania' },
+        { id: 9, nome: 'Cultura' },
         { id: 10, nome: 'Altura' },
         { id: 11, nome: 'Intensidade' },
         { id: 12, nome: 'Duracao' },

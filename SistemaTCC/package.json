@@ -2,12 +2,14 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "connect-flash": "^0.1.1",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.3",
     "express-session": "^1.18.2",
     "handlebars": "^4.7.8",
     "multer": "^2.0.2",
     "mysql2": "^3.14.1",
+    "nodemailer": "^7.0.7",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"
   },

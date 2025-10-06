@@ -5,6 +5,7 @@ const Educador = require('../models/educador');
 const { usuarioUpload } = require('../middleware/uploadFile'); 
 const usuarioController = require('../controllers/usuarioController');
 const atividadeController = require('../controllers/atividadeController');
+const { checkMusicoValidado, checkAuth } = require('../middleware/authMiddleware'); 
 // Middleware para tratamento de erros do Multer
 const handleMulterError = (err, req, res, next) => {
     if (err instanceof multer.MulterError) {
@@ -52,14 +53,18 @@ router.post(
 );
 
 // Rotas de autenticação
-// Rota de login (GET)
+// Rota de login (GET) - ATUALIZADA
 router.get('/login', (req, res) => {
   const alertMessage = req.session.alertMessage;
-  // Limpa a mensagem da sessão após pegar
+  const alert = req.session.alert;
+  
+  // Limpa as mensagens da sessão após pegar
   delete req.session.alertMessage;
+  delete req.session.alert;
   
   res.render('login', { 
-    alertMessage: alertMessage 
+    alertMessage: alertMessage,
+    alert: alert
   });
 });
 // Rota de login (POST) - ATUALIZADA
@@ -87,10 +92,17 @@ router.post('/login', async (req, res) => {
             return res.render('login', { alert: 'Senha incorreta' });
         }
 
+        // ⭐⭐ VALIDAÇÃO PARA MÚSICOS NÃO VALIDADOS ⭐⭐
+        if (tipoUsuario === 'musico' && usuarioObj.validado === false) {
+            return res.render('login', { 
+                alert: 'Sua conta está aguardando validação. Entre em contato com o administrador.' 
+            });
+        }
+
         const usuarioSemSenha = usuarioObj.get({ plain: true });
         delete usuarioSemSenha.senha;
 
-        // ⭐⭐ CORREÇÃO CRÍTICA: Definir tipo corretamente ⭐⭐
+        // Definir tipo corretamente
         if (usuarioObj.tipo === 'adm') {
             tipoUsuario = 'adm';
         }
@@ -98,15 +110,15 @@ router.post('/login', async (req, res) => {
         usuarioSemSenha.id = usuarioObj.id;
         usuarioSemSenha.tipo = tipoUsuario;
 
-        console.log('🔐 Usuário logado:', usuarioSemSenha); // Debug
+        console.log('🔐 Usuário logado:', usuarioSemSenha);
 
         req.session.usuario = usuarioSemSenha;
         req.session.save(() => {
             let redirectUrl = '/index';
             if (tipoUsuario === 'musico') redirectUrl = '/painelM';
-            if (tipoUsuario === 'adm') redirectUrl = '/painelM'; // ou '/admin/dashboard'
+            if (tipoUsuario === 'adm') redirectUrl = '/painelM';
             
-            console.log('🔄 Redirecionando para:', redirectUrl); // Debug
+            console.log('🔄 Redirecionando para:', redirectUrl);
             res.redirect(redirectUrl);
         });
 
@@ -115,7 +127,6 @@ router.post('/login', async (req, res) => {
         res.render('login', { alert: 'Erro interno no servidor' });
     }
 });
-
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -156,21 +167,30 @@ router.get('/cadastroE', (req, res) => {
   res.render('cadastroE');
 });
 
-// Perfil do usuário logado
-router.get('/perfil', (req, res) => {
-  if (!req.session.usuario) {
-    return res.redirect('/login');
-  }
-  res.render('perfil', { 
-    usuario: req.session.usuario, 
-    isOwnProfile: true,
-    session: req.session
-  });
+
+// Perfil - qualquer usuário logado pode acessar, mas músico precisa estar validado
+router.get('/perfil', checkAuth, (req, res) => {
+    // Se for músico, aplica a validação
+    if (req.session.usuario.tipo === 'musico') {
+        return checkMusicoValidado(req, res, () => {
+            res.render('perfil', { 
+                usuario: req.session.usuario, 
+                isOwnProfile: true,
+                session: req.session
+            });
+        });
+    }
+    
+    res.render('perfil', { 
+        usuario: req.session.usuario, 
+        isOwnProfile: true,
+        session: req.session
+    });
 });
 
 //acessar outros perfis
 router.get('/perfis', require('../controllers/usuarioController').listarPerfis);
-router.get('/perfis/:id', require('../controllers/usuarioController').verPerfil);
+router.get('/perfil/:id', require('../controllers/usuarioController').verPerfil);
 router.get('/perfis', usuarioController.listarPerfis);
 // Atualizar perfil
 router.post('/perfil', 

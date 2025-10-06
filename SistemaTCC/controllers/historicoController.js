@@ -7,6 +7,6 @@ exports.getHistorico = async (req, res) => {
         });
     } catch (error) {
         console.error('Erro ao carregar histórico:', error);
-        res.render('historicoA', { ultimasAtividades: [] });
+        res.render('historicoA', { ultimasAtividades: [], alert: 'Erro ao carregar histórico.' });
     }
 };

@@ -30,7 +30,7 @@
     </div>
     <div class="atividade-detalhada-partitura">
       {{#if atividade.partitura}}
-        <a href="{{atividade.partitura}}" target="_blank" class="btn btn-outline-primary btn-sm">
+        <a href="{{atividade.partitura}}" target="_blank" class="btn btn-outline-primary btn-sm" style="color: white;">
           <i class="fas fa-file-alt me-2"></i>Visualizar Partitura
         </a>
       {{else}}
@@ -52,108 +52,26 @@
     <div class="atividade-detalhada-info-col">
       <strong>Objetivo:</strong>
       <div>{{atividade.objetivo}}</div>
+    </div>
+    <div class="atividade-detalhada-info-col">
       <strong>Indicação:</strong>
       <div>{{atividade.indicacao}}</div>
     </div>
     <div class="atividade-detalhada-info-col">
       <strong>Condições:</strong>
       <div>{{atividade.condicoes}}</div>
+    </div>
+    <div class="atividade-detalhada-info-col">
       <strong>Recursos:</strong>
       <div>{{atividade.recursos}}</div>
     </div>
     <div class="atividade-detalhada-info-col">
       <strong>Descrição:</strong>
       <div>{{atividade.descricao}}</div>
+    </div>
       {{#if atividade.obs}}
         <div class="atividade-detalhada-obs"><strong>Obs:</strong> {{atividade.obs}}</div>
       {{/if}}
-    </div>
   </div>
 </div>
-<style>
-.atividade-detalhada-card {
-  background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-}
-.atividade-detalhada-titulo {
-  color: #7E57C2;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-.atividade-detalhada-top {
-  align-items: center;
-  display: flex;
-  margin-bottom: 1.5rem;
-}
-.atividade-detalhada-avatar {
-  background-color: #f0f0f0;
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
-}
-.atividade-detalhada-dev {
-  color: #333;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-.atividade-detalhada-badges {
-  display: flex;
-  flex-wrap: wrap;
-}
-.atividade-detalhada-badge {
-  background-color: #e0e0e0;
-  border-radius: 12px;
-  color: #333;
-  font-size: 0.9rem;
-  margin-right: 0.5rem;
-  padding: 0.5rem 1rem;
-}
-.atividade-detalhada-content {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5rem;
-}
-.atividade-detalhada-imgbox {
-  border-radius: 10px;
-  overflow: hidden;
-  width: 100%;
-}
-.atividade-detalhada-imgbox img {
-  display: block;
-  width: 100%;
-}
-.atividade-detalhada-partitura,
-.atividade-detalhada-audio {
-  margin-top: 1rem;
-  width: 100%;
-}
-.atividade-detalhada-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.atividade-detalhada-info-col {
-  flex: 1;
-  margin-right: 1rem;
-}
-.atividade-detalhada-info-col strong {
-  color: #7E57C2;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.atividade-detalhada-obs {
-  background-color: #f9f9f9;
-  border-left: 4px solid #7E57C2;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-}
-</style>
- 
+

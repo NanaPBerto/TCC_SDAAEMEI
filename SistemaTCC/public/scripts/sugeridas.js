@@ -42,53 +42,55 @@ function carregarSugestoes() {
 function renderizarSugestoes(atividades) {
     const container = document.getElementById('sugeridas-container');
     const vazio = document.getElementById('sugeridas-vazio');
-    
-    console.log('🎨 Renderizando sugestões...');
-    console.log('Container:', container);
-    console.log('Vazio:', vazio);
-    
+
+    // Registrar o partial se existir no HTML
+    if (window.Handlebars && document.getElementById('atividadeReduzida-partial')) {
+        var partialSource = document.getElementById('atividadeReduzida-partial').innerHTML;
+        window.Handlebars.registerPartial('atividadeReduzida', partialSource);
+    }
+
     if (!atividades || atividades.length === 0) {
-        console.log('📭 Nenhuma atividade para renderizar');
         if (container) container.style.display = 'none';
         if (vazio) vazio.style.display = 'block';
         return;
     }
-    
-    console.log(`🎨 Renderizando ${atividades.length} atividades`);
-    
+
     if (container) container.style.display = 'grid';
     if (vazio) vazio.style.display = 'none';
-    
-    const html = atividades.map(atividade => `
-        <div class="atividade-mini-card" style="border: 1px solid #ddd; padding: 1rem; border-radius: 8px;">
-            <div class="atividade-mini-titulo" style="font-weight: bold; margin-bottom: 0.5rem;">
-                ${atividade.titulo || 'Sem título'}
-            </div>
-            
-            <div class="atividade-mini-imgbox" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
-                ${atividade.imagem && atividade.imagem !== 'null' ? 
-                    `<img src="${atividade.imagem}" alt="${atividade.titulo}" style="max-width: 100%; max-height: 100%;">` : 
-                    `<i class="fas fa-music" style="font-size: 2rem; color: #666;"></i>`
-                }
-            </div>
 
-            <div class="atividade-mini-objetivo" style="margin-bottom: 0.5rem; font-size: 0.9rem;">
-                ${atividade.objetivo || 'Sem objetivo definido'}
-            </div>
-            
-            <div class="atividade-mini-actions">
-                <button class="btn btn-primary btn-sm" onclick="window.location.href='/atividade/${atividade.id}'">
-                    <i class="bi bi-eye"></i> Ver Detalhes
-                </button>
-            </div>
-        </div>
-    `).join('');
-    
-    if (container) {
-        container.innerHTML = html;
-        console.log('✅ HTML inserido no container');
+    // Renderizar usando o partial do Handlebars
+    if (window.Handlebars && window.Handlebars.partials && window.Handlebars.partials.atividadeReduzida) {
+        const template = window.Handlebars.compile(window.Handlebars.partials.atividadeReduzida);
+        container.innerHTML = atividades.map(atividade => {
+            const contexto = {
+                atividade: {
+                    ...atividade,
+                    titulo: atividade.titulo || atividade.nome,
+                    categoria: atividade.categoria || 'Geral',
+                    objetivo: atividade.objetivo || '',
+                    imagem: atividade.imagem || ''
+                }
+            };
+            return template(contexto);
+        }).join('');
     } else {
-        console.log('❌ Container não encontrado!');
+        // Fallback: renderização manual igual ao partial
+        container.innerHTML = atividades.map(atividade => `
+            <div class="atividade-mini-card" data-categoria="${atividade.categoria || 'Geral'}">
+                <div class="atividade-mini-titulo">${atividade.titulo || atividade.nome}</div>
+                <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
+                    ${atividade.imagem ? `<img src="${atividade.imagem}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">` : `<i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>`}
+                </div>
+                <div class="atividade-mini-objetivo">${atividade.objetivo || ''}</div>
+                <div class="atividade-mini-actions">
+                    <a href="/atividade/${atividade.id}" title="Ver detalhes">
+                        <button type="button" class="atividade-mini-btn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        `).join('');
     }
 }
 

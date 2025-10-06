@@ -87,77 +87,59 @@ function obterHistorico() {
 function carregarHistorico() {
     // Primeiro limpa dados corrompidos
     const historico = limparHistoricoCorrompido();
-    
     const container = document.getElementById('historico-container');
     const vazio = document.getElementById('historico-vazio');
-    
-    console.log('Histórico válido:', historico.length, 'itens');
-    
+
+    // Registrar o partial se existir no HTML
+    if (window.Handlebars && document.getElementById('atividadeReduzida-partial')) {
+        var partialSource = document.getElementById('atividadeReduzida-partial').innerHTML;
+        window.Handlebars.registerPartial('atividadeReduzida', partialSource);
+    }
+
     if (!historico || historico.length === 0) {
         if (container) container.style.display = 'none';
         if (vazio) vazio.style.display = 'block';
         return;
     }
-    
+
     if (container) container.style.display = 'grid';
     if (vazio) vazio.style.display = 'none';
-    
-    // Ordenar por data mais recente primeiro
-    historico.sort((a, b) => new Date(b.dataAcesso) - new Date(a.dataAcesso));
-    
-    // Gerar HTML dos cards APENAS para dados válidos
-    const html = historico.map(atividade => {
-        if (!validarAtividade(atividade)) {
-            console.warn('Atividade inválida ignorada:', atividade);
-            return '';
-        }
-        
-        const recente = ehMuitoRecente(atividade.dataAcesso);
-        const dataFormatada = formatarData(atividade.dataAcesso);
-        
-        return `
-            <div class="atividade-mini-card ${recente ? 'recente' : ''}" data-categoria="${atividade.categoria || 'Geral'}">
-                <div class="atividade-mini-titulo">${atividade.titulo}</div>
-                
-                <div class="atividade-mini-imgbox">
-                    ${atividade.imagem && atividade.imagem !== 'null' && !atividade.imagem.includes('{{') ? 
-                        `<img src="${atividade.imagem}" alt="${atividade.titulo}" class="img-fluid"
-                             onload="this.parentElement.classList.add('loaded')"
-                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-music\\'></i>'">` : 
-                        `<i class="fas fa-music"></i>`
-                    }
-                </div>
 
-                <div class="atividade-mini-objetivo">
-                    ${atividade.objetivo || 'Sem objetivo definido'}
+    // Renderizar usando o partial do Handlebars
+    if (window.Handlebars && window.Handlebars.partials && window.Handlebars.partials.atividadeReduzida) {
+        const template = window.Handlebars.compile(window.Handlebars.partials.atividadeReduzida);
+        container.innerHTML = historico.map(atividade => {
+            const contexto = {
+                atividade: {
+                    ...atividade,
+                    titulo: atividade.titulo || atividade.nome,
+                    categoria: atividade.categoria || 'Geral',
+                    objetivo: atividade.objetivo || '',
+                    imagem: atividade.imagem || ''
+                }
+            };
+            return template(contexto);
+        }).join('');
+    } else {
+        // Fallback: renderização manual igual ao partial
+        container.innerHTML = historico.map(atividade => `
+            <div class="atividade-mini-card" data-categoria="${atividade.categoria || 'Geral'}">
+                <div class="atividade-mini-titulo">${atividade.titulo || atividade.nome}</div>
+                <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
+                    ${atividade.imagem ? `<img src="${atividade.imagem}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">` : `<i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>`}
                 </div>
-                
+                <div class="atividade-mini-objetivo">${atividade.objetivo || ''}</div>
                 <div class="atividade-mini-actions">
-                    <button class="atividade-mini-btn visualizar" 
-                            data-id="${atividade.id}"
-                            title="Visualizar Atividade Novamente">
-                        <i class="bi bi-eye"></i>
-                    </button>
-                </div>
-                
-                <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
-                    <small class="text-muted">
-                        <i class="bi bi-calendar me-1"></i>
-                        ${dataFormatada}
-                    </small>
-                    <small class="text-muted">
-                        <i class="bi bi-check-circle me-1 ${atividade.concluida ? 'text-success' : ''}"></i>
-                        ${atividade.concluida ? 'Concluída' : 'Visualizada'}
-                    </small>
+                    <a href="/atividade/${atividade.id}" title="Ver detalhes">
+                        <button type="button" class="atividade-mini-btn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </a>
                 </div>
             </div>
-        `;
-    }).join('');
-    
-    if (container) {
-        container.innerHTML = html;
+        `).join('');
     }
-    
+
     // Inicializar eventos dos botões
     inicializarEventosHistorico();
 }

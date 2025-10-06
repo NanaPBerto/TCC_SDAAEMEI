@@ -99,7 +99,10 @@ const hbs = handlebars.create({
       if (!date) return 'N/A';
       return new Date(date).toLocaleDateString('pt-BR');
     }
-  }
+  },
+  partialsDir: [
+    path.join(__dirname, 'views', 'partials')
+  ]
 });
 
 app.engine('handlebars', hbs.engine);

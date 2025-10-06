@@ -1,3 +1,24 @@
+<script type="text/x-handlebars-template" id="atividadeReduzida-partial">
+  <div class="atividade-mini-card" data-categoria="{{atividade.categoria}}">
+    <div class="atividade-mini-titulo">{{atividade.titulo}}{{atividade.nome}}</div>
+    <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
+      {{#if atividade.imagem}}
+        <img src="{{atividade.imagem}}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">
+      {{else}}
+        <i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>
+      {{/if}}
+    </div>
+    <div class="atividade-mini-objetivo">{{atividade.objetivo}}</div>
+    <div class="atividade-mini-actions">
+      <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
+        <button type="button" class="atividade-mini-btn">
+          <i class="fas fa-eye"></i>
+        </button>
+      </a>
+    </div>
+  </div>
+</script>
+
 <div class="form-section">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">
@@ -9,21 +30,12 @@
             </button>
         </div>
     </div>
-
-    <!-- Container das sugestões -->
-    <div id="sugeridas-container" class="atividades-container" 
-         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
-        <!-- Será preenchido via JavaScript -->
-    </div>
-    
-    <!-- Mensagem quando não há sugestões -->
+    <div id="sugeridas-container" class="atividades-container"></div>
     <div id="sugeridas-vazio" class="text-center py-5" style="display: none;">
         <i class="bi bi-inbox display-1 text-muted mb-3"></i>
         <h5 class="text-muted">Nenhuma atividade sugerida no momento</h5>
     </div>
 </div>
-
-<!-- Dados das atividades (invisível) -->
 {{#if atividades}}
 <script id="atividades-data" type="application/json">
 {{{json atividades}}}
@@ -31,5 +43,4 @@
 {{else}}
 <script id="atividades-data" type="application/json">[]</script>
 {{/if}}
-
 <script src="/public/scripts/sugeridas.js"></script>

@@ -26,18 +26,12 @@
       <a href="/deletar/{{atividade.id}}" title="Deletar">
         <button type="button" class="atividade-mini-btn deletar"><i class="fas fa-trash"></i></button>
       </a>
-    {{else if (eq contexto "tipoAtividade")}}
+    {{else}}
       <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
-        <button type="button" class="atividade-mini-btn"><i class="fas fa-eye"></i></button>
+        <button type="button" class="atividade-mini-btn visualizar" data-id="{{atividade.id}}">
+          <i class="fas fa-eye"></i>
+        </button>
       </a>
-    {{else if (eq contexto "sugeridas")}}
-      <button class="btn btn-primary btn-sm" onclick="window.location.href='/atividade/{{atividade.id}}'">
-        <i class="bi bi-eye"></i> Ver Detalhes
-      </button>
-    {{else if (eq contexto "historico")}}
-      <button class="atividade-mini-btn visualizar" data-id="{{atividade.id}}" title="Visualizar Atividade Novamente">
-        <i class="bi bi-eye"></i>
-      </button>
     {{/if}}
   </div>
   {{#if (eq contexto "historico")}}
@@ -53,26 +47,3 @@
     </div>
   {{/if}}
 </div>
-
-{{!-- Exemplo de uso para cada página: --}}
-
-{{!-- SUBMISSOES --}}
-{{#each atividades}}
-  {{> atividade-mini-card atividade=this contexto="submissoes"}}
-{{/each}}
-
-{{!-- TIPO ATIVIDADE --}}
-{{#each atividades}}
-  {{> atividade-mini-card atividade=this contexto="tipoAtividade"}}
-{{/each}}
-
-{{!-- SUGERIDAS --}}
-{{#each atividades}}
-  {{> atividade-mini-card atividade=this contexto="sugeridas"}}
-{{/each}}
-
-{{!-- HISTORICO --}}
-{{#each historico}}
-  {{!-- Preencha os campos recentes/dataFormatada/concluida no controller --}}
-  {{> atividade-mini-card atividade=this contexto="historico"}}
-{{/each}}

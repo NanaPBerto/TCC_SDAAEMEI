@@ -264,7 +264,6 @@ exports.processarEdicao = async (req, res) => {
       'pré II': 7
     };
 
-    // ⭐⭐ IMPORTANTE: O campo 'classificacao' no formulário é a FAIXA ETÁRIA ⭐⭐
     const faixaEtariaSelecionada = req.body.classificacao;
     updateData.classificacao = faixaEtariaMap[faixaEtariaSelecionada] || 3;
 

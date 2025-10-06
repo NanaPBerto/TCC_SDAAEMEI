@@ -20,10 +20,6 @@
     <div id="sugeridas-vazio" class="text-center py-5" style="display: none;">
         <i class="bi bi-inbox display-1 text-muted mb-3"></i>
         <h5 class="text-muted">Nenhuma atividade sugerida no momento</h5>
-        <p class="text-muted">Tente atualizar as sugestões ou verifique se há atividades cadastradas.</p>
-        <button class="btn btn-primary mt-3" onclick="recarregarSugestoes()">
-            <i class="bi bi-arrow-clockwise me-2"></i>Recarregar Sugestões
-        </button>
     </div>
 </div>
 
@@ -35,3 +31,5 @@
 {{else}}
 <script id="atividades-data" type="application/json">[]</script>
 {{/if}}
+
+<script src="/public/scripts/sugeridas.js"></script>

@@ -3,9 +3,11 @@ const Tipoatividade = require('../models/tipoatividade');
 
 exports.getSugeridas = async (req, res) => {
     try {
-        console.log('=== INICIANDO BUSCA DE ATIVIDADES SUGERIDAS ===');
+        console.log('=== 🚀 ROTA /sugeridas ACESSADA ===');
+        console.log('📝 Método:', req.method);
+        console.log('👤 Usuário:', req.session.usuario);
         
-        // Buscar todas as atividades (similar ao histórico)
+        // Buscar todas as atividades
         const atividades = await Atividade.findAll({
             attributes: ['id', 'nome', 'objetivo', 'imagem', 'duracao', 'indicacao', 'tipoId', 'createdAt'],
             include: [
@@ -19,14 +21,14 @@ exports.getSugeridas = async (req, res) => {
             limit: 50
         });
 
-        console.log(`✅ Encontradas ${atividades.length} atividades no total`);
+        console.log(`✅ Encontradas ${atividades.length} atividades no banco`);
 
-        // Processar os dados para o template (igual ao histórico)
+        // Processar os dados
         const atividadesProcessadas = atividades.map(a => {
             const atividade = a.get({ plain: true });
             return {
                 id: atividade.id,
-                titulo: atividade.nome, // MUDANÇA CRÍTICA: usar 'titulo' igual ao histórico
+                titulo: atividade.nome, 
                 objetivo: atividade.objetivo,
                 imagem: atividade.imagem,
                 duracao: atividade.duracao,
@@ -36,13 +38,21 @@ exports.getSugeridas = async (req, res) => {
             };
         });
 
-        console.log('🎯 Dados processados para sugestões:', atividadesProcessadas.length);
+        console.log('🎯 Dados processados:', atividadesProcessadas.length, 'atividades');
+        
+        if (atividadesProcessadas.length > 0) {
+            console.log('📋 Primeira atividade:', atividadesProcessadas[0]);
+        }
 
         res.render('sugeridasA', { 
-            atividades: atividadesProcessadas // MANTER O NOME 'atividades' para o template
+            atividades: atividadesProcessadas
         });
+        
     } catch (error) {
-        console.error('❌ Erro ao buscar atividades sugeridas:', error);
-        res.render('sugeridasA', { atividades: [] });
+        console.error('❌ Erro CRÍTICO em getSugeridas:', error);
+        res.render('sugeridasA', { 
+            atividades: [],
+            error: error.message 
+        });
     }
 };

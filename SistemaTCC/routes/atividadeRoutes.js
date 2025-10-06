@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const app = express();
 const atividadeController = require('../controllers/atividadeController');
 const sugeridasController = require('../controllers/sugeridasController');
 const { atividadeUpload } = require('../middleware/uploadFile'); // Usar a configuração específica
@@ -36,15 +35,8 @@ const handleMulterError = (err, req, res, next) => {
     next(err);
 };
 
-// Rotas para atividades
-router.get('/api/atividades/sugestoes', atividadeController.sugestoesAtividades);
-router.get('/submissoes', requireMusico, atividadeController.submissoes);
-router.get('/novaAtividade', requireMusico, atividadeController.novaAtividade);
-router.get('/sugeridas', sugeridasController.getSugeridas);
 
-
-
-// Adicione esta rota para teste rápido
+// ⭐⭐ ROTA DE TESTE DAS SUGERIDAS ⭐⭐
 router.get('/teste-sugeridas', async (req, res) => {
     try {
         const Atividade = require('../models/ativ');
@@ -53,16 +45,29 @@ router.get('/teste-sugeridas', async (req, res) => {
             limit: 10
         });
         
+        console.log('=== TESTE SUGERIDAS - ATIVIDADES NO BANCO ===');
+        console.log(`Total: ${atividades.length} atividades`);
+        atividades.forEach((ativ, index) => {
+            console.log(`${index + 1}. ${ativ.nome} (ID: ${ativ.id})`);
+        });
+        
         res.json({
-            message: 'Teste de atividades',
+            success: true,
+            message: 'Teste de atividades no banco',
             count: atividades.length,
             atividades: atividades.map(a => a.get({ plain: true }))
         });
     } catch (error) {
+        console.error('❌ Erro no teste:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
+// Rotas para atividades
+router.get('/api/atividades/sugestoes', atividadeController.sugestoesAtividades);
+router.get('/submissoes', requireMusico, atividadeController.submissoes);
+router.get('/novaAtividade', requireMusico, atividadeController.novaAtividade);
+router.get('/sugeridas', sugeridasController.getSugeridas);
 
 
 router.post(

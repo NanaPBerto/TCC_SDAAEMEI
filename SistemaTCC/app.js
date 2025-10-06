@@ -14,6 +14,7 @@ const ativ = require('./models/ativ');
 const tipoatividade = require('./models/tipoatividade');
 const uf = require('./models/uf');
 const classificacao = require('./models/classificacao');
+const adminRoutes = require('./routes/adminRoutes');
 
  
 // Configuração das sessions
@@ -39,12 +40,14 @@ app.use((req, res, next) => {
         res.locals.showSidebarE = tipoUsuario === 'educador';
         res.locals.contribuidor = tipoUsuario === 'musico';
         res.locals.visualizador = tipoUsuario === 'educador';
+        res.locals.isAdmin = tipoUsuario === 'adm'; 
     } else {
         res.locals.showMenu = true;
         res.locals.showSidebar = true;
         res.locals.showSidebarE = false;
         res.locals.contribuidor = false;
         res.locals.visualizador = false;
+        res.locals.isAdmin = false; 
     }
     
     next();
@@ -91,6 +94,10 @@ const hbs = handlebars.create({
     },
         json: function(context) {
       return JSON.stringify(context);
+    },
+    formatDate: function(date) {
+      if (!date) return 'N/A';
+      return new Date(date).toLocaleDateString('pt-BR');
     }
   }
 });
@@ -129,6 +136,7 @@ app.use('/', atividadeRoutes);
 app.use('/', indexRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', tipoatividadeRoutes);
+app.use('/admin', adminRoutes);
 
 Promise.all([
     classificacao.sync(),
@@ -170,20 +178,29 @@ Promise.all([
     ], { ignoreDuplicates: true });
 
     // Usuário ADM
-    await musico.findOrCreate({
-        where: { login: 'Administrador' },
-        defaults: {
-            nome: 'ADM',
-            tipo: 'adm',
-            login: 'Administrador',
-            senha: '12345678', // coloque uma senha segura ou hash
-            cpf: '00000000000',
-            email: 'teste@teste.com',
-            fone: '00000000000',
-            cidade: 'TesteCity',
-            uf: 'TS'
-        }
-    });
+await musico.findOrCreate({
+    where: { login: 'Administrador' },
+    defaults: {
+        nome: 'ADM',
+        tipo: 'adm', // ← Isso é crucial
+        login: 'Administrador',
+        senha: '12345678',
+        cpf: '00000000000',
+        email: 'admin@musicoteca.com',
+        fone: '00000000000',
+        cidade: 'AdminCity',
+        uf: 'AD',
+        validado: true // ← O admin já é validado por padrão
+    }
+}).then(([user, created]) => {
+    if (created) {
+        console.log('✅ Usuário ADMIN criado com sucesso!');
+        console.log('📋 Dados do ADMIN:', JSON.stringify(user.get({ plain: true }), null, 2));
+    } else {
+        console.log('ℹ️ Usuário ADMIN já existe');
+        console.log('📋 Dados do ADMIN:', JSON.stringify(user.get({ plain: true }), null, 2));
+    }
+});
 
     // Usuário teste musico
     await musico.findOrCreate({
@@ -197,7 +214,8 @@ Promise.all([
             email: 'teste@teste.com',
             fone: '00000000000',
             cidade: 'TesteCity',
-            uf: 'TS'
+            uf: 'TS',
+            validado: true
         }
     });
 

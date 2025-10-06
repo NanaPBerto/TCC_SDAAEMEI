@@ -54,6 +54,11 @@ const Musico = db.sequelize.define('musicos', {
     uf: {
         type: db.Sequelize.STRING(2),
         allowNull: false
+    },
+    validado: {
+        type: db.Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     tableName: 'musicos'

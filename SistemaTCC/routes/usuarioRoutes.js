@@ -62,7 +62,7 @@ router.get('/login', (req, res) => {
     alertMessage: alertMessage 
   });
 });
-// Rota de login (POST)
+// Rota de login (POST) - ATUALIZADA
 router.post('/login', async (req, res) => {
     const { login, senha } = req.body;
 
@@ -90,13 +90,24 @@ router.post('/login', async (req, res) => {
         const usuarioSemSenha = usuarioObj.get({ plain: true });
         delete usuarioSemSenha.senha;
 
+        // ⭐⭐ CORREÇÃO CRÍTICA: Definir tipo corretamente ⭐⭐
+        if (usuarioObj.tipo === 'adm') {
+            tipoUsuario = 'adm';
+        }
+        
         usuarioSemSenha.id = usuarioObj.id;
         usuarioSemSenha.tipo = tipoUsuario;
 
+        console.log('🔐 Usuário logado:', usuarioSemSenha); // Debug
+
         req.session.usuario = usuarioSemSenha;
         req.session.save(() => {
-            const paginaHome = tipoUsuario === 'musico' ? 'painelM' : 'index';
-            res.redirect('/' + paginaHome);
+            let redirectUrl = '/index';
+            if (tipoUsuario === 'musico') redirectUrl = '/painelM';
+            if (tipoUsuario === 'adm') redirectUrl = '/painelM'; // ou '/admin/dashboard'
+            
+            console.log('🔄 Redirecionando para:', redirectUrl); // Debug
+            res.redirect(redirectUrl);
         });
 
     } catch (error) {

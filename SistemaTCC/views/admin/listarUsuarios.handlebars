@@ -1,0 +1,168 @@
+{{! views/admin/listarUsuarios.handlebars }}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-users me-2"></i>Todos os Usuários
+                <span class="badge bg-primary ms-2">{{usuarios.length}}</span>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>Lista Completa de Usuários
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {{#if usuarios.length}}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Nome</th>
+                                        <th>Login</th>
+                                        <th>Email</th>
+                                        <th>Cidade/UF</th>
+                                        <th>Status</th>
+                                        <th>Data Cadastro</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each usuarios}}
+                                    <tr>
+                                        <td>
+                                            <span class="badge {{#if (eq this.tipo 'musico')}}bg-info{{else}}bg-success{{/if}}">
+                                                {{this.tipo}}
+                                            </span>
+                                        </td>
+                                        <td>{{this.nome}}</td>
+                                        <td>{{this.login}}</td>
+                                        <td>{{this.email}}</td>
+                                        <td>{{this.cidade}}/{{this.uf}}</td>
+                                        <td>
+                                            {{#if (eq this.tipo 'musico')}}
+                                                {{#if this.validado}}
+                                                    <span class="badge bg-success">Validado</span>
+                                                {{else}}
+                                                    <span class="badge bg-warning text-dark">Pendente</span>
+                                                {{/if}}
+                                            {{else}}
+                                                <span class="badge bg-secondary">N/A</span>
+                                            {{/if}}
+                                        </td>
+                                        <td>{{formatDate this.createdAt}}</td>
+                                        <td>
+                                            {{#if (eq this.tipo 'musico')}}
+                                                {{#if this.validado}}
+                                                    <button class="btn btn-warning btn-sm desvalidar-btn" data-id="{{this.id}}">
+                                                        <i class="fas fa-times me-1"></i>Desvalidar
+                                                    </button>
+                                                {{else}}
+                                                    <button class="btn btn-success btn-sm validar-btn" data-id="{{this.id}}">
+                                                        <i class="fas fa-check me-1"></i>Validar
+                                                    </button>
+                                                {{/if}}
+                                            {{/if}}
+                                            <a href="/perfis/{{this.id}}" class="btn btn-info btn-sm" target="_blank">
+                                                <i class="fas fa-eye me-1"></i>Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{else}}
+                        <p class="text-muted text-center py-3">Nenhum usuário cadastrado.</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Validar usuário
+    document.querySelectorAll('.validar-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-id');
+            validarUsuario(userId, this);
+        });
+    });
+
+    // Desvalidar usuário
+    document.querySelectorAll('.desvalidar-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-id');
+            desvalidarUsuario(userId, this);
+        });
+    });
+
+    function validarUsuario(userId, button) {
+        if (!confirm('Tem certeza que deseja validar este usuário?')) return;
+
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Validando...';
+
+        fetch(`/admin/validar-usuario/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao validar usuário: ' + data.message);
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-check me-1"></i>Validar';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao validar usuário');
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-check me-1"></i>Validar';
+        });
+    }
+
+    function desvalidarUsuario(userId, button) {
+        if (!confirm('Tem certeza que deseja desvalidar este usuário?')) return;
+
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Desvalidando...';
+
+        fetch(`/admin/desvalidar-usuario/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao desvalidar usuário: ' + data.message);
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-times me-1"></i>Desvalidar';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao desvalidar usuário');
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-times me-1"></i>Desvalidar';
+        });
+    }
+});
+</script>

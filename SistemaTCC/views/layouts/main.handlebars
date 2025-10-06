@@ -72,36 +72,74 @@
   {{/unless}}
 {{/unless}}
 
-<!-- Menu Lateral para logado (já existente, exibe conforme tipo) -->
+<!-- Menu Lateral para logado -->
 {{#if usuario}}
-  {{#if showSidebar}}
+  {{#if (eq usuario.tipo 'adm')}}
+    {{! Menu do Administrador - APENAS para admin }}
     <div class="sidebar">
         <ul class="sidebar-nav">
+            <a href="/painelM">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-guitar"></i></span>
+                <span class="sidebar-text">Painel do Músico</span>
+            </li></a>
 
-          <a href="/painelM">
+            <a href="/admin/validar-usuarios">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user-check"></i></span>
+                <span class="sidebar-text">Validar Usuários</span>
+            </li></a>
+
+            <a href="/admin/listar-usuarios">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+                <span class="sidebar-text">Todos os Usuários</span>
+            </li></a>
+
+            <a href="/perfis">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-address-card"></i></span>
+                <span class="sidebar-text">Perfis Públicos</span>
+            </li></a>
+        </ul>
+        <ul class="sidebar-footer">
+            <a href="/logout" class="nav-link">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="sidebar-text">Sair</span>
+            </li>
+            </a>
+        </ul>
+    </div>
+
+  {{else if showSidebar}}
+    {{! Menu do Músico Normal }}
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            <a href="/painelM">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-guitar"></i></span>
                 <span class="sidebar-text">Painel do Músico</span>
             </li> </a>
 
-          <a href="/novaAtividade">
+            <a href="/novaAtividade">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-plus-circle"></i></span>
                 <span class="sidebar-text">Criar Atividades</span>
             </li> </a>
 
-          <a href="/submissoes">
+            <a href="/submissoes">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-tasks"></i></span>
                 <span class="sidebar-text">Minhas Submissões</span>
             </li>
-          </a>
-          <a href="/perfis">
+            </a>
+            <a href="/perfis">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-users"></i></span>
                 <span class="sidebar-text">Perfis</span>
             </li>
-          </a>
+            </a>
         </ul>
         <ul class="sidebar-footer">
             <a href="/logout" class="nav-link">
@@ -115,6 +153,7 @@
   {{/if}}
 
   {{#if showSidebarE}}
+    {{! Menu do Educador }}
     <div class="sidebar">
         <ul class="sidebar-nav">
             <a href="/sugeridasA">

@@ -50,6 +50,10 @@
   </div>
   <div class="atividade-detalhada-info">
     <div class="atividade-detalhada-info-col">
+      <strong>Descrição:</strong>
+      <div>{{atividade.descricao}}</div>
+    </div>
+    <div class="atividade-detalhada-info-col">
       <strong>Objetivo:</strong>
       <div>{{atividade.objetivo}}</div>
     </div>
@@ -58,17 +62,13 @@
       <div>{{atividade.indicacao}}</div>
     </div>
     <div class="atividade-detalhada-info-col">
-      <strong>Condições:</strong>
-      <div>{{atividade.condicoes}}</div>
-    </div>
-    <div class="atividade-detalhada-info-col">
       <strong>Recursos:</strong>
       <div>{{atividade.recursos}}</div>
     </div>
     <div class="atividade-detalhada-info-col">
-      <strong>Descrição:</strong>
-      <div>{{atividade.descricao}}</div>
-    </div>
+      <strong>Condições:</strong>
+      <div>{{atividade.condicoes}}</div>
+    </div> 
       {{#if atividade.obs}}
         <div class="atividade-detalhada-obs"><strong>Obs:</strong> {{atividade.obs}}</div>
       {{/if}}

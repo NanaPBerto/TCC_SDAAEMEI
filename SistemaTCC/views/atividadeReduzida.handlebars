@@ -1,0 +1,78 @@
+{{!-- Partial: atividade-mini-card --}}
+{{!-- Copie este bloco para views/partials/atividade-mini-card.handlebars --}}
+{{!--
+  Parâmetros:
+    atividade: objeto da atividade
+    contexto: "submissoes" | "tipoAtividade" | "sugeridas" | "historico"
+--}}
+<div class="atividade-mini-card {{#if (eq contexto 'historico')}}{{#if atividade.recente}}recente{{/if}}{{/if}}" {{#if (eq contexto 'historico')}}data-categoria="{{atividade.categoria}}"{{/if}}>
+  <div class="atividade-mini-titulo">{{atividade.titulo}}{{atividade.nome}}</div>
+  <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
+    {{#if atividade.imagem}}
+      <img src="{{atividade.imagem}}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">
+    {{else}}
+      <i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>
+    {{/if}}
+  </div>
+  <div class="atividade-mini-objetivo">{{atividade.objetivo}}</div>
+  <div class="atividade-mini-actions">
+    {{#if (eq contexto "submissoes")}}
+      <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
+        <button type="button" class="atividade-mini-btn"><i class="fas fa-eye"></i></button>
+      </a>
+      <a href="/editar/{{atividade.id}}" title="Editar">
+        <button type="button" class="atividade-mini-btn editar"><i class="fas fa-pen"></i></button>
+      </a>
+      <a href="/deletar/{{atividade.id}}" title="Deletar">
+        <button type="button" class="atividade-mini-btn deletar"><i class="fas fa-trash"></i></button>
+      </a>
+    {{else if (eq contexto "tipoAtividade")}}
+      <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
+        <button type="button" class="atividade-mini-btn"><i class="fas fa-eye"></i></button>
+      </a>
+    {{else if (eq contexto "sugeridas")}}
+      <button class="btn btn-primary btn-sm" onclick="window.location.href='/atividade/{{atividade.id}}'">
+        <i class="bi bi-eye"></i> Ver Detalhes
+      </button>
+    {{else if (eq contexto "historico")}}
+      <button class="atividade-mini-btn visualizar" data-id="{{atividade.id}}" title="Visualizar Atividade Novamente">
+        <i class="bi bi-eye"></i>
+      </button>
+    {{/if}}
+  </div>
+  {{#if (eq contexto "historico")}}
+    <div class="atividade-mini-meta d-flex justify-content-between w-100 mt-2">
+      <small class="text-muted">
+        <i class="bi bi-calendar me-1"></i>
+        {{atividade.dataFormatada}}
+      </small>
+      <small class="text-muted">
+        <i class="bi bi-check-circle me-1 {{#if atividade.concluida}}text-success{{/if}}"></i>
+        {{#if atividade.concluida}}Concluída{{else}}Visualizada{{/if}}
+      </small>
+    </div>
+  {{/if}}
+</div>
+
+{{!-- Exemplo de uso para cada página: --}}
+
+{{!-- SUBMISSOES --}}
+{{#each atividades}}
+  {{> atividade-mini-card atividade=this contexto="submissoes"}}
+{{/each}}
+
+{{!-- TIPO ATIVIDADE --}}
+{{#each atividades}}
+  {{> atividade-mini-card atividade=this contexto="tipoAtividade"}}
+{{/each}}
+
+{{!-- SUGERIDAS --}}
+{{#each atividades}}
+  {{> atividade-mini-card atividade=this contexto="sugeridas"}}
+{{/each}}
+
+{{!-- HISTORICO --}}
+{{#each historico}}
+  {{!-- Preencha os campos recentes/dataFormatada/concluida no controller --}}
+  {{> atividade-mini-card atividade=this contexto="historico"}}
+{{/each}}

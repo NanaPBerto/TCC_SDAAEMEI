@@ -17,7 +17,6 @@ const uf = require('./models/uf');
 const classificacao = require('./models/classificacao');
 const adminRoutes = require('./routes/adminRoutes');
 
- 
 // Configuração das sessions
 app.use(session({
   secret: '77NaNa@.77',

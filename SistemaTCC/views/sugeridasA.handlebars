@@ -9,6 +9,14 @@
       {{/if}}
     </div>
     <div class="atividade-mini-objetivo">{{atividade.objetivo}}</div>
+    <div class="atividade-mini-badges mb-2">
+      <span class="atividade-mini-badge">
+        <i class="fas fa-tag"></i>
+        {{#each atividade.tipos}}
+          {{this}}{{#unless @last}}, {{/unless}}
+        {{/each}}
+      </span>
+    </div>
     <div class="atividade-mini-actions">
       <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
         <button type="button" class="atividade-mini-btn">

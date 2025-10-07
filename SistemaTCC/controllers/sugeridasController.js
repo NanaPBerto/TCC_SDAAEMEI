@@ -7,14 +7,15 @@ exports.getSugeridas = async (req, res) => {
         console.log('📝 Método:', req.method);
         console.log('👤 Usuário:', req.session.usuario);
         
-        // Buscar todas as atividades
+        // Buscar todas as atividades com todos os tipos associados
         const atividades = await Atividade.findAll({
-            attributes: ['id', 'nome', 'objetivo', 'imagem', 'duracao', 'indicacao', 'tipoId', 'createdAt'],
+            attributes: ['id', 'nome', 'objetivo', 'imagem', 'duracao', 'indicacao', 'createdAt'],
             include: [
                 {
                     model: Tipoatividade,
-                    as: 'tipo',
-                    attributes: ['nome']
+                    as: 'tipos',
+                    attributes: ['id', 'nome'],
+                    through: { attributes: [] }
                 }
             ],
             order: [['createdAt', 'DESC']],
@@ -33,7 +34,7 @@ exports.getSugeridas = async (req, res) => {
                 imagem: atividade.imagem,
                 duracao: atividade.duracao,
                 indicacao: atividade.indicacao,
-                tipo: atividade.tipo ? atividade.tipo.nome : 'Geral',
+                tipos: atividade.tipos ? atividade.tipos.map(t => t.nome) : [],
                 dataCriacao: atividade.createdAt
             };
         });

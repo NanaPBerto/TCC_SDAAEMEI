@@ -1,5 +1,6 @@
 const ativ = require('../models/ativ');
-const Tipoatividade = require('../models/tipoatividade');
+const Tipoatividade = require('../models/tipoatividade'); // Certifique-se que é sempre esse nome
+const AtividadeTipo = require('../models/atividade_tipo');
 const db = require('../db');
 
 // Página inicial de atividades - VERSÃO CORRIGIDA E TESTADA
@@ -64,13 +65,17 @@ exports.submissoes = async (req, res) => {
     const ativs = await ativ.findAll({
       where: { desenvolvedor: usuario.id },
       order: [['createdAt', 'DESC']],
-      include: [{ model: Tipoatividade, as: 'tipo' }]
+      include: [{ 
+        model: Tipoatividade, 
+        as: 'tipos',
+        through: { attributes: [] }
+      }]
     });
 
     const plainAtivs = ativs.map(ativ => {
-  const obj = ativ.toJSON();
-  return obj;
-});
+      const obj = ativ.toJSON();
+      return obj;
+    });
 
     const isMusico = usuario.tipo === 'musico';
     const isEducador = usuario.tipo === 'educador';
@@ -92,7 +97,9 @@ exports.novaAtividade = async (req, res) => {
     const tipos = await Tipoatividade.findAll();
     res.render('cadastroA', {
       tipos: tipos.map(tipo => tipo.toJSON()),
-      atividade: null
+      atividade: { tiposSelecionados: [] }, // Corrija para tiposSelecionados
+      edicao: false
+      
     });
   } catch (error) {
     console.error('Erro ao carregar formulário:', error);
@@ -102,7 +109,7 @@ exports.novaAtividade = async (req, res) => {
 
 exports.add = async (req, res) => {
     try {
-        const { nome, descricao, objetivo, indicacao, vagas, duracao, recursos, condicoes, obs, tipoId } = req.body;
+        const { nome, descricao, objetivo, indicacao, vagas, duracao, recursos, condicoes, obs } = req.body;
         
         // Validar usuário logado
         if (!req.session.usuario || !req.session.usuario.id) {
@@ -112,13 +119,19 @@ exports.add = async (req, res) => {
         // Validar campos obrigatórios
         const camposObrigatorios = [
             'nome', 'descricao', 'objetivo', 'indicacao', 'vagas', 
-            'duracao', 'recursos', 'condicoes', 'tipoId'
+            'duracao', 'recursos', 'condicoes'
         ];
         
         for (const campo of camposObrigatorios) {
             if (!req.body[campo]) {
                 return res.status(400).send(`Campo obrigatório faltando: ${campo}`);
             }
+        }
+
+        // Validar que pelo menos um tipo foi selecionado
+        const tiposSelecionados = Array.isArray(req.body.tipos) ? req.body.tipos : [req.body.tipos];
+        if (!tiposSelecionados || tiposSelecionados.length === 0 || !tiposSelecionados[0]) {
+            return res.status(400).send('Selecione pelo menos um tipo de atividade');
         }
 
         // Acessar arquivos
@@ -133,14 +146,15 @@ exports.add = async (req, res) => {
         if (video) console.log('Vídeo:', video ? video.filename : 'não enviado');
         if (partitura) console.log('Partitura:', partitura ? partitura.filename : 'não enviado');
 
-  
         const faixaEtariaMap = {
-            '1 a 2 anos': 1,
-            '2 a 3 anos': 2,
-            '3 a 4 anos': 3,
-            '4 a 5 anos': 4,
-            '5 a 6 anos': 5
-        };
+      'berçário I': 1,
+      'berçário II': 2,
+      'berçário III': 3,
+      'maternal I': 4,
+      'maternal II': 5,
+      'pré I': 6,
+      'pré II': 7
+    };
 
         const faixaEtariaSelecionada = req.body.classificacao;
         const classificacaoId = faixaEtariaMap[faixaEtariaSelecionada] || 3;
@@ -153,7 +167,7 @@ exports.add = async (req, res) => {
             nome: req.body.nome,
             descricao: req.body.descricao,
             objetivo: req.body.objetivo,
-            indicacao: req.body.indicacao, // Nível de dificuldade (input text)
+            indicacao: req.body.indicacao,
             vagas: req.body.vagas,
             duracao: req.body.duracao,
             recursos: req.body.recursos,
@@ -161,7 +175,6 @@ exports.add = async (req, res) => {
             obs: req.body.obs || null,
 
             classificacao: classificacaoId,
-            tipoId: req.body.tipoId,
             desenvolvedor: req.session.usuario.id,
             
             // Caminhos dos arquivos
@@ -172,8 +185,20 @@ exports.add = async (req, res) => {
         };
 
         console.log('Dados para criar atividade:', atividadeData);
+        console.log('Tipos selecionados:', tiposSelecionados);
 
-        await ativ.create(atividadeData);
+        // Criar a atividade
+        const novaAtividade = await ativ.create(atividadeData);
+        
+        // Criar registros na tabela de junção para os tipos
+        const tiposData = tiposSelecionados.map(tipoId => ({
+            atividadeId: novaAtividade.id,
+            tipoId: parseInt(tipoId),
+            tiposSelecionados
+        }));
+        
+        await AtividadeTipo.bulkCreate(tiposData);
+
         res.redirect('/painelM');
     } catch (erro) {
         console.error('Erro detalhado ao adicionar atividade:', erro);
@@ -195,6 +220,9 @@ exports.add = async (req, res) => {
 
 exports.deletar = async (req, res) => {
   try {
+    // Primeiro deletar os registros da tabela de junção
+    await AtividadeTipo.destroy({ where: { atividadeId: req.params.id } });
+    // Depois deletar a atividade
     await ativ.destroy({ where: { id: req.params.id } });
     res.redirect('/submissoes');
   } catch (erro) {
@@ -204,22 +232,32 @@ exports.deletar = async (req, res) => {
   }
 };
 
-// Editar atividade
-
-// Carregar formulário de edição (GET) - VERSÃO SEGURA
+// Carregar formulário de edição (GET) - VERSÃO ATUALIZADA
 exports.carregarEdicao = async (req, res) => {
   try {
-    // Por enquanto, não inclua associações para evitar problemas
-    const atividade = await ativ.findByPk(req.params.id);
+    const atividade = await ativ.findByPk(req.params.id, {
+      include: [{
+        model: Tipoatividade,
+        as: 'tipos', // O alias deve ser 'tipos'
+        through: { attributes: [] }
+      }]
+    });
+    
     const tipos = await Tipoatividade.findAll();
     
     if (!atividade) {
       return res.status(404).send('Atividade não encontrada');
     }
 
+    // Extrair IDs dos tipos selecionados
+    const tiposSelecionados = atividade.tipos.map(tipo => tipo.id);
+
     res.render('cadastroA', {
       tipos: tipos.map(tipo => tipo.toJSON()),
-      atividade: atividade.toJSON(),
+      atividade: {
+        ...atividade.toJSON(),
+        tiposSelecionados // Corrija para tiposSelecionados
+      },
       edicao: true
     });
   } catch (error) {
@@ -228,7 +266,7 @@ exports.carregarEdicao = async (req, res) => {
   }
 };
 
-// Processar edição (POST)
+// Processar edição (POST) - VERSÃO ATUALIZADA
 exports.processarEdicao = async (req, res) => {
   try {
     const atividadeId = req.params.id;
@@ -243,15 +281,13 @@ exports.processarEdicao = async (req, res) => {
       nome: req.body.nome,
       descricao: req.body.descricao,
       objetivo: req.body.objetivo,
-      indicacao: req.body.indicacao, // Nível de dificuldade (input text)
+      indicacao: req.body.indicacao,
       vagas: req.body.vagas,
       duracao: req.body.duracao,
       recursos: req.body.recursos,
       condicoes: req.body.condicoes,
-      obs: req.body.obs,
-      tipoId: req.body.tipoId
+      obs: req.body.obs
     };
-
 
     const faixaEtariaMap = {
       'berçário I': 1,
@@ -306,17 +342,45 @@ exports.processarEdicao = async (req, res) => {
 
     console.log('Atualizando atividade:', updateData);
     
+    // Atualizar a atividade
     await ativ.update(updateData, { where: { id: atividadeId } });
+    
+    // Atualizar tipos - primeiro remover todos os tipos existentes
+    await AtividadeTipo.destroy({ where: { atividadeId } });
+    
+    // Depois adicionar os novos tipos selecionados
+    const tiposSelecionados = Array.isArray(req.body.tipos) ? req.body.tipos : [req.body.tipos];
+    if (tiposSelecionados && tiposSelecionados.length > 0 && tiposSelecionados[0]) {
+      const tiposData = tiposSelecionados.map(tipoId => ({
+        atividadeId: atividadeId,
+        tipoId: parseInt(tipoId)
+      }));
+      
+      await AtividadeTipo.bulkCreate(tiposData);
+    }
+
     res.redirect('/submissoes');
     
   } catch (erro) {
     console.error('Erro ao atualizar atividade:', erro);
     try {
       const tipos = await Tipoatividade.findAll();
-      const atividade = await ativ.findByPk(req.params.id);
+      const atividade = await ativ.findByPk(req.params.id, {
+        include: [{
+          model: Tipoatividade,
+          as: 'tipos',
+          through: { attributes: [] }
+        }]
+      });
+      
+      const tiposSelecionados = atividade ? atividade.tipos.map(tipo => tipo.id) : [];
+      
       res.render('cadastroA', {
         tipos: tipos.map(tipo => tipo.toJSON()),
-        atividade: atividade ? atividade.toJSON() : null,
+        atividade: atividade ? {
+          ...atividade.toJSON(),
+          tiposSelecionados: tiposSelecionados
+        } : null,
         edicao: true,
         error: 'Erro ao atualizar atividade: ' + erro.message,
         alert: 'Erro ao atualizar atividade: ' + erro.message,
@@ -334,13 +398,17 @@ exports.escolher = (req, res) => {
   res.render('escolher');
 };
 
-//função detalheAtividade
+//função detalheAtividade - VERSÃO ATUALIZADA
 exports.detalheAtividade = async (req, res) => {
   try {
     const id = req.params.id;
     const atividade = await ativ.findByPk(id, {
       include: [
-        { model: Tipoatividade, as: 'tipo' },
+        { 
+          model: Tipoatividade, 
+          as: 'tipos',
+          through: { attributes: [] }
+        },
         { model: require('../models/musico'), as: 'musico' },
         { model: require('../models/classificacao'), as: 'faixaEtaria' } 
       ]

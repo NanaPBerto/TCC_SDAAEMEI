@@ -12,43 +12,57 @@
       <form action="{{#if edicao}}/editar/{{atividade.id}}{{else}}/novaAtividade{{/if}}" method="POST" enctype="multipart/form-data" class="cadastro-form" id="formAtividade">
         <!-- Seção: Informações Básicas -->
         <div class="form-section">
-          <h5></i>Informações Básicas</h5>
+          <h5><i class="fas fa-info-circle me-2"></i>Informações Básicas</h5>
           <div class="row g-3 align-items-end">
             <div class="col-md-8">
               <label for="tituloAtividade" class="form-label">Título da Atividade</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-medal"></i></span>
                 <input type="text" class="form-control" id="tituloAtividade" name="nome" 
-                       placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required value="{{#if atividade}} {{atividade.nome}} {{/if}}">
+                       placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required 
+                       value="{{#if atividade}}{{atividade.nome}}{{/if}}">
               </div>
             </div>
             <div class="col-md-4">
-              <label for="tipoAtividade" class="form-label">Tipo</label>
+              <label for="classificacaoAtividade" class="form-label">Faixa Etária</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                <select class="form-select" id="tipoAtividade" name="tipoId" required value="{{#if atividade}} {{atividade.tipoId}} {{/if}}">
-                  <option value="" disabled selected>Selecione o tipo</option>
-                  <option value="1" {{#if atividade}} {{#if (eq atividade.tipoId 1)}} selected {{/if}} {{/if}}>Linguagem</option>
-                  <option value="2" {{#if atividade}} {{#if (eq atividade.tipoId 2)}} selected {{/if}} {{/if}}>Números</option>
-                  <option value="3" {{#if atividade}} {{#if (eq atividade.tipoId 3)}} selected {{/if}} {{/if}}>Formas</option>
-                  <option value="4" {{#if atividade}} {{#if (eq atividade.tipoId 4)}} selected {{/if}} {{/if}}>Fauna</option>
-                  <option value="5" {{#if atividade}} {{#if (eq atividade.tipoId 5)}} selected {{/if}} {{/if}}>Flora</option>
-                  <option value="6" {{#if atividade}} {{#if (eq atividade.tipoId 6)}} selected {{/if}} {{/if}}>Clima</option>
-                  <option value="7" {{#if atividade}} {{#if (eq atividade.tipoId 7)}} selected {{/if}} {{/if}}>Motricidade</option>
-                  <option value="8" {{#if atividade}} {{#if (eq atividade.tipoId 8)}} selected {{/if}} {{/if}}>Cidadania</option>
-                  <option value="9" {{#if atividade}} {{#if (eq atividade.tipoId 9)}} selected {{/if}} {{/if}}>Cultura</option>
-                  <option value="10" {{#if atividade}} {{#if (eq atividade.tipoId 10)}} selected {{/if}} {{/if}}>Altura</option>
-                  <option value="11" {{#if atividade}} {{#if (eq atividade.tipoId 11)}} selected {{/if}} {{/if}}>Intensidade</option>
-                  <option value="12" {{#if atividade}} {{#if (eq atividade.tipoId 12)}} selected {{/if}} {{/if}}>Duração</option>
-                  <option value="13" {{#if atividade}} {{#if (eq atividade.tipoId 13)}} selected {{/if}} {{/if}}>Timbre</option>
-                  <option value="14" {{#if atividade}} {{#if (eq atividade.tipoId 14)}} selected {{/if}} {{/if}}>Ritmo</option>
-                  <option value="15" {{#if atividade}} {{#if (eq atividade.tipoId 15)}} selected {{/if}} {{/if}}>Melodia</option>
-                  <option value="16" {{#if atividade}} {{#if (eq atividade.tipoId 16)}} selected {{/if}} {{/if}}>Harmonia</option>
+                <span class="input-group-text"><i class="fas fa-child"></i></span>
+                <select class="form-select" id="classificacaoAtividade" name="classificacao" required>
+                  <option value="" disabled selected>Selecione a faixa etária</option>
+                  <option value="1 a 2 anos" {{#if atividade}}{{#if (eq atividade.classificacao 1)}}selected{{/if}}{{/if}}>1 a 2 anos</option>
+                  <option value="2 a 3 anos" {{#if atividade}}{{#if (eq atividade.classificacao 2)}}selected{{/if}}{{/if}}>2 a 3 anos</option>
+                  <option value="3 a 4 anos" {{#if atividade}}{{#if (eq atividade.classificacao 3)}}selected{{/if}}{{/if}}>3 a 4 anos</option>
+                  <option value="4 a 5 anos" {{#if atividade}}{{#if (eq atividade.classificacao 4)}}selected{{/if}}{{/if}}>4 a 5 anos</option>
+                  <option value="5 a 6 anos" {{#if atividade}}{{#if (eq atividade.classificacao 5)}}selected{{/if}}{{/if}}>5 a 6 anos</option>
                 </select>
               </div>
             </div>
+          </div>
         </div>
 
+        <!-- Seção: Tipos de Atividade (Múltipla Seleção) -->
+        <div class="form-section">
+          <h5><i class="fas fa-tags me-2"></i>Tipos de Atividade</h5>
+          <p class="text-muted small mb-3">Selecione um ou mais tipos que se aplicam à sua atividade</p>
+          <div class="tipos-container row g-2">
+            {{#each tipos}}
+              <div class="col-md-3 mb-2">
+                <div class="tipo-option card h-100">
+                  <div class="card-body p-3 text-center d-flex align-items-center justify-content-center">
+                    <input type="checkbox" name="tipos" value="{{id}}" id="tipo{{id}}"
+                           class="form-check-input me-2"
+                           {{#if ../atividade}}
+                             {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
+                           {{/if}}>
+                    <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2">
+                      {{nome}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
         <!-- Seção: Descrição e Objetivos -->
         <div class="form-section">
           <h5></i>Descrição e Objetivos</h5>
@@ -161,7 +175,7 @@
             </div>
           </div>
         </div>
-        <!-- Seção: Mídias -->
+ <!-- Seção: Mídias -->
         <div class="form-section">  
         <h5><i class="fas fa-paperclip me-2"></i>Anexos</h5>
 <div class="row g-3 mb-4">
@@ -222,4 +236,5 @@
       </form>
     </div>
   </div>
+</div>
 </div>

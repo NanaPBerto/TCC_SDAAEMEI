@@ -15,6 +15,14 @@
     {{/if}}
   </div>
   <div class="atividade-mini-objetivo">{{atividade.objetivo}}</div>
+  <div class="atividade-mini-badges mb-2">
+    <span class="atividade-mini-badge">
+      <i class="fas fa-tag"></i>
+      {{#each atividade.tipos}}
+        {{nome}}{{#unless @last}}, {{/unless}}
+      {{/each}}
+    </span>
+  </div>
   <div class="atividade-mini-actions">
     {{#if (eq contexto "submissoes")}}
       <a href="/atividade/{{atividade.id}}" title="Ver detalhes">
@@ -23,7 +31,7 @@
       <a href="/editar/{{atividade.id}}" title="Editar">
         <button type="button" class="atividade-mini-btn editar"><i class="fas fa-pen"></i></button>
       </a>
-      <a href="/deletar/{{atividade.id}}" title="Deletar">
+     <a href="/deletar/{{atividade.id}}" title="Deletar" onclick="return confirm('Tem certeza que deseja excluir esta atividade? Esta ação não pode ser desfeita.');">
         <button type="button" class="atividade-mini-btn deletar"><i class="fas fa-trash"></i></button>
       </a>
     {{else}}

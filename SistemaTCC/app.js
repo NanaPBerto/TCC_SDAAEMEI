@@ -16,6 +16,9 @@ const tipoatividade = require('./models/tipoatividade');
 const uf = require('./models/uf');
 const classificacao = require('./models/classificacao');
 const adminRoutes = require('./routes/adminRoutes');
+const atividade_tipo = require('./models/atividade_tipo');
+const exphbs = require('express-handlebars');
+const historicoRoutes = require('./routes/historicoRoutes');
 
 // Configuração das sessions
 app.use(session({
@@ -73,9 +76,7 @@ app.use((req, res, next) => {
 
 // Configuração do template engine handlebars
 
-const handlebars = require('express-handlebars');
-
-const hbs = handlebars.create({
+const hbs = exphbs.create({
   helpers: {
     eq: (v1, v2) => v1 === v2,
     getIcon: function(nome) {
@@ -98,12 +99,20 @@ const hbs = handlebars.create({
     formatDate: function(date) {
       if (!date) return 'N/A';
       return new Date(date).toLocaleDateString('pt-BR');
+    },
+    includes: function(array, value) {
+      if (Array.isArray(array)) {
+        return array.includes(value);
+      }
+      return false;
     }
   },
   partialsDir: [
     path.join(__dirname, 'views', 'partials')
-  ]
+  ],
 });
+
+
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -140,10 +149,12 @@ app.use('/', indexRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', tipoatividadeRoutes);
 app.use('/admin', adminRoutes);
+app.use('/', historicoRoutes);
 
 Promise.all([
     classificacao.sync(),
     tipoatividade.sync(),
+    atividade_tipo.sync(),
     educador.sync(),
     musico.sync(),
     ativ.sync(), 

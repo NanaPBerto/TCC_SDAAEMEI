@@ -3,19 +3,9 @@ const Ativ = require('./ativ');
 const Tipoatividade = require('./tipoatividade');
 const classificacao = require('./classificacao');
 const Musico = require('./musico');
+const AtividadeTipo = require('./atividade_tipo');
 
 function setupAssociations() { 
-  // Associação Ativ -> Tipoatividade
-  Ativ.belongsTo(Tipoatividade, {
-    foreignKey: 'tipoId',
-    as: 'tipo'
-  }); 
-  
-  // Associação inversa
-  Tipoatividade.hasMany(Ativ, {
-    foreignKey: 'tipoId',
-    as: 'atividades'
-  });
   
   // ⭐⭐ CORREÇÃO: Mude o alias para evitar conflito ⭐⭐
   Ativ.belongsTo(classificacao, {
@@ -39,6 +29,23 @@ function setupAssociations() {
     foreignKey: 'desenvolvedor',
     as: 'atividades'
   });
+
+    // Associação muitos-para-muitos Ativ <-> Tipoatividade
+  Ativ.belongsToMany(Tipoatividade, {
+    through: AtividadeTipo,
+    foreignKey: 'atividadeId',
+    otherKey: 'tipoId',
+    as: 'tipos' // O alias deve ser 'tipos'
+  });
+
+  Tipoatividade.belongsToMany(Ativ, {
+    through: AtividadeTipo,
+    foreignKey: 'tipoId',
+    otherKey: 'atividadeId',
+    as: 'atividades'
+  });
 }
+
+
 
 module.exports = setupAssociations;

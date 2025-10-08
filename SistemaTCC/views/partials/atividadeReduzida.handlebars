@@ -1,15 +1,8 @@
-{{!-- Partial: atividade-mini-card --}}
-{{!-- Copie este bloco para views/partials/atividade-mini-card.handlebars --}}
-{{!--
-  Parâmetros:
-    atividade: objeto da atividade
-    contexto: "submissoes" | "tipoAtividade" | "sugeridas" | "historico"
---}}
 <div class="atividade-mini-card {{#if (eq contexto 'historico')}}{{#if atividade.recente}}recente{{/if}}{{/if}}" {{#if (eq contexto 'historico')}}data-categoria="{{atividade.categoria}}"{{/if}}>
   <div class="atividade-mini-titulo">{{atividade.titulo}}{{atividade.nome}}</div>
-  <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
+  <div class="atividade-mini-imgbox mb-2">
     {{#if atividade.imagem}}
-      <img src="{{atividade.imagem}}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">
+      <img src="{{atividade.imagem}}" alt="Imagem da Atividade" style="width: 100%; height: 100%;">
     {{else}}
       <i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>
     {{/if}}

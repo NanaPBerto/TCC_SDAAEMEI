@@ -14,27 +14,13 @@
         <div class="form-section">
           <h5><i class="fas fa-info-circle me-2"></i>Informações Básicas</h5>
           <div class="row g-3 align-items-end">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <label for="tituloAtividade" class="form-label">Título da Atividade</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-medal"></i></span>
                 <input type="text" class="form-control" id="tituloAtividade" name="nome" 
                        placeholder="Exemplo: Ritmo com Copos, Cantiga de Roda" required 
                        value="{{#if atividade}}{{atividade.nome}}{{/if}}">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <label for="classificacaoAtividade" class="form-label">Faixa Etária</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-child"></i></span>
-                <select class="form-select" id="classificacaoAtividade" name="classificacao" required>
-                  <option value="" disabled selected>Selecione a faixa etária</option>
-                  <option value="1 a 2 anos" {{#if atividade}}{{#if (eq atividade.classificacao 1)}}selected{{/if}}{{/if}}>1 a 2 anos</option>
-                  <option value="2 a 3 anos" {{#if atividade}}{{#if (eq atividade.classificacao 2)}}selected{{/if}}{{/if}}>2 a 3 anos</option>
-                  <option value="3 a 4 anos" {{#if atividade}}{{#if (eq atividade.classificacao 3)}}selected{{/if}}{{/if}}>3 a 4 anos</option>
-                  <option value="4 a 5 anos" {{#if atividade}}{{#if (eq atividade.classificacao 4)}}selected{{/if}}{{/if}}>4 a 5 anos</option>
-                  <option value="5 a 6 anos" {{#if atividade}}{{#if (eq atividade.classificacao 5)}}selected{{/if}}{{/if}}>5 a 6 anos</option>
-                </select>
               </div>
             </div>
           </div>
@@ -48,15 +34,16 @@
             {{#each tipos}}
               <div class="col-md-3 mb-2">
                 <div class="tipo-option card h-100">
-                  <div class="card-body p-3 text-center d-flex align-items-center justify-content-center">
+                  <div class="card-body p-3 text-center d-flex align-items-center justify-content-start">
+                  <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2 d-flex flex-row-reverse align-items-center w-100" style="margin-bottom:0;">
                     <input type="checkbox" name="tipos" value="{{id}}" id="tipo{{id}}"
-                           class="form-check-input me-2"
-                           {{#if ../atividade}}
-                             {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
-                           {{/if}}>
-                    <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2">
-                      {{nome}}
-                    </label>
+                       class="form-check-input ms-2"
+                        {{#if ../atividade}}
+                          {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
+                       {{/if}}>
+                       {{nome}}
+                     </span>
+                  </label>
                   </div>
                 </div>
               </div>
@@ -178,8 +165,7 @@
  <!-- Seção: Mídias -->
         <div class="form-section">  
         <h5><i class="fas fa-paperclip me-2"></i>Anexos</h5>
-<div class="row g-3 mb-4">
-  <div class="col-md-4">
+  <div class="col-md-12">
     <label class="form-label">Foto principal</label>
     <input type="file" class="form-control" name="imagem" accept="image/*">
     {{#if edicao}}
@@ -191,7 +177,7 @@
       {{/if}}
     {{/if}}
   </div>
-  <div class="col-md-4">
+  <div class="col-md-12">
     <label class="form-label">Partitura</label>
     <input type="file" class="form-control" name="partitura" accept=".pdf,image/*">
     {{#if edicao}}
@@ -203,7 +189,7 @@
       {{/if}}
     {{/if}}
   </div>
-  <div class="col-md-4">
+  <div class="col-md-12">
     <label class="form-label">Áudio</label>
     <input type="file" class="form-control" name="musica" accept="audio/*">
     {{#if edicao}}

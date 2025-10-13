@@ -23,6 +23,7 @@
                        value="{{#if atividade}}{{atividade.nome}}{{/if}}">
               </div>
             </div>
+
           </div>
         </div>
 
@@ -37,7 +38,7 @@
                   <div class="card-body p-3 text-center d-flex align-items-center justify-content-start">
                   <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2 d-flex flex-row-reverse align-items-center w-100" style="margin-bottom:0;">
                     <input type="checkbox" name="tipos" value="{{id}}" id="tipo{{id}}"
-                       class="form-check-input ms-2"
+                           class="form-check-input ms-2"
                         {{#if ../atividade}}
                           {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
                        {{/if}}>
@@ -129,7 +130,7 @@
           <h5>Recursos e Condições</h5>
           <div class="row g-3">
             <div class="col-12">
-              <label for="indicacaoAtividade" class="form-label">Nível de Dificuldade</label>
+              <label for="indicacaoAtividade" class="form-label">Indicação</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-star"></i></span>
                 <input type="text" class="form-control" id="indicacaoAtividade" name="indicacao" 
@@ -178,6 +179,18 @@
     {{/if}}
   </div>
   <div class="col-md-12">
+    <label class="form-label">Vídeo</label>
+    <input type="file" class="form-control" name="video" accept="video/*">
+    {{#if edicao}}
+      {{#if atividade.video}}
+      <small class="text-muted d-block mt-1">
+        <i class="fas fa-file-image me-1"></i>
+        Arquivo atual: <a href="{{atividade.video}}" target="_blank">Visualizar</a>
+      </small>
+      {{/if}}
+    {{/if}}
+  </div>
+  <div class="col-md-12">
     <label class="form-label">Partitura</label>
     <input type="file" class="form-control" name="partitura" accept=".pdf,image/*">
     {{#if edicao}}
@@ -201,7 +214,6 @@
       {{/if}}
     {{/if}}
   </div>
-</div>
 
         {{#if edicao}}
           <input type="hidden" name="imagemAtual" value="{{atividade.imagem}}">

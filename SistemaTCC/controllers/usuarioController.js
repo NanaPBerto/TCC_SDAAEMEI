@@ -1,7 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const Musico = require('../models/musico');
 const Educador = require('../models/educador');
+const ativ = require('../models/ativ');
+const Tipoatividade = require('../models/tipoatividade');
+const { usuarioUpload } = require('../middleware/uploadFile');
 
 function getUsuarioModel(tipo) {
   if (tipo === 'M' || tipo === 'musico') return Musico;
@@ -26,6 +28,24 @@ exports.add = async (req, res) => {
 
     const tipoUsuario = req.body.tipo || 'musico';
     const Usuario = getUsuarioModel(tipoUsuario);
+
+    // ⭐⭐ NOVO: Verificar se login ou email já existem ⭐⭐
+    const loginExistente = await Usuario.findOne({ where: { login: req.body.usuario } });
+    if (loginExistente) {
+      throw new Error('Este nome de usuário já está em uso. Por favor, escolha outro.');
+    }
+
+    const emailExistente = await Usuario.findOne({ where: { email: req.body.email } });
+    if (emailExistente) {
+      throw new Error('Este email já está cadastrado. Por favor, use outro email ou faça login.');
+    }
+
+    // Verificar também no outro modelo (caso o usuário tente cadastrar com email/login de outro tipo)
+    const OutroModelo = tipoUsuario === 'musico' ? Educador : Musico;
+    const loginExistenteOutroModelo = await OutroModelo.findOne({ where: { login: req.body.usuario } });
+    if (loginExistenteOutroModelo) {
+      throw new Error('Este nome de usuário já está em uso. Por favor, escolha outro.');
+    }
 
     let dados = {};
     if (Usuario === Musico) {
@@ -89,9 +109,24 @@ exports.add = async (req, res) => {
 
   } catch (erro) {
     console.error('Erro detalhado:', erro);
-    res.render('cadastro' + (tipoUsuario === 'musico' ? 'M' : 'E'), { 
+    
+    // ⭐⭐ MELHORIA: Recuperar dados do formulário para manter preenchido ⭐⭐
+    const formData = {
+      nome: req.body.nome,
+      usuario: req.body.usuario,
+      email: req.body.email,
+      telefone: req.body.telefone,
+      cpf: req.body.cpf,
+      uf: req.body.uf,
+      cidade: req.body.cidade,
+      obs: req.body.obs
+    };
+    const tipoUsuario = req.body.tipo
+    const template = tipoUsuario === 'musico' ? 'cadastroM' : 'cadastroE';
+    
+    res.render(template, { 
       alert: 'Houve um erro: ' + erro.message,
-      formData: req.body 
+      formData: formData 
     });
   }
 };
@@ -145,6 +180,7 @@ exports.editarPerfil = async (req, res) => {
       usuario: req.session.usuario, 
       alert: 'Erro ao atualizar perfil.' 
     });
+
   }
 };
 
@@ -155,19 +191,28 @@ exports.listarPerfis = async (req, res) => {
         let musicos = [];
         let educadores = [];
 
+        console.log(`📋 Listando perfis - Filtro: ${filtro}, Pesquisa: ${pesquisa}`);
+
         // Buscar baseado no filtro
         if (!filtro || filtro === 'todos' || filtro === 'musico') {
-            musicos = await Musico.findAll();
+            musicos = await Musico.findAll({
+                attributes: ['id', 'nome', 'email', 'cidade', 'uf', 'fone', 'imagem', 'tipo', 'validado']
+            });
+            console.log(`🎵 Encontrados ${musicos.length} músicos`);
         }
         
         if (!filtro || filtro === 'todos' || filtro === 'educador') {
-            educadores = await Educador.findAll();
+            educadores = await Educador.findAll({
+                attributes: ['id', 'nome', 'cidade', 'uf','imagem', 'tipo']
+            });
+            console.log(`👨‍🏫 Encontrados ${educadores.length} educadores`);
         }
 
         let usuarios = [
             ...musicos.map(m => {
                 const usuario = m.get({ plain: true });
                 usuario.tipo = 'musico';
+                usuario.validado = m.validado; // Mantém info de validação
                 return usuario;
             }),
             ...educadores.map(e => {
@@ -183,12 +228,16 @@ exports.listarPerfis = async (req, res) => {
             usuarios = usuarios.filter(usuario => 
                 usuario.nome.toLowerCase().includes(termo)
             );
+            console.log(`🔍 Após pesquisa: ${usuarios.length} usuários`);
         }
 
         // Aplicar filtro de tipo se especificado
         if (filtro && filtro !== 'todos') {
             usuarios = usuarios.filter(usuario => usuario.tipo === filtro);
+            console.log(`🎯 Após filtro de tipo: ${usuarios.length} usuários`);
         }
+
+        console.log(`📊 Total de usuários para exibir: ${usuarios.length}`);
 
         res.render('perfis', { 
             usuarios,
@@ -196,39 +245,86 @@ exports.listarPerfis = async (req, res) => {
             pesquisaAtual: pesquisa || ''
         });
     } catch (erro) {
-        console.error('Erro ao listar perfis:', erro);
+        console.error('❌ Erro ao listar perfis:', erro);
         res.status(500).send('Erro ao listar perfis');
     }
 };
-// Ver perfil específico
-exports.verPerfil = async (req, res) => {
+// Ver perfil específico de Músico
+exports.verPerfilMusico = async (req, res) => {
   try {
-    let usuario = await Musico.findByPk(req.params.id);
-    let tipo = 'musico';
-    
-    if (!usuario) {
-      usuario = await Educador.findByPk(req.params.id);
-      tipo = 'educador';
-    }
-    
-    if (!usuario) {
-      return res.status(404).send('Usuário não encontrado');
-    }
+    const usuarioId = req.params.id;
+    const usuarioLogadoId = req.session.usuario?.id;
 
-    // Converter para objeto simples e adicionar tipo
-    const usuarioData = usuario.get({ plain: true });
-    usuarioData.tipo = tipo;
-    
-    // Verificar se é o próprio perfil
-    const isOwnProfile = req.session.usuario && req.session.usuario.id == req.params.id;
+    console.log(`🔍 Buscando perfil de MÚSICO ID: ${usuarioId}`);
+    console.log(`👤 Usuário logado: ${usuarioLogadoId}`);
 
-    res.render('perfil', { 
-      usuario: usuarioData, 
-      isOwnProfile: isOwnProfile,
-      session: req.session // Passar sessão para a view
+    const usuarioVisitado = await Musico.findByPk(usuarioId, {
+      include: [
+        {
+          model: ativ,
+          as: 'atividades',
+          include: [{
+            model: Tipoatividade,
+            as: 'tipos',
+            through: { attributes: [] }
+          }]
+        }
+      ]
     });
-  } catch (erro) {
-    console.error('Erro ao buscar perfil:', erro);
-    res.status(500).send('Erro ao buscar perfil');
+
+    if (!usuarioVisitado) {
+      console.log('❌ Músico não encontrado');
+      return res.status(404).send('Músico não encontrado');
+    }
+
+    const isOwnProfile = usuarioId === usuarioLogadoId;
+    const usuarioData = usuarioVisitado.toJSON();
+    usuarioData.tipo = 'musico';
+
+    console.log(`✅ Músico encontrado: ${usuarioData.nome}`);
+    console.log(`📊 É próprio perfil? ${isOwnProfile}`);
+
+    res.render('perfil', {
+      usuarioVisitado: usuarioData, // Mude para usuarioVisitado
+      isOwnProfile
+    });
+
+  } catch (error) {
+    console.error('❌ Erro ao carregar perfil do músico:', error);
+    res.status(500).send('Erro interno do servidor');
+  }
+};
+
+// Ver perfil específico de Educador
+exports.verPerfilEducador = async (req, res) => {
+  try {
+    const usuarioId = req.params.id;
+    const usuarioLogadoId = req.session.usuario?.id;
+
+    console.log(`🔍 Buscando perfil de EDUCADOR ID: ${usuarioId}`);
+    console.log(`👤 Usuário logado: ${usuarioLogadoId}`);
+
+    const usuarioVisitado = await Educador.findByPk(usuarioId);
+
+    if (!usuarioVisitado) {
+      console.log('❌ Educador não encontrado');
+      return res.status(404).send('Educador não encontrado');
+    }
+
+    const isOwnProfile = usuarioId === usuarioLogadoId;
+    const usuarioData = usuarioVisitado.toJSON();
+    usuarioData.tipo = 'educador';
+
+    console.log(`✅ Educador encontrado: ${usuarioData.nome}`);
+    console.log(`📊 É próprio perfil? ${isOwnProfile}`);
+
+    res.render('perfil', {
+      usuarioVisitado: usuarioData, // Mude para usuarioVisitado
+      isOwnProfile
+    });
+
+  } catch (error) {
+    console.error('❌ Erro ao carregar perfil do educador:', error);
+    res.status(500).send('Erro interno do servidor');
   }
 };

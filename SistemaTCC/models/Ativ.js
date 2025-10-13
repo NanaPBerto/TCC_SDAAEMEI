@@ -3,7 +3,8 @@ const db = require('../db');
 const ativ = db.sequelize.define('atividades', {
         nome: {
             type: db.Sequelize.STRING(30),
-            allowNull: false
+            allowNull: false,
+            unique: true,
         },
         descricao: {
             type: db.Sequelize.STRING(100),
@@ -14,7 +15,7 @@ const ativ = db.sequelize.define('atividades', {
             allowNull: false
         }, 
         indicacao: {
-            type: db.Sequelize.STRING(20),
+            type: db.Sequelize.STRING(200),
             allowNull: false
         },
         vagas: {
@@ -26,11 +27,11 @@ const ativ = db.sequelize.define('atividades', {
             allowNull: false
         },
         recursos: {
-            type: db.Sequelize.STRING(80),
+            type: db.Sequelize.STRING(200),
             allowNull: false
         },
         condicoes: {
-            type: db.Sequelize.STRING(80),
+            type: db.Sequelize.STRING(200),
             allowNull: false
         },
         imagem: {
@@ -50,7 +51,7 @@ const ativ = db.sequelize.define('atividades', {
             allowNull: true
         },
         obs: {
-            type: db.Sequelize.STRING(100),
+            type: db.Sequelize.STRING(200),
             allowNull: true
         },
         desenvolvedor: {

@@ -447,3 +447,35 @@ exports.sugestoesAtividades = async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor', alert: 'Erro ao buscar sugestões.' });
     }
 };
+
+// Rota para API - Buscar dados de uma atividade específica
+exports.getAtividadePorId = async (req, res) => {
+    try {
+        const atividadeId = req.params.id;
+        
+        const atividade = await ativ.findByPk(atividadeId, {
+            attributes: ['id', 'nome', 'objetivo', 'imagem'],
+            include: [{
+                model: Tipoatividade,
+                as: 'tipos',
+                through: { attributes: [] }
+            }]
+        });
+
+        if (!atividade) {
+            return res.status(404).json({ error: 'Atividade não encontrada' });
+        }
+
+        res.json({
+            id: atividade.id,
+            titulo: atividade.nome,
+            objetivo: atividade.objetivo,
+            imagem: atividade.imagem,
+            tipos: atividade.tipos
+        });
+        
+    } catch (error) {
+        console.error('Erro ao buscar atividade:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+};

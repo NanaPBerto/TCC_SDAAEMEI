@@ -1,4 +1,4 @@
-// sugeridas.js - VERSÃO SIMPLIFICADA PARA DEBUG
+// sugeridas.js - VERSÃO CORRIGIDA COM TIPOS
 
 console.log('🎯 sugeridas.js CARREGADO!');
 
@@ -68,20 +68,32 @@ function renderizarSugestoes(atividades) {
                     titulo: atividade.titulo || atividade.nome,
                     categoria: atividade.categoria || 'Geral',
                     objetivo: atividade.objetivo || '',
-                    imagem: atividade.imagem || ''
+                    imagem: atividade.imagem || '',
+                    tipos: atividade.tipos || [],
                 }
             };
             return template(contexto);
         }).join('');
     } else {
-        // Fallback: renderização manual igual ao partial
+        
+        // Fallback: renderização manual CORRIGIDA (igual ao histórico)
         container.innerHTML = atividades.map(atividade => `
             <div class="atividade-mini-card" data-categoria="${atividade.categoria || 'Geral'}">
                 <div class="atividade-mini-titulo">${atividade.titulo || atividade.nome}</div>
-                <div class="atividade-mini-imgbox mb-2" style="height: 120px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; border-radius: 4px;">
-                    ${atividade.imagem ? `<img src="${atividade.imagem}" alt="Imagem da Atividade" style="max-width: 100%; max-height: 100%;">` : `<i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>`}
+                <div class="atividade-mini-imgbox mb-2" >
+                    ${atividade.imagem ? `<img src="${atividade.imagem}" alt="Imagem da Atividade" >` : `<i class="fas fa-music fa-2x" style="color: var(--primary-light);"></i>`}
                 </div>
                 <div class="atividade-mini-objetivo">${atividade.objetivo || ''}</div>
+                <div class="atividade-mini-badges mb-2">
+                    <span class="atividade-mini-badge">
+                        <i class="fas fa-tag"></i>
+                        ${Array.isArray(atividade.tipos) ? 
+                          (atividade.tipos.length > 0 ? 
+                           atividade.tipos.map(tipo => typeof tipo === 'object' ? tipo.nome : tipo).join(', ') : 
+                           'Geral') : 
+                          'Geral'}
+                    </span>
+                </div>                      
                 <div class="atividade-mini-actions">
                     <a href="/atividade/${atividade.id}" title="Ver detalhes">
                         <button type="button" class="atividade-mini-btn">

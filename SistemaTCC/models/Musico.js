@@ -12,12 +12,13 @@ const Musico = db.sequelize.define('musicos', {
         defaultValue: 'musico'
     },
     nome: {
-        type: db.Sequelize.STRING(30),
+        type: db.Sequelize.STRING(50),
         allowNull: false
     },
     login: {
         type: db.Sequelize.STRING(20),
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     senha: { 
         type: db.Sequelize.STRING(100), 
@@ -29,7 +30,8 @@ const Musico = db.sequelize.define('musicos', {
     },
     email: {
         type: db.Sequelize.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     fone: {
         type: db.Sequelize.STRING(20),
@@ -48,7 +50,7 @@ const Musico = db.sequelize.define('musicos', {
         allowNull: false
     },
     obs: {
-        type: db.Sequelize.STRING(100),
+        type: db.Sequelize.STRING(200),
         allowNull: true
     },
     uf: {

@@ -2,23 +2,31 @@ const ativ = require('../models/ativ');
 const Tipoatividade = require('../models/tipoatividade');
 const AtividadeTipo = require('../models/atividade_tipo');
 
-
 exports.porCategoria = async (req, res) => {
   try {
     const tipoId = req.params.id;
     const tipo = await Tipoatividade.findByPk(tipoId);
 
-    // Buscar todas as atividades que possuem esse tipo (muitos-para-muitos)
+    // Buscar IDs das atividades que possuem esse tipo
+    const atividadesIds = await AtividadeTipo.findAll({
+      where: { tipoId: tipoId },
+      attributes: ['atividadeId']
+    });
+
+    const ids = atividadesIds.map(item => item.atividadeId);
+
+    // Buscar atividades completas com todos os tipos
     const atividades = await ativ.findAll({
       include: [{
         model: Tipoatividade,
         as: 'tipos',
-        through: { attributes: [] },
-        where: { id: tipoId }
-      }]
+        through: { attributes: [] }
+      }],
+      where: {
+        id: ids
+      }
     });
 
-    // Extrair tipos de cada atividade para exibir na view
     const plainAtividades = atividades.map(a => {
       const obj = a.get({ plain: true });
       obj.tipos = obj.tipos || [];
@@ -27,7 +35,7 @@ exports.porCategoria = async (req, res) => {
 
     res.render('tipoatividade', { tipo, atividades: plainAtividades });
   } catch (error) {
+    console.error('❌ Erro em porCategoria:', error);
     res.status(500).send('Erro ao buscar atividades do tipo selecionado.');
   }
 };
-

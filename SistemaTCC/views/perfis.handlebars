@@ -70,14 +70,17 @@
           </div>
           
           <!-- Ações -->
-          <div class="user-actions">
-            <a href="/perfil/{{this.id}}" class="btn-sm btn-primary">
-              <i class="fas fa-eye"></i> Ver
-            </a>
-            <button class="btn-sm">
-              <i class="fas fa-comment"></i> Contatar
-            </button>
-          </div>
+<div class="user-actions">
+  {{#if (eq this.tipo 'musico')}}
+    <a href="/perfil/musico/{{this.id}}" class="btn-sm btn-primary">
+      <i class="fas fa-eye"></i> Ver
+    </a>
+  {{else}}
+    <a href="/perfil/educador/{{this.id}}" class="btn-sm btn-primary">
+      <i class="fas fa-eye"></i> Ver
+    </a>
+  {{/if}}
+</div>
         </div>
         {{else}}
         <div class="empty-state">

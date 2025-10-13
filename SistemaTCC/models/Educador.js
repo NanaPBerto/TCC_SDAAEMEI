@@ -17,10 +17,11 @@ const Educador = db.sequelize.define('educadores', {
     },
     login: {
         type: db.Sequelize.STRING(20),
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     senha: { 
-        type: db.Sequelize.STRING(10),
+        type: db.Sequelize.STRING(100),
         allowNull: false
     },
     cidade: {

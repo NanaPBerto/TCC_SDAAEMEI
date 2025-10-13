@@ -40,10 +40,10 @@ const fileFilter = (req, file, cb) => {
 };
 
 const multerConfig = {
-    storage: diskStorage, // ← MUDEI AQUI para diskStorage
+    storage: diskStorage, 
     fileFilter: fileFilter,
     limits: {
-        fileSize: 20 * 1024 * 1024,
+        fileSize: 100 * 1024 * 1024,
         files: 10
     }
 };
@@ -55,7 +55,7 @@ module.exports = {
     atividadeUpload: multer({
         ...multerConfig,
         limits: {
-            fileSize: 20 * 1024 * 1024,
+            fileSize: 100 * 1024 * 1024,
             files: 4
         }
     }),

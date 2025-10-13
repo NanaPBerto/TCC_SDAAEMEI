@@ -4,7 +4,6 @@ const Musico = require('../models/musico');
 const Educador = require('../models/educador');
 const { usuarioUpload } = require('../middleware/uploadFile'); 
 const usuarioController = require('../controllers/usuarioController');
-const atividadeController = require('../controllers/atividadeController');
 const { checkMusicoValidado, checkAuth } = require('../middleware/authMiddleware'); 
 // Middleware para tratamento de erros do Multer
 const handleMulterError = (err, req, res, next) => {
@@ -22,9 +21,26 @@ const handleMulterError = (err, req, res, next) => {
     next(err);
 };
 
+// Middleware para remover máscaras apenas para músicos
+const removerMascarasParaMusicos = (req, res, next) => {
+    // Aplica a remoção de máscaras apenas se for cadastro de músico
+    // Verifica se req.body existe e se tem tipo, com fallback seguro
+    if (req.body && req.body.tipo === 'musico') {
+        if (req.body.telefone) {
+            req.body.telefone = req.body.telefone.replace(/\D/g, '');
+        }
+        
+        if (req.body.cpf) {
+            req.body.cpf = req.body.cpf.replace(/\D/g, '');
+        }
+    }
+    next();
+};
+
 // Usar o middleware unificado com tratamento de erro
 router.post(
   '/usuario/add',
+  removerMascarasParaMusicos, // Aplica apenas para músicos
   (req, res, next) => {
       usuarioUpload.fields([
           { name: 'imagem', maxCount: 1 },
@@ -189,11 +205,24 @@ router.get('/perfil', checkAuth, (req, res) => {
 });
 
 //acessar outros perfis
-router.get('/perfis', require('../controllers/usuarioController').listarPerfis);
-router.get('/perfil/:id', require('../controllers/usuarioController').verPerfil);
+router.get('/perfil/musico/:id', usuarioController.verPerfilMusico);
+router.get('/perfil/educador/:id', usuarioController.verPerfilEducador);
 router.get('/perfis', usuarioController.listarPerfis);
-// Atualizar perfil
+// Atualizar perfil - versão com remoção condicional de máscaras
 router.post('/perfil', 
+  (req, res, next) => {
+    // Aplica remoção de máscaras apenas se for músico
+    if (req.session.usuario.tipo === 'musico') {
+        if (req.body.telefone) {
+            req.body.telefone = req.body.telefone.replace(/\D/g, '');
+        }
+        
+        if (req.body.cpf) {
+            req.body.cpf = req.body.cpf.replace(/\D/g, '');
+        }
+    }
+    next();
+  },
   usuarioUpload.fields([
       { name: 'imagem', maxCount: 1 },
       { name: 'minicurriculo', maxCount: 1 }

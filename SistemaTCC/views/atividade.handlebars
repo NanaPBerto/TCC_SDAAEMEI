@@ -1,9 +1,12 @@
+<input type="hidden" id="usuario-id" value="{{usuario.id}}">
+<input type="hidden" id="usuario-tipo" value="{{usuario.tipo}}">
+
 <div class="atividade-detalhada-card my-5">
   <div class="atividade-detalhada-titulo">{{atividade.nome}}</div>
   <div class="atividade-detalhada-top">
     <div class="atividade-detalhada-avatar">
-      {{#if usuario.imagem}}
-        <img src="{{usuario.imagem}}" alt="Imagem do usuário" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+      {{#if atividade.desenvolvedor.imagem}}
+        <img src="{{atividade.desenvolvedor.imagem}}" alt="Imagem do desenvolvedor" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
       {{else}}
         <i class="fas fa-user"></i>
       {{/if}}
@@ -29,6 +32,13 @@
     <div class="atividade-detalhada-imgbox">
       {{#if atividade.imagem}}
         <img src="{{atividade.imagem}}" alt="Imagem da atividade">
+      {{else}}
+        <i class="fas fa-music fa-3x" style="color: var(--primary-light);"></i>
+      {{/if}}
+    </div>
+    <div class="atividade-detalhada-imgbox">
+      {{#if atividade.video}}
+        <video src="{{atividade.video}}" alt="Video da atividade" controls="default" >
       {{else}}
         <i class="fas fa-music fa-3x" style="color: var(--primary-light);"></i>
       {{/if}}
@@ -79,4 +89,65 @@
       {{/if}}
   </div>
 </div>
+
+<script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar se estamos em uma página de atividade individual
+    const atividadeId = '{{atividade.id}}';
+    const usuarioId = '{{#if session.usuario}}{{session.usuario.id}}{{/if}}';
+    
+    if (atividadeId && usuarioId && atividadeId !== '') {
+        console.log('📝 Registrando visualização da atividade:', atividadeId, 'para usuário:', usuarioId);
+        
+        // Dados da atividade para o histórico
+        const atividadeData = {
+            titulo: '{{atividade.nome}}',
+            objetivo: '{{atividade.objetivo}}',
+            imagem: '{{atividade.imagem}}',
+            tipos: JSON.parse('{{{json atividade.tipos}}}')
+        };
+        
+        // Registrar visualização
+        if (typeof registrarVisualizacao === 'function') {
+            registrarVisualizacao(atividadeId, atividadeData);
+        } else {
+            console.error('❌ Função registrarVisualizacao não encontrada');
+            // Fallback: registrar manualmente
+            registrarVisualizacaoManual(atividadeId, atividadeData);
+        }
+    }
+});
+
+// Fallback function
+function registrarVisualizacaoManual(atividadeId, atividadeData) {
+    try {
+        const usuarioId = '{{#if session.usuario}}{{session.usuario.id}}{{/if}}';
+        if (!usuarioId) return;
+        
+        const chaveHistorico = `historicoAtividades_${usuarioId}`;
+        const historicoRaw = localStorage.getItem(chaveHistorico);
+        const historico = historicoRaw ? JSON.parse(historicoRaw) : [];
+        
+        // Remover se já existir
+        const historicoFiltrado = historico.filter(item => item.id != atividadeId);
+        
+        // Adicionar no início
+        historicoFiltrado.unshift({
+            id: atividadeId,
+            ...atividadeData,
+            dataAcesso: new Date().toISOString(),
+            usuarioId: usuarioId
+        });
+        
+        // Manter apenas últimos 20
+        const historicoLimitado = historicoFiltrado.slice(0, 20);
+        localStorage.setItem(chaveHistorico, JSON.stringify(historicoLimitado));
+        
+        console.log('✅ Visualização registrada manualmente');
+    } catch (error) {
+        console.error('Erro no fallback:', error);
+    }
+}
+</script>
 

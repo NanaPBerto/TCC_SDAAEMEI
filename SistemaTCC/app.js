@@ -20,13 +20,37 @@ const atividade_tipo = require('./models/atividade_tipo');
 const exphbs = require('express-handlebars');
 const historicoRoutes = require('./routes/historicoRoutes');
 
+// Handlebars helpers para formatar dados nas views
+const handlebars = require('handlebars');
+
+// Helper para formatar CPF
+handlebars.registerHelper('formatCPF', function(cpf) {
+  if (!cpf) return '';
+  cpf = cpf.toString().replace(/\D/g, '');
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+});
+
+// Helper para formatar telefone
+handlebars.registerHelper('formatTelefone', function(telefone) {
+  if (!telefone) return '';
+  telefone = telefone.toString().replace(/\D/g, '');
+  
+  if (telefone.length === 11) {
+    return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  } else if (telefone.length === 10) {
+    return telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+  }
+  
+  return telefone;
+});
+
 // Configuração das sessions
 app.use(session({
   secret: '77NaNa@.77',
   resave: true,
   saveUninitialized: true,
   name: 'connect.sid',
-  cookie: { maxAge: 600000 } // Sessão expira em 10 minutos
+  cookie: { maxAge: 60000000 } // Sessão expira em 60 minutos
 }));
 
 // MIDDLEWARES (ordem importante)
@@ -69,6 +93,15 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  if (req.session.usuario) {
+    res.locals.usuario = req.session.usuario;
+  } else {
+    res.locals.usuario = null;
+  }
+  next();
+});
+
+app.use((req, res, next) => {
   console.log('Session ID:', req.sessionID);
   console.log('Session data:', req.session);
   next();
@@ -77,6 +110,7 @@ app.use((req, res, next) => {
 // Configuração do template engine handlebars
 
 const hbs = exphbs.create({
+    
   helpers: {
     eq: (v1, v2) => v1 === v2,
     getIcon: function(nome) {
@@ -110,6 +144,7 @@ const hbs = exphbs.create({
   partialsDir: [
     path.join(__dirname, 'views', 'partials')
   ],
+  
 });
 
 
@@ -193,17 +228,17 @@ Promise.all([
 
     // Usuário ADM
 await musico.findOrCreate({
-    where: { login: 'Administrador' },
+    where: { login: 'AdmMusicoteca' },
     defaults: {
-        nome: 'ADM',
+        nome: 'Administrador',
         tipo: 'adm', // ← Isso é crucial
-        login: 'Administrador',
-        senha: '12345678',
-        cpf: '00000000000',
-        email: 'admin@musicoteca.com',
-        fone: '00000000000',
-        cidade: 'AdminCity',
-        uf: 'AD',
+        login: 'AdmMusicoteca',
+        senha: 'Seb4sti4nB4ch',
+        cpf: '11122233344',
+        email: 'musicoteca00@gmail.com',
+        fone: '9999999999',
+        cidade: 'Sombrio',
+        uf: 'SC',
         validado: true // ← O admin já é validado por padrão
     }
 }).then(([user, created]) => {
@@ -215,37 +250,6 @@ await musico.findOrCreate({
         console.log('📋 Dados do ADMIN:', JSON.stringify(user.get({ plain: true }), null, 2));
     }
 });
-
-    // Usuário teste musico
-    await musico.findOrCreate({
-        where: { login: 'teste' },
-        defaults: {
-            nome: 'Usuário Teste',
-            tipo: 'musico',
-            login: 'teste',
-            senha: '12345678', // coloque uma senha segura ou hash
-            cpf: '00000000000',
-            email: 'teste@teste.com',
-            fone: '00000000000',
-            cidade: 'TesteCity',
-            uf: 'TS',
-            validado: true
-        }
-    });
-
-    // Usuário teste educador
-    await educador.findOrCreate({
-        where: { login: 'teste2' },
-        defaults: {
-            tipo: 'educador',
-            nome: 'Usuário Teste2',
-            login: 'teste2',
-            senha: '12345678', // coloque uma senha segura ou hash
-            cidade: 'TesteCity',
-            uf: 'TS'
-        }
-    });
-
     const PORT = 3000;
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);

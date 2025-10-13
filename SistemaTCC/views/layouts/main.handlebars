@@ -6,10 +6,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <link rel="stylesheet" href="/style.css"/>
     <link rel="icon" type="image/png" href="/images/logo.png"/>
+    <title>Musicoteca</title>
 </head>
-<body>
+<body data-usuario-id="{{#if usuario}}{{usuario.id}}{{/if}}" data-usuario-tipo="{{#if usuario}}{{usuario.tipo}}{{/if}}">
+  {{#if usuario}}
+    <input type="hidden" id="usuario-id" value="{{usuario.id}}">
+    <input type="hidden" id="usuario-tipo" value="{{usuario.tipo}}">
+    <input type="hidden" id="usuario-nome" value="{{usuario.nome}}">
+  {{/if}}
+
     <!-- Cabeçalho -->
     <header> 
       {{#if showMenu}}
@@ -18,9 +27,24 @@
           <nav class="navbar" id="navbar">
             <div class="navbar-container justify-content-between d-flex align-items-center">
               <div class="d-flex align-items-center">
-                {{#if this.usuario.imagem}}
-                  <img src="{{this.usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                {{/if}}
+               {{#if usuario.imagem}}
+  <img src="{{usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle me-3" style="width:48px; height:48px; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+{{/if}}
+<div class="user-info">
+  <span class="text-light fw-bold">{{usuario.nome}}</span>
+  <br>
+  <small class="text-light opacity-75">
+    {{#if (eq usuario.tipo 'musico')}}
+      Professor de Música
+    {{else if (eq usuario.tipo 'educador')}}
+      Educador
+    {{else if (eq usuario.tipo 'adm')}}
+      Administrador
+    {{else}}
+      {{usuario.tipo}}
+    {{/if}}
+  </small>
+</div>
               </div>
               <a href="/index" class="site-logo ms-auto">
                 <img src="/images/logo2.png" alt="Logo" style="height:60px; width:auto; max-width:200px;"/>
@@ -98,8 +122,19 @@
                 <span class="sidebar-icon"><i class="fas fa-address-card"></i></span>
                 <span class="sidebar-text">Perfis Públicos</span>
             </li></a>
+
+            <a href="/historico">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-history"></i></span>
+                <span class="sidebar-text">Histórico</span>
+            </li></a>
         </ul>
         <ul class="sidebar-footer">
+            <a href="/perfil">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user"></i></span>
+                <span class="sidebar-text">Meu Perfil</span>
+            </li></a>
             <a href="/logout" class="nav-link">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
@@ -137,8 +172,19 @@
                 <span class="sidebar-text">Perfis</span>
             </li>
             </a>
+            <a href="/historico">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-history"></i></span>
+                <span class="sidebar-text">Histórico</span>
+            </li>
+            </a>
         </ul>
         <ul class="sidebar-footer">
+            <a href="/perfil">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user"></i></span>
+                <span class="sidebar-text">Meu Perfil</span>
+            </li></a>
             <a href="/logout" class="nav-link">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
@@ -159,14 +205,25 @@
                 <span class="sidebar-text">Atividades Sugeridas</span>
             </li>
             </a>
-            <a href="/historicoA">
+            <a href="/historico">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-history"></i></span>
                 <span class="sidebar-text">Histórico de Atividades</span>
             </li>
             </a>
+            <a href="/perfis">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+                <span class="sidebar-text">Perfis</span>
+            </li>
+            </a>
         </ul>
         <ul class="sidebar-footer">
+            <a href="/perfil">
+            <li class="sidebar-item">
+                <span class="sidebar-icon"><i class="fas fa-user"></i></span>
+                <span class="sidebar-text">Meu Perfil</span>
+            </li></a>
             <a href="/logout">
             <li class="sidebar-item">
                 <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
@@ -181,16 +238,214 @@
     <main class="container mt-4" style="margin-left: 70px; padding-top: 70px;">
         {{{body}}}
     </main>
+
+     <!-- Script de inicialização do histórico -->
+    <script>
+    // Sistema de registro automático de visualizações
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🎵 Musicoteca - Inicializando sistema de histórico...');
+        
+        const usuarioId = document.body.dataset.usuarioId;
+        const usuarioTipo = document.body.dataset.usuarioTipo;
+        
+        if (usuarioId && usuarioTipo) {
+            console.log(`👤 Usuário detectado: ${usuarioId} (${usuarioTipo})`);
+            localStorage.setItem('usuarioAtualId', usuarioId);
+            localStorage.setItem('usuarioAtualTipo', usuarioTipo);
+        }
+
+        // REGISTRO AUTOMÁTICO DE VISUALIZAÇÃO
+        registrarVisualizacaoAutomatica();
+    });
+
+    // Função para registro automático de visualização
+    async function registrarVisualizacaoAutomatica() {
+        const urlPath = window.location.pathname;
+        
+        // Verificar se é uma página de atividade individual
+        const match = urlPath.match(/\/atividade\/(\d+)/);
+        if (!match) return;
+        
+        const atividadeId = match[1];
+        const usuarioId = localStorage.getItem('usuarioAtualId');
+        
+        if (!usuarioId) {
+            console.warn('⚠️ Não é possível registrar visualização: usuário não identificado');
+            return;
+        }
+
+        console.log(`📝 Tentando registrar visualização da atividade ${atividadeId} para usuário ${usuarioId}`);
+
+        // Aguardar um pouco para a página carregar completamente
+        setTimeout(async () => {
+            try {
+                // Tentar usar a função global se disponível
+                if (typeof window.registrarVisualizacao === 'function') {
+                    // Coletar dados da atividade da página
+                    const atividadeData = coletarDadosAtividade();
+                    window.registrarVisualizacao(atividadeId, atividadeData);
+                    console.log('✅ Visualização registrada via função global');
+                } else {
+                    // Fallback: registrar diretamente
+                    await registrarVisualizacaoDireta(atividadeId);
+                }
+            } catch (error) {
+                console.error('❌ Erro no registro automático:', error);
+                // Tentar fallback
+                await registrarVisualizacaoDireta(atividadeId);
+            }
+        }, 500);
+    }
+
+    // Coletar dados da atividade da página
+    function coletarDadosAtividade() {
+        try {
+            // Tentar obter dados de elementos da página
+            const tituloElement = document.querySelector('h1, h2, .atividade-titulo, [data-atividade-titulo]');
+            const objetivoElement = document.querySelector('.objetivo, .atividade-objetivo, [data-atividade-objetivo]');
+            const imagemElement = document.querySelector('.atividade-imagem, [data-atividade-imagem] img, .card img');
+            
+            return {
+                titulo: tituloElement ? tituloElement.textContent.trim() : 'Atividade ' + window.location.pathname.split('/').pop(),
+                objetivo: objetivoElement ? objetivoElement.textContent.trim() : 'Atividade musical educativa',
+                imagem: imagemElement ? imagemElement.src : null
+            };
+        } catch (error) {
+            console.warn('⚠️ Não foi possível coletar dados detalhados da atividade');
+            return {
+                titulo: 'Atividade Musical',
+                objetivo: 'Atividade musical educativa',
+                imagem: null
+            };
+        }
+    }
+
+    // Fallback: registro direto no localStorage
+    async function registrarVisualizacaoDireta(atividadeId) {
+        try {
+            const usuarioId = localStorage.getItem('usuarioAtualId');
+            if (!usuarioId) return;
+
+            const chaveHistorico = `historicoAtividades_${usuarioId}`;
+            const historicoRaw = localStorage.getItem(chaveHistorico);
+            const historico = historicoRaw ? JSON.parse(historicoRaw) : [];
+            
+            // Verificar se já existe
+            const existe = historico.find(item => item.id == atividadeId);
+            if (existe) {
+                console.log('📋 Atividade já está no histórico, atualizando data...');
+                // Atualizar data de acesso
+                const historicoAtualizado = historico.filter(item => item.id != atividadeId);
+                historicoAtualizado.unshift({
+                    ...existe,
+                    dataAcesso: new Date().toISOString()
+                });
+                localStorage.setItem(chaveHistorico, JSON.stringify(historicoAtualizado));
+            } else {
+                console.log('➕ Adicionando nova atividade ao histórico...');
+                // Buscar dados da atividade via API
+                const atividadeData = await buscarDadosAtividade(atividadeId);
+                
+                historico.unshift({
+                    id: atividadeId,
+                    titulo: atividadeData.titulo || 'Atividade ' + atividadeId,
+                    objetivo: atividadeData.objetivo || 'Atividade musical educativa',
+                    imagem: atividadeData.imagem || null,
+                    dataAcesso: new Date().toISOString(),
+                    usuarioId: usuarioId
+                });
+                
+                // Manter apenas últimos 20
+                const historicoLimitado = historico.slice(0, 20);
+                localStorage.setItem(chaveHistorico, JSON.stringify(historicoLimitado));
+            }
+            
+            console.log('✅ Visualização registrada diretamente no localStorage');
+        } catch (error) {
+            console.error('❌ Erro no registro direto:', error);
+        }
+    }
+
+    // Buscar dados da atividade via API
+    async function buscarDadosAtividade(atividadeId) {
+        try {
+            const response = await fetch(`/api/atividades/${atividadeId}`);
+            if (response.ok) {
+                const data = await response.json();
+                return {
+                    titulo: data.nome || data.titulo,
+                    objetivo: data.objetivo,
+                    imagem: data.imagem
+                };
+            }
+        } catch (error) {
+            console.warn('⚠️ Não foi possível buscar dados da atividade via API');
+        }
+        
+        // Fallback
+        return {
+            titulo: 'Atividade ' + atividadeId,
+            objetivo: 'Atividade musical educativa',
+            imagem: null
+        };
+    }
+
+    // Função auxiliar para verificar estado do histórico
+    function verificarEstadoHistorico() {
+        const usuarioId = localStorage.getItem('usuarioAtualId');
+        const chaveHistorico = usuarioId ? `historicoAtividades_${usuarioId}` : 'historicoAtividades_global';
+        const historico = localStorage.getItem(chaveHistorico);
+        
+        console.log('🔍 Estado atual do histórico:');
+        console.log('- Usuário ID:', usuarioId);
+        console.log('- Chave do histórico:', chaveHistorico);
+        console.log('- Itens no histórico:', historico ? JSON.parse(historico).length : 0);
+        
+        if (historico) {
+            const atividades = JSON.parse(historico);
+            console.log('- Atividades:', atividades.map(a => ({ 
+                id: a.id, 
+                titulo: a.titulo,
+                data: a.dataAcesso 
+            })));
+        }
+        
+        return historico ? JSON.parse(historico) : [];
+    }
+
+    // Função para forçar registro de visualização (para teste)
+    function forcarRegistroVisualizacao(atividadeId) {
+        const usuarioId = localStorage.getItem('usuarioAtualId');
+        if (!usuarioId) {
+            alert('Usuário não identificado!');
+            return;
+        }
+        
+        if (!atividadeId) {
+            atividadeId = prompt('Digite o ID da atividade:');
+            if (!atividadeId) return;
+        }
+        
+        registrarVisualizacaoDireta(atividadeId).then(() => {
+            alert(`Visualização da atividade ${atividadeId} registrada!`);
+            verificarEstadoHistorico();
+        });
+    }
+
+    // Adicionar ao window para acesso via console
+    window.verificarEstadoHistorico = verificarEstadoHistorico;
+    window.forcarRegistroVisualizacao = forcarRegistroVisualizacao;
+    window.registrarVisualizacaoDireta = registrarVisualizacaoDireta;
+    </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/scripts/historico.js"></script> 
+    <script src="/public/scripts/atividade.js"></script> 
     <script src="/public/scripts/cadastros.js"></script>
     <script src="/public/scripts/escolher.js"></script>
     <script src="/public/scripts/menuLateral.js"></script>
     <script src="/public/scripts/isOwnProfile.js"></script>
-    <script src="/public/scripts/historico.js"></script>
     <script src="/public/scripts/sugeridas.js"></script>
-    <script src="/public/scripts/atividade.js"></script>
     <script src="/public/scripts/pesquisas.js"></script>
-    
 </body>
 </html>

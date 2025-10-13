@@ -1,4 +1,7 @@
 <div class="container mt-4">
+    {{! ⭐⭐ NOVO: Campo hidden para armazenar o ID do usuário }}
+    <input type="hidden" id="usuario-id" value="{{usuarioId}}">
+    
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -19,11 +22,7 @@
                 <div class="card-body">
                     <div class="form-section">
                         <div id="historico-container" class="atividades-container">
-                            {{#each historico}}
-                                {{#if this}}
-                                    {{> atividadeReduzida contexto="historico" atividade=this}}
-                                {{/if}}
-                            {{/each}}
+                            {{! O conteúdo será carregado via JavaScript com filtragem por usuário }}
                         </div>
                         
                         <div id="historico-vazio" class="text-center py-5" style="display: none;">
@@ -50,7 +49,7 @@ function confirmarLimpezaHistorico() {
         return;
     }
     
-    if (confirm(`Tem certeza que deseja limpar todo o histórico de atividades?\n\nEsta ação removerá ${historico.length} atividade(s) e não pode ser desfeita.`)) {
+    if (confirm(`Tem certeza que deseja limpar todo o seu histórico de atividades?\n\nEsta ação removerá ${historico.length} atividade(s) e não pode ser desfeita.`)) {
         const sucesso = limparHistoricoCompleto();
         if (sucesso) {
             alert('Histórico limpo com sucesso!');
@@ -60,36 +59,20 @@ function confirmarLimpezaHistorico() {
     }
 }
 
-// Função para mostrar status da sincronização
-// Função para mostrar status da sincronização
-function mostrarStatusSincronizacao(mensagem, tipo = 'info') {
-    console.log(`Sincronização: ${mensagem}`);
-    
-    // Remove toasts antigos
-    document.querySelectorAll('.historico-toast').forEach(toast => toast.remove());
-    
-    // Cria novo toast
-    const toast = document.createElement('div');
-    toast.className = `historico-toast alert alert-${tipo === 'erro' ? 'danger' : tipo === 'sucesso' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
-    toast.style.cssText = 'top: 80px; right: 20px; z-index: 1050; min-width: 300px;';
-    toast.innerHTML = `
-        <strong>${tipo === 'erro' ? '❌ Erro' : tipo === 'sucesso' ? '✅ Sucesso' : 'ℹ️ Info'}</strong> 
-        ${mensagem}
-        <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
-    `;
-    
-    document.body.appendChild(toast);
-    
-    // Remove automaticamente após 4 segundos
-    setTimeout(() => {
-        if (toast.parentNode) {
-            toast.parentNode.removeChild(toast);
-        }
-    }, 4000);
-}
 // Inicialização quando a página carrega
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página de histórico carregada');
+    
+    // Verifica se o usuário está logado
+    const usuarioId = document.getElementById('usuario-id').value;
+    if (!usuarioId) {
+        console.error('Usuário não identificado');
+        mostrarStatusSincronizacao('Usuário não identificado. Faça login novamente.', 'erro');
+        return;
+    }
+    
+    // Armazena o ID do usuário no localStorage como fallback
+    localStorage.setItem('usuarioAtualId', usuarioId);
     
     // Sincroniza com servidor e depois carrega
     sincronizarHistoricoComServidor().then((historicoLimpo) => {
@@ -103,4 +86,51 @@ document.addEventListener('DOMContentLoaded', function() {
         carregarHistorico(); // Carrega mesmo com erro
     });
 });
-</script>
+
+<script>
+// Função de confirmação para limpeza do histórico
+function confirmarLimpezaHistorico() {
+    const historico = obterHistorico();
+    if (historico.length === 0) {
+        alert('O histórico já está vazio.');
+        return;
+    }
+    
+    if (confirm(`Tem certeza que deseja limpar todo o seu histórico de atividades?\n\nEsta ação removerá ${historico.length} atividade(s) e não pode ser desfeita.`)) {
+        const sucesso = limparHistoricoCompleto();
+        if (sucesso) {
+            alert('Histórico limpo com sucesso!');
+        } else {
+            alert('Erro ao limpar o histórico. Tente novamente.');
+        }
+    }
+}
+
+// Inicialização quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Página de histórico carregada');
+    
+    // Verifica se o usuário está logado
+    const usuarioId = document.getElementById('usuario-id').value;
+    if (!usuarioId) {
+        console.error('Usuário não identificado');
+        mostrarStatusSincronizacao('Usuário não identificado. Faça login novamente.', 'erro');
+        return;
+    }
+    
+    // Armazena o ID do usuário no localStorage como fallback
+    localStorage.setItem('usuarioAtualId', usuarioId);
+    
+    // Sincroniza com servidor e depois carrega
+    sincronizarHistoricoComServidor().then((historicoLimpo) => {
+        carregarHistorico();
+        if (historicoLimpo.length > 0) {
+            console.log(`✅ Histórico sincronizado: ${historicoLimpo.length} atividades válidas`);
+        }
+    }).catch(error => {
+        console.error('Erro na sincronização inicial:', error);
+        mostrarStatusSincronizacao(error.message, 'erro');
+        carregarHistorico(); // Carrega mesmo com erro
+    });
+});
+</script>   

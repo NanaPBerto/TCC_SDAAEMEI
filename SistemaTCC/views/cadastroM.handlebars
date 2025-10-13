@@ -9,6 +9,13 @@
       </div>
 
       <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="cadastro-form">
+            {{#if alert}}
+<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+  <i class="fas fa-exclamation-triangle me-2"></i>
+  {{alert}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
       <div class="avatar-upload mb-4">
         <div class="avatar-preview">
           <div class="avatar-placeholder" id="avatarPreviewE">
@@ -33,7 +40,7 @@
             <label for="nome" class="form-label">Nome*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
-              <input type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome completo" maxlength="30" required>
+              <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}" placeholder="Seu nome completo" maxlength="50" required>
             </div>
           </div>
           <!-- Usuário -->
@@ -49,7 +56,7 @@
             <label for="senha" class="form-label">Senha*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
-              <input type="password" class="form-control" id="senha" name="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
+              <input type="password" class="form-control" id="senha" name="senha" minlength="8" maxlength="100" placeholder="Mínimo 8 caracteres" required>
             </div>
             <small class="text-muted ms-2">Use letras, números e símbolos</small>
           </div>
@@ -66,19 +73,19 @@
             <label for="telefone" class="form-label">Telefone</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-phone"></i></span>
-              <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+              <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" onkeydown="handleBackspaceTelefone(event, this)" maxlength="15">
             </div>
           </div>
           <!-- CPF -->
-          <div class="col-md-3">
+          <div class="col-md-6">
             <label for="cpf" class="form-label">CPF*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-              <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="000.000.000-00" required>
+              <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" required oninput="mascaraCPF(this)" onkeydown="handleBackspaceCPF(event, this)">
             </div>
           </div>
           <!-- UF -->
-          <div class="col-md-3">
+          <div class="col-md-6">
             <label for="uf" class="form-label">UF*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
@@ -123,7 +130,7 @@
             </div>
           </div>
           <!-- Minicurrículo -->
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label for="minicurriculo" class="form-label">Minicurrículo</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
@@ -137,13 +144,10 @@
           </div>
         </div>
       </fieldset>
-      <!-- Termos e Condições -->
-      <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" id="termos" required>
-        <label class="form-check-label" for="termos">
-          Li e aceito os <a href="#" style="color: var(--primary);">Termos de Serviço</a> e <a href="#" style="color: var(--primary);">Política de Privacidade</a>
-        </label>
-      </div>
+      <div class="alert alert-info mt-3">
+    <i class="fas fa-info-circle me-2"></i>
+    <strong>Atenção músicos:</strong> Sua conta precisará ser validada por um administrador antes que você possa acessar o sistema. Você receberá um e-mail quando sua conta for aprovada.
+</div>
       <!-- Botões -->
       <div class="d-flex justify-content-end gap-3">
         <a href="login.html" class="btn btn-outline-secondary">
@@ -153,10 +157,6 @@
           <i class="fas fa-user-plus me-2"></i>Criar
         </button>
       </div>
-<div class="alert alert-info mt-3">
-    <i class="fas fa-info-circle me-2"></i>
-    <strong>Atenção músicos:</strong> Sua conta precisará ser validada por um administrador antes que você possa acessar o sistema. Você receberá um e-mail quando sua conta for aprovada.
-</div>
     </form>
   </div>
 </div>
@@ -174,4 +174,147 @@ function previewAvatar(event, previewId) {
     preview.innerHTML = `<i class="fas fa-camera"></i>`;
   }
 }
+
+// Máscara para telefone com melhor controle de backspace
+function mascaraTelefone(input) {
+  const cursorPosition = input.selectionStart;
+  let value = input.value.replace(/\D/g, '');
+  const originalLength = value.length;
+  
+  if (value.length <= 10) {
+    // Formato: (00) 0000-0000
+    value = value.replace(/^(\d{0,2})(\d{0,4})(\d{0,4})/, function(_, p1, p2, p3) {
+      let result = '';
+      if (p1) result = `(${p1}`;
+      if (p2) result += `) ${p2}`;
+      if (p3) result += `-${p3}`;
+      return result;
+    });
+  } else {
+    // Formato: (00) 00000-0000
+    value = value.replace(/^(\d{0,2})(\d{0,5})(\d{0,4})/, function(_, p1, p2, p3) {
+      let result = '';
+      if (p1) result = `(${p1}`;
+      if (p2) result += `) ${p2}`;
+      if (p3) result += `-${p3}`;
+      return result;
+    });
+  }
+  
+  input.value = value;
+  
+  // Ajusta a posição do cursor
+  if (originalLength < value.replace(/\D/g, '').length) {
+    // Se está adicionando caracteres
+    input.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+  } else {
+    // Se está removendo, mantém a posição
+    input.setSelectionRange(cursorPosition, cursorPosition);
+  }
+}
+
+// Máscara para CPF com melhor controle de backspace
+function mascaraCPF(input) {
+  const cursorPosition = input.selectionStart;
+  let value = input.value.replace(/\D/g, '');
+  const originalLength = value.length;
+  
+  value = value.replace(/^(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/, function(_, p1, p2, p3, p4) {
+    let result = '';
+    if (p1) result = p1;
+    if (p2) result += '.' + p2;
+    if (p3) result += '.' + p3;
+    if (p4) result += '-' + p4;
+    return result;
+  });
+  
+  input.value = value;
+  
+  // Ajusta a posição do cursor
+  if (originalLength < value.replace(/\D/g, '').length) {
+    // Se está adicionando caracteres
+    input.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+  } else {
+    // Se está removendo, mantém a posição
+    input.setSelectionRange(cursorPosition, cursorPosition);
+  }
+}
+
+// Funções para melhorar a experiência com backspace
+function handleBackspaceTelefone(event, input) {
+  if (event.key === 'Backspace') {
+    const cursorPosition = input.selectionStart;
+    const value = input.value;
+    
+    // Se o cursor está logo após um caractere de formatação, move para antes dele
+    if (cursorPosition > 0 && value[cursorPosition - 1].match(/[\(\)\-\s]/)) {
+      input.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+    }
+  }
+}
+
+function handleBackspaceCPF(event, input) {
+  if (event.key === 'Backspace') {
+    const cursorPosition = input.selectionStart;
+    const value = input.value;
+    
+    // Se o cursor está logo após um ponto ou traço, move para antes dele
+    if (cursorPosition > 0 && value[cursorPosition - 1].match(/[\.\-]/)) {
+      input.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+    }
+  }
+}
+
+// Remove máscaras antes do envio do formulário
+function removerMascarasAntesEnvio() {
+  const telefoneInput = document.getElementById('telefone');
+  const cpfInput = document.getElementById('cpf');
+  
+  if (telefoneInput) {
+    telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
+  }
+  
+  if (cpfInput) {
+    cpfInput.value = cpfInput.value.replace(/\D/g, '');
+  }
+}
+
+// Adiciona evento para remover máscaras quando o formulário for enviado
+document.querySelector('.cadastro-form').addEventListener('submit', function(e) {
+  removerMascarasAntesEnvio();
+});
+
+// Opcional: Também permite usar Delete para apagar
+document.getElementById('telefone').addEventListener('keydown', function(e) {
+  if (e.key === 'Delete') {
+    handleBackspaceTelefone(e, this);
+  }
+});
+
+document.getElementById('cpf').addEventListener('keydown', function(e) {
+  if (e.key === 'Delete') {
+    handleBackspaceCPF(e, this);
+  }
+});
+$(document).ready(function() {
+  // Máscara para telefone
+  $('#telefone').inputmask({
+    mask: ['(99) 99999-9999'],
+    keepStatic: true
+  });
+  
+  // Máscara para CPF
+  $('#cpf').inputmask('999.999.999-99');
+  
+  // Remove máscaras antes do envio
+  $('.cadastro-form').on('submit', function() {
+    // Remove as máscaras dos valores
+    const telefone = $('#telefone').inputmask('unmaskedvalue');
+    const cpf = $('#cpf').inputmask('unmaskedvalue');
+    
+    // Atualiza os campos com os valores sem máscara
+    $('#telefone').val(telefone);
+    $('#cpf').val(cpf);
+  });
+});
 </script>

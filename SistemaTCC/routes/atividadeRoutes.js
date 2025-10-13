@@ -78,4 +78,7 @@ router.get('/painelM', requireMusico, (req, res) => {
   res.render('painelM');
 });
 
+// Nova rota para API de atividades
+router.get('/api/atividades/:id', atividadeController.getAtividadePorId);
+
 module.exports = router;

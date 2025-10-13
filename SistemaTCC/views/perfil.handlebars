@@ -2,9 +2,9 @@
   {{#if isOwnProfile}}
     <h2>Meu Perfil</h2>
   {{else}}
-    <h2>Perfil de {{usuario.nome}}</h2>
-    <div class="badge {{#if (eq usuario.tipo 'musico')}}bg-success{{else}}bg-info{{/if}} mb-3">
-      {{#if (eq usuario.tipo 'musico')}}
+    <h2>Perfil de {{usuarioVisitado.nome}}</h2>
+    <div class="badge {{#if (eq usuarioVisitado.tipo 'musico')}}bg-success{{else}}bg-info{{/if}} mb-3">
+      {{#if (eq usuarioVisitado.tipo 'musico')}}
         <i class="fas fa-music me-1"></i> Professor de Música
       {{else}}
         <i class="fas fa-chalkboard-teacher me-1"></i> Educador
@@ -17,12 +17,12 @@
   {{/if}}
 
   {{#if isOwnProfile}}
-    <!-- MODO EDIÇÃO (próprio perfil) -->
+    <!-- MODO EDIÇÃO (próprio perfil) - usa usuario da sessão -->
     <form action="/perfil" method="POST" enctype="multipart/form-data" id="perfilForm">
       <div class="row g-3 mb-4">
         <div class="col-md-4 text-center">
-          {{#if this.usuario.imagem}}
-            <img src="{{this.usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
+          {{#if usuario.imagem}}
+            <img src="{{usuario.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" id="previewImagem">
           {{else}}
             <i class="fas fa-user-circle fa-7x text-muted mb-3" id="defaultIcon"></i>
           {{/if}}
@@ -36,53 +36,104 @@
             <label class="form-label">Nome</label>
             <input type="text" class="form-control" name="nome" value="{{usuario.nome}}" required>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" value="{{usuario.email}}">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Cidade</label>
-            <input type="text" class="form-control" name="cidade" value="{{usuario.cidade}}">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">UF</label>
-            <input type="text" class="form-control" name="uf" value="{{usuario.uf}}">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Observações</label>
-            <textarea class="form-control" name="obs">{{usuario.obs}}</textarea>
-          </div>
+          
           {{#if (eq usuario.tipo 'musico')}}
-          <div class="mb-3">
-            <label class="form-label">Minicurrículo</label>
-            <input type="file" class="form-control" name="minicurriculo">
-            {{#if usuario.minicurriculo}}
-              <small class="text-muted">
-                Arquivo atual:
-                <a href="{{usuario.minicurriculo}}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">
-                  <i class="fas fa-file-alt me-1"></i> Visualizar Minicurrículo
-                </a>
-              </small>
-            {{/if}}
-          </div>
+            <!-- CAMPOS ESPECÍFICOS PARA MÚSICO -->
+            <div class="mb-3"> 
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" value="{{usuario.email}}" required>
+            </div>
+            <div class="mb-3"> 
+              <label class="form-label">CPF</label>
+              <input type="text" class="form-control" name="cpf" value="{{usuario.cpf}}" required>
+            </div>
+            <div class="mb-3"> 
+              <label class="form-label">Telefone</label>
+              <input type="text" class="form-control" name="fone" value="{{usuario.fone}}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Minicurrículo</label>
+              <input type="file" class="form-control" name="minicurriculo" accept=".pdf,.doc,.docx">
+              {{#if usuario.minicurriculo}}
+                <small class="form-text text-muted">
+                  <a href="{{usuario.minicurriculo}}" target="_blank">Visualizar currículo atual</a>
+                </small>
+              {{/if}}
+            </div>
+            <div class="mb-3"> 
+              <label class="form-label">Observações</label>
+              <textarea class="form-control" name="obs" rows="3">{{usuario.obs}}</textarea>
+            </div>
+          {{else}}
+            <!-- CAMPOS ESPECÍFICOS PARA EDUCADOR -->
+            <div class="mb-3"> 
+              <label class="form-label">Login</label>
+              <input type="text" class="form-control" name="login" value="{{usuario.login}}" required>
+            </div>
           {{/if}}
+
+          <!-- CAMPOS COMUNS PARA AMBOS -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3"> 
+                <label class="form-label">Cidade</label>
+                <input type="text" class="form-control" name="cidade" value="{{usuario.cidade}}">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3"> 
+                <label class="form-label">UF</label>
+                <select class="form-control" name="uf">
+                  <option value="">Selecione</option>
+                  <option value="AC" {{#if (eq usuario.uf 'AC')}}selected{{/if}}>AC</option>
+                  <option value="AL" {{#if (eq usuario.uf 'AL')}}selected{{/if}}>AL</option>
+                  <option value="AP" {{#if (eq usuario.uf 'AP')}}selected{{/if}}>AP</option>
+                  <option value="AM" {{#if (eq usuario.uf 'AM')}}selected{{/if}}>AM</option>
+                  <option value="BA" {{#if (eq usuario.uf 'BA')}}selected{{/if}}>BA</option>
+                  <option value="CE" {{#if (eq usuario.uf 'CE')}}selected{{/if}}>CE</option>
+                  <option value="DF" {{#if (eq usuario.uf 'DF')}}selected{{/if}}>DF</option>
+                  <option value="ES" {{#if (eq usuario.uf 'ES')}}selected{{/if}}>ES</option>
+                  <option value="GO" {{#if (eq usuario.uf 'GO')}}selected{{/if}}>GO</option>
+                  <option value="MA" {{#if (eq usuario.uf 'MA')}}selected{{/if}}>MA</option>
+                  <option value="MT" {{#if (eq usuario.uf 'MT')}}selected{{/if}}>MT</option>
+                  <option value="MS" {{#if (eq usuario.uf 'MS')}}selected{{/if}}>MS</option>
+                  <option value="MG" {{#if (eq usuario.uf 'MG')}}selected{{/if}}>MG</option>
+                  <option value="PA" {{#if (eq usuario.uf 'PA')}}selected{{/if}}>PA</option>
+                  <option value="PB" {{#if (eq usuario.uf 'PB')}}selected{{/if}}>PB</option>
+                  <option value="PR" {{#if (eq usuario.uf 'PR')}}selected{{/if}}>PR</option>
+                  <option value="PE" {{#if (eq usuario.uf 'PE')}}selected{{/if}}>PE</option>
+                  <option value="PI" {{#if (eq usuario.uf 'PI')}}selected{{/if}}>PI</option>
+                  <option value="RJ" {{#if (eq usuario.uf 'RJ')}}selected{{/if}}>RJ</option>
+                  <option value="RN" {{#if (eq usuario.uf 'RN')}}selected{{/if}}>RN</option>
+                  <option value="RS" {{#if (eq usuario.uf 'RS')}}selected{{/if}}>RS</option>
+                  <option value="RO" {{#if (eq usuario.uf 'RO')}}selected{{/if}}>RO</option>
+                  <option value="RR" {{#if (eq usuario.uf 'RR')}}selected{{/if}}>RR</option>
+                  <option value="SC" {{#if (eq usuario.uf 'SC')}}selected{{/if}}>SC</option>
+                  <option value="SP" {{#if (eq usuario.uf 'SP')}}selected{{/if}}>SP</option>
+                  <option value="SE" {{#if (eq usuario.uf 'SE')}}selected{{/if}}>SE</option>
+                  <option value="TO" {{#if (eq usuario.uf 'TO')}}selected{{/if}}>TO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save me-1"></i> Salvar Alterações
+              <i class="fas fa-save me-1"></i> Salvar
             </button>
-            <a href="/perfis" class="btn btn-outline-secondary">
-              <i class="fas fa-arrow-left me-1"></i> Voltar
+            <a onclick="history.back()" class="btn btn-outline-secondary">
+              <i class="fas fa-times me-1"></i> Cancelar
             </a>
           </div>
         </div>
       </div>
     </form>
   {{else}}
-    <!-- MODO VISUALIZAÇÃO (perfil de outros usuários) -->
+    <!-- MODO VISUALIZAÇÃO (perfil de outros usuários) - usa usuarioVisitado -->
     <div class="row g-3 mb-4">
       <div class="col-md-4 text-center">
-        {{#if usuario.imagem}}
-          <img src="data:image/jpeg;base64,{{this.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;">
+        {{#if usuarioVisitado.imagem}}
+          <img src="{{usuarioVisitado.imagem}}" alt="Foto de Perfil" class="rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;">
         {{else}}
           <i class="fas fa-user-circle fa-7x text-muted mb-3"></i>
         {{/if}}
@@ -90,64 +141,71 @@
       <div class="col-md-8">
         <div class="mb-3">
           <label class="form-label fw-bold">Nome</label>
-          <p class="form-control-plaintext">{{usuario.nome}}</p>
+          <p class="form-control-plaintext">{{usuarioVisitado.nome}}</p>
         </div>
-        {{#if usuario.email}}
+        {{#if usuarioVisitado.email}}
         <div class="mb-3">
           <label class="form-label fw-bold">Email</label>
-          <p class="form-control-plaintext">{{usuario.email}}</p>
+          <p class="form-control-plaintext">{{usuarioVisitado.email}}</p>
         </div>
         {{/if}}
-        {{#if usuario.cidade}}
+        {{#if usuarioVisitado.cidade}}
         <div class="mb-3">
           <label class="form-label fw-bold">Localização</label>
-          <p class="form-control-plaintext">{{usuario.cidade}}/{{usuario.uf}}</p>
+          <p class="form-control-plaintext">{{usuarioVisitado.cidade}}/{{usuarioVisitado.uf}}</p>
         </div>
         {{/if}}
-        {{#if usuario.fone}}
+        {{#if usuarioVisitado.fone}}
         <div class="mb-3">
           <label class="form-label fw-bold">Telefone</label>
-          <p class="form-control-plaintext">{{usuario.fone}}</p>
+          <p class="form-control-plaintext">{{usuarioVisitado.fone}}</p>
         </div>
         {{/if}}
-        {{#if usuario.obs}}
+        {{#if usuarioVisitado.obs}}
         <div class="mb-3">
           <label class="form-label fw-bold">Observações</label>
-          <p class="form-control-plaintext">{{usuario.obs}}</p>
+          <p class="form-control-plaintext">{{usuarioVisitado.obs}}</p>
         </div>
         {{/if}}
-        {{#if (eq usuario.tipo 'musico')}}
-          {{#if usuario.minicurriculo}}
+        {{#if (eq usuarioVisitado.tipo 'musico')}}
+          {{#if usuarioVisitado.minicurriculo}}
           <div class="mb-3">
             <label class="form-label fw-bold">Minicurrículo</label>
             <p class="form-control-plaintext">
-              <a href="{{usuario.minicurriculo}}" target="_blank" class="btn btn-outline-primary btn-sm">
+              <a href="{{usuarioVisitado.minicurriculo}}" target="_blank" class="btn btn-outline-primary btn-sm">
                 <i class="fas fa-file-alt me-1"></i> Visualizar Minicurrículo
               </a>
             </p>
           </div>
           {{/if}}
+          
+          <!-- SEÇÃO DE ATIVIDADES -->
+          {{#if usuarioVisitado.atividades}}
+          <div class="mb-3">
+            <label class="form-label fw-bold">Atividades Publicadas</label>
+            <div class="atividades-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+              {{#each usuarioVisitado.atividades}}
+                {{> atividadeReduzida contexto="atividade" atividade=this}}
+              {{/each}}
+            </div>
+          </div>
+          {{/if}}
         {{/if}}
+        
         <div class="d-flex gap-2">
           <a href="/perfis" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left me-1"></i> Voltar para Lista
+            <i class="fas fa-arrow-left me-1"></i> Voltar
           </a>
-          {{#if ../session.usuario}}
-            {{#if (eq ../session.usuario.tipo 'musico')}}
-              <button class="btn btn-primary">
-                <i class="fas fa-envelope me-1"></i> Entrar em Contato
-              </button>
-            {{/if}}
-          {{/if}}
         </div>
       </div>
     </div>
   {{/if}}
 </div>
 
+
 {{#if isOwnProfile}}
 <script>
-  // Preview da imagem antes de salvar
+    // Preview da imagem antes de salvar
   document.getElementById('imagemInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -181,56 +239,55 @@
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Salvando...';
   });
 
-  // Adicione este script no final do arquivo, antes do </body>
-
-// Efeitos visuais adicionais
-document.addEventListener('DOMContentLoaded', function() {
+  // Efeitos visuais adicionais
+  document.addEventListener('DOMContentLoaded', function() {
     // Adiciona classe de loading nos botões ao enviar formulários
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            const buttons = this.querySelectorAll('button[type="submit"]');
-            buttons.forEach(btn => {
-                btn.classList.add('loading');
-            });
+      form.addEventListener('submit', function(e) {
+        const buttons = this.querySelectorAll('button[type="submit"]');
+        buttons.forEach(btn => {
+          btn.classList.add('loading');
         });
+      });
     });
     
-    // Efeito de foco nos campos
+ // Efeito de foco nos campos
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-        
-        input.addEventListener('blur', function() {
-            this.parentElement.classList.remove('focused');
-        });
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
     });
+  });
     
     // Animação suave ao rolar para a seção
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-            }
-        });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
     }, observerOptions);
     
     // Observa elementos para animação
     const animatedElements = document.querySelectorAll('.row.g-3.mb-4, h2, .badge');
     animatedElements.forEach(el => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(20px)";
-        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(el);
+      el.style.opacity = "0";
+      el.style.transform = "translateY(20px)";
+      el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      observer.observe(el);
     });
-});
+  });
 </script>
 {{/if}}

@@ -10,6 +10,13 @@
 
       <form action="/usuario/add" method="POST" enctype="multipart/form-data" class="cadastro-form">
       <!-- Avatar Upload -->
+            {{#if alert}}
+<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+  <i class="fas fa-exclamation-triangle me-2"></i>
+  {{alert}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
       <div class="avatar-upload mb-4">
         <div class="avatar-preview">
           <div class="avatar-placeholder" id="avatarPreviewE">
@@ -31,7 +38,7 @@
             <label for="nome" class="form-label">Nome*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
-              <input type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome completo" maxlength="30" required>
+              <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}" placeholder="Seu nome completo" maxlength="50" required>
             </div> 
           </div>
           <!-- Usuário -->
@@ -47,7 +54,7 @@
             <label for="senha" class="form-label">Senha*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
-              <input type="password" class="form-control" id="senha" name="senha" maxlength="10" placeholder="Mínimo 8 caracteres" required>
+              <input type="password" class="form-control" id="senha" name="senha" minlength="8" maxlength="100" placeholder="Mínimo 8 caracteres" required>
             </div>
             <small class="text-muted ms-2">Use letras, números e símbolos</small>
           </div>
@@ -101,18 +108,12 @@
             <label for="cidade" class="form-label">Cidade*</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-              <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="30" required>
+              <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" maxlength="50" required>
             </div>
           </div>
         </div>
       </fieldset>
       <!-- Termos e Botões -->
-      <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" id="termos" required>
-        <label class="form-check-label" for="termos">
-          Li e aceito os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a>
-        </label>
-      </div>
       <div class="d-flex justify-content-end gap-3">
         <a href="login.html" class="btn btn-outline-secondary">
           <i class="fas fa-times-circle me-2"></i>Cancelar
@@ -121,6 +122,7 @@
           <i class="fas fa-user-plus me-2"></i>Criar
         </button>
       </div>
+
     </form>
   </div>
 </div>

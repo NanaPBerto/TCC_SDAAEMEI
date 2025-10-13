@@ -26,23 +26,29 @@ exports.add = async (req, res) => {
       }
     }
 
-    const tipoUsuario = req.body.tipo || 'musico';
+    // Garante que req.body existe
+    const tipoUsuario = req.body?.tipo || 'musico';
     const Usuario = getUsuarioModel(tipoUsuario);
 
-    // ⭐⭐ NOVO: Verificar se login ou email já existem ⭐⭐
-    const loginExistente = await Usuario.findOne({ where: { login: req.body.usuario } });
+    // Define OutroModelo para checagem cruzada
+    const OutroModelo = Usuario === Musico ? Educador : Musico;
+
+    // Verifica login existente no modelo atual
+    const loginExistente = await Usuario.findOne({ where: { login: req.body?.usuario } });
     if (loginExistente) {
       throw new Error('Este nome de usuário já está em uso. Por favor, escolha outro.');
     }
 
-    const emailExistente = await Usuario.findOne({ where: { email: req.body.email } });
-    if (emailExistente) {
-      throw new Error('Este email já está cadastrado. Por favor, use outro email ou faça login.');
+    // Só verifica email se for músico
+    if (Usuario === Musico) {
+      const emailExistente = await Usuario.findOne({ where: { email: req.body?.email } });
+      if (emailExistente) {
+        throw new Error('Este email já está cadastrado. Por favor, use outro email ou faça login.');
+      }
     }
 
-    // Verificar também no outro modelo (caso o usuário tente cadastrar com email/login de outro tipo)
-    const OutroModelo = tipoUsuario === 'musico' ? Educador : Musico;
-    const loginExistenteOutroModelo = await OutroModelo.findOne({ where: { login: req.body.usuario } });
+    // Verifica login no outro modelo
+    const loginExistenteOutroModelo = await OutroModelo.findOne({ where: { login: req.body?.usuario } });
     if (loginExistenteOutroModelo) {
       throw new Error('Este nome de usuário já está em uso. Por favor, escolha outro.');
     }
@@ -50,28 +56,28 @@ exports.add = async (req, res) => {
     let dados = {};
     if (Usuario === Musico) {
       dados = {
-        nome: req.body.nome || 'Nome não fornecido',
-        tipo: req.body.tipo || 'musico',
-        login: req.body.usuario,
-        senha: req.body.senha,
-        cpf: req.body.cpf ? req.body.cpf.replace(/\D/g, '') : null,
-        email: req.body.email,
-        fone: req.body.telefone ? req.body.telefone.replace(/\D/g, '') : null,
-        uf: req.body.uf,
+        nome: req.body?.nome || 'Nome não fornecido',
+        tipo: req.body?.tipo || 'musico',
+        login: req.body?.usuario,
+        senha: req.body?.senha,
+        cpf: req.body?.cpf ? req.body.cpf.replace(/\D/g, '') : null,
+        email: req.body?.email,
+        fone: req.body?.telefone ? req.body.telefone.replace(/\D/g, '') : null,
+        uf: req.body?.uf,
         imagem: imagemPath,
         minicurriculo: minicurriculoPath,
-        obs: req.body.obs,
-        cidade: req.body.cidade,
+        obs: req.body?.obs,
+        cidade: req.body?.cidade,
         validado: false // ⭐⭐ MÚSICOS NOVOS COMEÇAM NÃO VALIDADOS ⭐⭐
       };
     } else {
       dados = {
-        nome: req.body.nome || 'Educador sem nome',
-        tipo: req.body.tipo || 'educador',
-        login: req.body.usuario,
-        senha: req.body.senha,
-        cidade: req.body.cidade,
-        uf: req.body.uf,
+        nome: req.body?.nome || 'Educador sem nome',
+        tipo: req.body?.tipo || 'educador',
+        login: req.body?.usuario,
+        senha: req.body?.senha,
+        cidade: req.body?.cidade,
+        uf: req.body?.uf,
         imagem: imagemPath
       };
     }
@@ -112,16 +118,16 @@ exports.add = async (req, res) => {
     
     // ⭐⭐ MELHORIA: Recuperar dados do formulário para manter preenchido ⭐⭐
     const formData = {
-      nome: req.body.nome,
-      usuario: req.body.usuario,
-      email: req.body.email,
-      telefone: req.body.telefone,
-      cpf: req.body.cpf,
-      uf: req.body.uf,
-      cidade: req.body.cidade,
-      obs: req.body.obs
+      nome: req.body?.nome,
+      usuario: req.body?.usuario,
+      email: req.body?.email,
+      telefone: req.body?.telefone,
+      cpf: req.body?.cpf,
+      uf: req.body?.uf,
+      cidade: req.body?.cidade,
+      obs: req.body?.obs
     };
-    const tipoUsuario = req.body.tipo
+    const tipoUsuario = req.body?.tipo;
     const template = tipoUsuario === 'musico' ? 'cadastroM' : 'cadastroE';
     
     res.render(template, { 

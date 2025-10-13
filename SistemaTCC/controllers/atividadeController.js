@@ -58,7 +58,7 @@ exports.submissoes = async (req, res) => {
     const usuario = res.locals.usuario;
     console.log('Usuário na sessão (submissoes):', usuario);
     
-    if (!usuario || usuario.tipo !== 'musico' || !usuario.id) {
+    if (!usuario || usuario.tipo == 'educador' || !usuario.id) {
       return res.status(403).send('Acesso negado ou usuário sem id.');
     }
 

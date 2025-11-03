@@ -27,30 +27,29 @@
           </div>
         </div>
 
-        <!-- Seção: Tipos de Atividade (Múltipla Seleção) -->
-        <div class="form-section">
-          <h5><i class="fas fa-tags me-2"></i>Tipos de Atividade</h5>
-          <p class="text-muted small mb-3">Selecione um ou mais tipos que se aplicam à sua atividade</p>
-          <div class="tipos-container row g-2">
-            {{#each tipos}}
-              <div class="col-md-3 mb-2">
-                <div class="tipo-option card h-100">
-                  <div class="card-body p-3 text-center d-flex align-items-center justify-content-start">
-                  <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2 d-flex flex-row-reverse align-items-center w-100" style="margin-bottom:0;">
-                    <input type="checkbox" name="tipos" value="{{id}}" id="tipo{{id}}"
-                           class="form-check-input ms-2"
-                        {{#if ../atividade}}
-                          {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
-                       {{/if}}>
-                       {{nome}}
-                     </span>
-                  </label>
-                  </div>
-                </div>
-              </div>
-            {{/each}}
+<!-- Seção: Tipos de Atividade (Múltipla Seleção) -->
+<div class="form-section">
+  <h5><i class="fas fa-tags me-2"></i>Tipos de Atividade</h5>
+  <p class="text-muted small mb-3">Selecione um ou mais tipos que se aplicam à sua atividade</p>
+  <div class="tipos-container row g-2">
+    {{#each tipos}}
+      <div class="col-md-3 mb-2">
+        <div class="tipo-option card h-100">
+          <div class="card-body p-3 text-center d-flex align-items-center justify-content-start">
+            <label for="tipo{{id}}" class="form-check-label cursor-pointer ms-2 d-flex flex-row-reverse align-items-center w-100" style="margin-bottom:0;">
+              <input type="checkbox" name="tipos" value="{{id}}" id="tipo{{id}}"
+                     class="form-check-input ms-2"
+                  {{#if ../atividade}}
+                    {{#if (includes ../atividade.tiposSelecionados id)}}checked{{/if}}
+                 {{/if}}>
+              <span>{{formatTipoNome nome}}</span>
+            </label>
           </div>
         </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
         <!-- Seção: Descrição e Objetivos -->
         <div class="form-section">
           <h5></i>Descrição e Objetivos</h5>

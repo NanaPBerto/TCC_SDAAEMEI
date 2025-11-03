@@ -44,6 +44,32 @@ handlebars.registerHelper('formatTelefone', function(telefone) {
   return telefone;
 });
 
+handlebars.registerHelper('formatTipoNome', function(nome) {
+  if (!nome) return '';
+  
+  // Mapeamento de correções gramaticais
+  const correcoes = {
+    'Numeros': 'Números',
+    'Formas': 'Formas',
+    'Fauna': 'Fauna',
+    'Flora': 'Flora',
+    'Clima': 'Clima',
+    'Motricidade': 'Motricidade',
+    'Cidadania': 'Cidadania',
+    'Cultura': 'Cultura',
+    'Altura': 'Altura',
+    'Intensidade': 'Intensidade',
+    'Duracao': 'Duração',
+    'Timbre': 'Timbre',
+    'Ritmo': 'Ritmo',
+    'Melodia': 'Melodia',
+    'Harmonia': 'Harmonia',
+    'Linguagem': 'Linguagem'
+  };
+  
+  return correcoes[nome] || nome;
+});
+
 // Configuração das sessions
 app.use(session({
   secret: '77NaNa@.77',

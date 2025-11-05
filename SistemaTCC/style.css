@@ -377,6 +377,7 @@ body.login {
     background-color: var(--secondary);
     transform: translateY(-2px);
 }
+
 /* ÚNICO BOTÃO DE CRIAR CONTA */
 .btn-escolher {
     background-color: white;
@@ -414,6 +415,16 @@ body.login {
 .forgot-password:hover {
     text-decoration: underline;
 }
+
+input#senha{
+    min-height: 45px;
+}
+
+button#toggleSenha{
+    height: 53px;
+    width: 45px;
+}
+
 
 /* =========================
    CADASTRO

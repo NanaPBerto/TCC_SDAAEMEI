@@ -213,13 +213,14 @@ app.use('/admin', adminRoutes);
 app.use('/', historicoRoutes);
 
 Promise.all([
+    uf.sync(),
     classificacao.sync(),
     tipoatividade.sync(),
     atividade_tipo.sync(),
     educador.sync(),
     musico.sync(),
     ativ.sync(), 
-    uf.sync(),
+    
 ]).then(async () => {
     // Registros padrão para tipoatividade
     await tipoatividade.bulkCreate([

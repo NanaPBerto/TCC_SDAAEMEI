@@ -49,15 +49,18 @@
               <input type="text" class="form-control" id="usuario" name="usuario" maxlength="20" placeholder="Nome de usuário único" required>
             </div>
           </div>
-          <!-- Senha -->
-          <div class="col-md-6">
-            <label for="senha" class="form-label">Senha*</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-lock"></i></span>
-              <input type="password" class="form-control" id="senha" name="senha" minlength="8" maxlength="100" placeholder="Mínimo 8 caracteres" required>
-            </div>
-            <small class="text-muted ms-2">Use letras, números e símbolos</small>
-          </div>
+<!-- Senha -->
+<div class="col-md-6">
+    <label for="senha" class="form-label">Senha*</label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+        <input type="password" class="form-control" id="senha" name="senha" minlength="8" maxlength="100" placeholder="Mínimo 8 caracteres" required>
+        <button type="button" class="btn btn-outline-secondary" id="toggleSenhaCadastro">
+            <i class="fas fa-eye"></i>
+        </button>
+    </div>
+    <small class="text-muted ms-2">Use letras, números e símbolos</small>
+</div>
           <!-- Email -->
           <div class="col-md-6">
             <label for="email" class="form-label">Email*</label>
@@ -126,3 +129,28 @@
     </form>
   </div>
 </div>
+
+<script>
+  // Mostrar/ocultar senha no cadastro
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleSenhaCadastro = document.getElementById('toggleSenhaCadastro');
+    const senhaInputCadastro = document.getElementById('senha');
+    
+    if (toggleSenhaCadastro && senhaInputCadastro) {
+        const eyeIcon = toggleSenhaCadastro.querySelector('i');
+        
+        toggleSenhaCadastro.addEventListener('click', function() {
+            const type = senhaInputCadastro.getAttribute('type') === 'password' ? 'text' : 'password';
+            senhaInputCadastro.setAttribute('type', type);
+            
+            if (type === 'text') {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+    }
+});
+</script>

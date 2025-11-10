@@ -425,6 +425,18 @@ button#toggleSenha{
     width: 45px;
 }
 
+button#toggleSenhaCadastro{
+    height: 73px;
+    width: 60px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    cursor: pointer;
+}
+
 
 /* =========================
    CADASTRO
@@ -601,7 +613,7 @@ body.cadastro .form-control::placeholder {
 /* Estilos para o botão de voltar */
 .back-button-container {
     position: fixed;
-    top: 80px; /* Abaixo do header */
+    top: 70px; /* Abaixo do header */
     left: 90px; /* Ao lado do sidebar */
     z-index: 1040; /* Abaixo do header mas acima do conteúdo */
     background: transparent;
@@ -890,6 +902,9 @@ body.cadastro .form-control::placeholder {
     border-bottom: 2px solid var(--primary-light);
     font-size: clamp(1.2rem, 2.5vw, 1.5rem);
 }
+ div.borda1{
+    border-bottom: 2px solid var(--primary-light);
+ }
 
 .form-section h4 i {
     color: var(--primary) !important;

@@ -1,7 +1,12 @@
-<h1 class="mb-4" style="color: var(--primary); font-weight:700;">Atividades:</h1>
+<div class="form-section" style="height: auto;">
+  <h4 class="mb-4">
+      <i class="fas fa-list" style="color: var(--primary);"></i>
+      Atividades
+    </h4>
 <div class="atividades-container">
   {{#each atividades}}
     {{> atividadeReduzida contexto="atividade" atividade=this}}
   {{/each}}
+</div>
 </div>
 

@@ -21,7 +21,7 @@ const Musico = db.sequelize.define('musicos', {
         unique: true,
     },
     senha: { 
-        type: db.Sequelize.STRING(100), 
+        type: db.Sequelize.STRING(10), 
         allowNull: false
     },
     cpf: {

@@ -1,26 +1,24 @@
 <div class="container mt-4">
-    {{! ⭐⭐ NOVO: Campo hidden para armazenar o ID do usuário }}
     <input type="hidden" id="usuario-id" value="{{usuarioId}}">
     
     <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">
-                    <i class="bi bi-clock-history me-2"></i>Histórico de Atividades
-                </h2>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="sincronizarHistoricoComServidor()" title="Sincronizar com servidor">
-                        <i class="bi bi-arrow-repeat"></i> Sincronizar
-                    </button>
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmarLimpezaHistorico()" title="Limpar todo histórico">
-                        <i class="bi bi-trash"></i> Limpar
-                    </button>
-                </div>
-            </div>
-
-            <div class="card">
                 <div class="card-body">
                     <div class="form-section">
+                        <div class="col-12" class="borda1">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 class="mb-4">
+                                    <i class="fas fa-history me-2"></i>Histórico de Atividades
+                                </h4>
+                                <div class="btn-group "style="margin-top: -30px;">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="sincronizarHistoricoComServidor()" title="Sincronizar com servidor">
+                                        <i class="bi bi-arrow-repeat"></i> Sincronizar
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmarLimpezaHistorico()" title="Limpar todo histórico">
+                                        <i class="bi bi-trash"></i> Limpar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>  
                         <div id="historico-container" class="atividades-container">
                             {{! O conteúdo será carregado via JavaScript com filtragem por usuário }}
                         </div>
@@ -38,7 +36,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <script>
 // Função de confirmação para limpeza do histórico
